@@ -1,29 +1,24 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <nav id="nav--top">
+      <h1>Hyphen-Hacks</h1>
+    </nav>
+    <nav id="nav--side">
+      <img class="nav__profileImage" src="https://via.placeholder.com/150" alt="">
+      <h1 class="nav__username">Sam Sam The Triangle Man</h1>
+      <button class="nav__signout">Sign Out</button>
+      <hr>
+      <router-link class="nav__link" to="/">Home</router-link>
+      <router-link class="nav__link" to="/about">About</router-link>
+    </nav>
     <router-view/>
   </div>
 </template>
+<script>
+  import 'minireset.css'
+  import '@/assets/css/global.scss'
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  export default {
+    name: 'appContainer'
   }
-}
-</style>
+</script>

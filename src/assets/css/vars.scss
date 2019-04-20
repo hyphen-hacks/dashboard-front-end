@@ -1,0 +1,16 @@
+$dark: #27293D;
+$dark--background: #27293D;
+$orange: #FDA085;
+$yellow: #F6D365;
+$grey: #4F5160;
+
+
+@mixin button {
+  padding: 4% 5%;
+  border: none;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
