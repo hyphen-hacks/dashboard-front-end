@@ -1,16 +1,18 @@
-$dark: #27293D;
+$dark: #1D1D2E;
 $dark--background: #27293D;
 $orange: #FDA085;
 $yellow: #F6D365;
 $grey: #4F5160;
-
+$rounding: 10px;
+$blue: #4281A4;
+$red: #ff4d4d;
 
 @mixin button {
   padding: 4% 5%;
   border: none;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
+  -webkit-border-radius: $rounding;
+  -moz-border-radius: $rounding;
+  border-radius: $rounding;
   font-weight: bold;
   font-size: 0.8rem;
 }

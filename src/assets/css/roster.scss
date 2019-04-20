@@ -1,0 +1,128 @@
+@import "vars";
+
+.roster {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 8vh auto;
+  padding-bottom: 2vh;
+  padding-right: 2vh;
+
+
+}
+
+.roster__roster {
+  background: $dark--background;
+  -webkit-border-radius: $rounding;
+  -moz-border-radius: $rounding;
+  border-radius: $rounding;
+  overflow-y: scroll;
+  padding: 2%;
+
+}
+
+.roster__buttonRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.buttonRow__addPerson {
+  @include button;
+  background: $orange;
+  justify-self: flex-end;
+  padding: 1% 2%;
+  color: white;
+  font-size: 1rem;
+  display: inline!important;
+}
+
+.buttonRow__checkbox {
+
+  padding: 0.5%;
+  font-size: 1rem;
+  display: inline-flex;
+  min-width: 15vw;
+
+  align-items: center;
+  background: $dark--background;
+  color: white;
+  border: none;
+  -webkit-border-radius: $rounding;
+  -moz-border-radius: $rounding;
+  border-radius: $rounding;
+
+  .buttonRow__checkbox__box {
+    background: $dark;
+    width: 2vw;
+    height: 2vw;
+    -webkit-border-radius: $rounding;
+    -moz-border-radius: $rounding;
+    border-radius: $rounding;
+
+  }
+
+  p {
+    margin-left: 1vw;
+  }
+
+  text-align: left;
+
+  &:focus {
+    outline: none;
+  }
+}
+.roster__person {
+  display: flex;
+  align-items: center;
+  height: 5vh;
+  border: $grey 1px none;
+  border-top-style: solid;
+}
+@mixin person__info {
+  overflow: hidden;
+  display: block;
+  margin: 0 0.5%;
+  font-size: 0.9rem;
+}
+.person__info--name {
+  @include person__info;
+  font-weight: bold;
+  font-size: 1rem;
+  width: 16rem;
+
+
+}
+.person__info--role {
+  @include person__info;
+  width: 4rem;
+}
+.person__info--gender {
+  @include person__info;
+  width: 3rem;
+}
+
+.person__info--school {
+  @include person__info;
+  width: 13rem;
+  font-size: 0.8rem;
+}
+.person__info--waiverStatus {
+  @include person__info;
+  width: 10.5rem;
+
+
+}
+.roster__person {
+  .orange {
+    color: $orange;
+  }
+  .blue {
+    color: $blue;
+  }
+  .yellow {
+    color:$yellow;
+  }
+  .red {
+    color: $red;
+  }
+}

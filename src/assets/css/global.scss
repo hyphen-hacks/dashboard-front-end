@@ -6,7 +6,7 @@ body, #app {
   font-family: sans-serif;
   height: 100vh;
   width: 100vw;
-  overflow: hidden;
+ overflow: hidden;
 }
 
 a {
@@ -16,8 +16,9 @@ a {
 
 #app {
   display: grid;
-  grid-template-rows: 8vh auto;
-  grid-template-columns: 20vw 90vw;
+  grid-template-rows: 8vh 92vh;
+  grid-template-columns: 20vw 80vw;
+  grid-gap: 0;
 }
 
 #nav--top {
@@ -26,13 +27,18 @@ a {
   display: flex;
   align-items: center;
   padding: 0 2%;
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
 }
 
 #nav--side {
   grid-column: 1/2;
   grid-row: 2/3;
   background-image: linear-gradient(120deg, $yellow 0%, $orange 100%);
-  margin: 0 10% 5% 10%;
+  margin: 0 2vh 2vh 5%;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
@@ -41,8 +47,8 @@ a {
   flex-direction: column;
 
   .nav__profileImage {
-    width: 7vw;
-    height: 7vw;
+    width: 5vw;
+    height: 5vw;
     justify-self: center;
     display: block;
     margin-left: auto;
@@ -57,7 +63,7 @@ a {
     text-align: center;
     margin: 10% auto 5% auto;
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 1.3rem;
   }
 
   .nav__signout {
@@ -73,6 +79,10 @@ a {
     background: white;
   }
 
+  .nav__link {
+    margin: 3% 0;
+    font-size: 1.2rem;
+  }
 
 }
 
