@@ -3,7 +3,12 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './registerServiceWorker'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/firestore'
+import 'firebase/storage'
+import swal from 'sweetalert';
+
 const startInit = performance.now();
 const firebaseConfig = {
   apiKey: "AIzaSyDCnWcOvTFf5P4mWeSl0KDxnGOEDRJTVwg",
@@ -17,6 +22,7 @@ let app
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 Vue.prototype.$firebase = firebase
+Vue.prototype.$swal = swal
 Vue.config.productionTip = false
 
 //console.log('vue init')

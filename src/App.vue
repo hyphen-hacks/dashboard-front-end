@@ -10,6 +10,7 @@
       <hr>
       <router-link class="nav__link" to="/">Home</router-link>
       <router-link class="nav__link" to="/about">About</router-link>
+      <router-link class="nav__link" to="/w/">Waiver Wizard</router-link>
     </nav>
     <router-view/>
   </div>
@@ -30,8 +31,11 @@
       this.$firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           // User is signed in.
-         // console.log('user')
+          // console.log('user')
+
           this.$store.dispatch('updateUser')
+          this.$store.dispatch('updateRoster')
+          this.$store.dispatch('liveUpdateRoster')
         } else {
           this.$store.dispatch('updateUser')
           // No user is signed in.

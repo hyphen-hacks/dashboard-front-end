@@ -109,6 +109,8 @@
 .person__info--waiverStatus {
   @include person__info;
   width: 10.5rem;
+  margin-left: auto;
+  justify-self: flex-end;
 
 
 }
@@ -125,4 +127,37 @@
   .red {
     color: $red;
   }
+}
+
+@mixin person__checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 7rem;
+  margin: 0 1%;
+  input {
+    width: 1vw;
+    height: 1vw;
+    display: block;
+    border: none;
+    background: $dark;
+    appearance: none!important;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    &:focus {
+      outline: none;
+
+    }
+  }
+  input:checked {
+    background: $orange;
+    
+  }
+}
+.person__checkbox--checkedIn {
+  @include person__checkbox
+}
+.person__checkbox--onCampus {
+  @include person__checkbox
 }

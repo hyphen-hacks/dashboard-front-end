@@ -21,14 +21,24 @@
       <button class="buttonRow__addPerson">Add A Person</button>
     </div>
     <div v-if="roster" class="roster__roster">
-      <div class="roster__person " v-for="person in roster" :key="person.id">
+      <router-link :to="'/p/'+person.id" class="roster__person" v-for="person in roster" :key="person.id">
         <p class="person__info--name ">{{person.profile.name}}</p>
         <p class="person__info--role">{{roleCheck(person.ticket_class_id)}}</p>
         <p class="person__info--gender">{{person.profile.gender}}</p>
         <p class="person__info--school">{{person.answers[0].answer}}</p>
-        <p class="person__info--waiverStatus" :class="{yellow: person.waiverStatus === 0, blue: person.waiverStatus === 1, orange: person.waiverStatus === 2, red: person.waiverStatus === 3 }">
+        <p class="person__info--waiverStatus"
+           :class="{yellow: person.waiverStatus === 2, blue: person.waiverStatus === 1, orange: person.waiverStatus === 0, red: person.waiverStatus === 3 }">
           {{waiverStatus(person.waiverStatus)}}</p>
-      </div>
+        <div  class="person__checkbox--checkedIn">
+          <input @click.prevent="$store.dispatch('toggleCheckedIn', person)"  :id="person.id + 'checkedIn'" type="checkbox" :checked="person.checkedIn" @input="$store.dispatch('toggleCheckedIn', person)">
+          <label @click.prevent="$store.dispatch('toggleCheckedIn', person)" :for="person.id + 'checkedIn'">Checked In</label>
+        </div>
+        <div class="person__checkbox--onCampus">
+          <input @click.prevent="$store.dispatch('toggleOnCampus', person)" :id="person.id + 'oncampus'" type="checkbox" :checked="person.onCampus" @input="$store.dispatch('toggleOnCampus', person)">
+          <label @click.prevent="$store.dispatch('toggleOnCampus', person)" :for="person.id + 'oncampus'">On Campus</label>
+        </div>
+
+      </router-link>
     </div>
   </main>
 </template>
@@ -39,14 +49,15 @@
   export default {
     name: "roster.vue",
     computed: {
-      roster() {
-        return this.$store.getters.getRoster
+      roster: {
+        get: function () {
+          return this.$store.getters.getRoster
+        },
+        set: function (newValue) {
+          console.log(newValue)
+        }
 
       }
-    },
-    mounted() {
-      this.$store.dispatch('updateRoster')
-
     },
     methods: {
       waiverStatus(id) {
@@ -55,7 +66,7 @@
         } else if (id === 1) {
           return 'Submitted For Review'
         } else if (id === 2) {
-          return 'Submitted and Reviewed'
+          return 'Submitted and Approved'
         } else if (id === 3) {
           return 'Waiver Declined'
         } else {

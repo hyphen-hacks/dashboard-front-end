@@ -1,0 +1,78 @@
+@import "vars";
+
+.waiverReview {
+
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: auto 67.50vh;
+  margin-bottom: 2vh;
+  margin-right: 2vh;
+  height: 90vh;
+  grid-column-gap: 2vh;
+
+  .personInfo {
+    @include rounding;
+    background: $dark--background;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2vh;
+
+    h1 {
+      cursor: pointer;
+      margin-top: auto;
+      font-size: 3rem;
+      font-weight: bold;
+    }
+
+    h2 {
+      cursor: pointer;
+      margin-top: 1%;
+      font-size: 2rem;
+      font-weight: 100;
+    }
+
+    p {
+      cursor: pointer;
+      margin-top: 2%;
+      margin-bottom: auto;
+    }
+
+    button {
+      width: 100%;
+      margin: 0 2%;
+      padding: 2%;
+      @include rounding;
+      border: none;
+      font-size: 1rem;
+      font-weight: bold;
+      background: $yellow;
+    }
+
+    .orange--bg {
+      background: $orange;
+    }
+
+    .buttonRow {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  .waiverContainer {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .waiver {
+    width: 100%;
+
+    @include rounding;
+    background: white;
+  }
+}

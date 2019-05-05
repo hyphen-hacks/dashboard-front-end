@@ -6,7 +6,11 @@ $grey: #4F5160;
 $rounding: 10px;
 $blue: #4281A4;
 $red: #ff4d4d;
-
+@mixin rounding {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
 @mixin button {
   padding: 4% 5%;
   border: none;
