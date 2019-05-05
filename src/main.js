@@ -29,13 +29,21 @@ Vue.config.productionTip = false
 firebase.auth().onAuthStateChanged(() => {
 
   if (!app) {
-   // console.log('firebase init app')
+    router.beforeEach((to, from, next) => {
+      if (!firebase.auth().currentUser && to.path != '/login') {
+        console.log('no user')
+        next('/login')
+      } else {
+        next()
+      }
+    })
+    // console.log('firebase init app')
     app = new Vue({
       router,
       store,
       render: h => h(App)
     }).$mount('#app')
     const endInit = performance.now();
-    console.log(`Init took ${(endInit - startInit)/1000}s`)
+    console.log(`Init took ${(endInit - startInit) / 1000}s`)
   }
 })

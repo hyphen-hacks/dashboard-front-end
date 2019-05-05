@@ -6,7 +6,7 @@ import waiver from './views/waiver'
 import login from './views/login'
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -45,3 +45,5 @@ export default new Router({
     }
   ]
 })
+
+export default router;

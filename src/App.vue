@@ -1,10 +1,9 @@
 <template>
   <div id="app">
-    <nav id="nav--top">
+    <nav v-if="user" id="nav--top">
       <h1>Hyphen-Hacks</h1>
     </nav>
-    <nav id="nav--side">
-      <img class="nav__profileImage" :src="user.photoURL" alt="">
+    <nav v-if="user" id="nav--side">
       <h1 class="nav__username">{{user.displayName}}</h1>
       <button @click="signOut" class="nav__signout">Sign Out</button>
       <hr>
@@ -31,7 +30,7 @@
       this.$firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           // User is signed in.
-          // console.log('user')
+        //   console.log('user')
 
           this.$store.dispatch('updateUser')
           this.$store.dispatch('updateRoster')
@@ -39,9 +38,8 @@
         } else {
           this.$store.dispatch('updateUser')
           // No user is signed in.
-          //console.log('no user')
-          const google = new this.$firebase.auth.GoogleAuthProvider();
-          this.$firebase.auth().signInWithRedirect(google);
+        //  console.log('no user')
+          this.$router.push('/login')
         }
       });
     },
