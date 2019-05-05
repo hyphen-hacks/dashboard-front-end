@@ -31,12 +31,12 @@
     },
     methods: {
       login() {
-       // console.log('auth')
+        // console.log('auth')
         if (this.email && this.pass) {
-         // console.log('loggingin')
+          // console.log('loggingin')
           this.$firebase.auth().signInWithEmailAndPassword(this.email, this.pass).then(user => {
             this.$router.push('/')
-          }).catch( (error) =>{
+          }).catch((error) => {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
@@ -84,21 +84,12 @@
 
   .loginBox {
     .error {
-      color:  $red;
+      color: $red;
       font-size: 0.9rem;
       font-weight: bold;
     }
-    .support {
-      font-size: 0.8rem;
-      color: $grey;
-      margin: 3% auto;
-      font-weight: bold;
 
-      a {
-        color: $grey;
-        text-decoration: underline;
-      }
-    }
+   
 
     p {
       margin-top: auto;
@@ -122,56 +113,16 @@
 
     form {
       button {
-        -webkit-transition-duration: 0.25s;
-        -moz-transition-duration: 0.25s;
-        -ms-transition-duration: 0.25s;
-        -o-transition-duration: 0.25s;
-        transition-duration: 0.25s;
-        background: $orange;
-        font-size: 1rem;
-        border: none;
-        padding: 4%;
+        @include button;
         margin-top: 5%;
-        color: white;
-        @include rounding;
-        font-weight: bold;
-        &:hover{
-          background-color: $orange--hover;
-        }
       }
 
       width: 80%;
       margin: auto;
 
       input {
-        -webkit-transition-duration: 0.25s;
-        -moz-transition-duration: 0.25s;
-        -ms-transition-duration: 0.25s;
-        -o-transition-duration: 0.25s;
-        transition-duration: 0.25s;
-        background: none;
-        border: $yellow solid 2px;
-        font-size: 1rem;
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        border-radius: 5px;
-        padding: 4%;
+       @include textInput;
         margin-bottom: 5%;
-        color: $yellow;
-
-        &:hover {
-          @include shadow;
-          background: $yellow;
-          color: white;
-
-        }
-
-        &:focus {
-          outline: none;
-          @include shadow;
-          background: $yellow;
-          color: white;
-        }
       }
 
 

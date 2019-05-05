@@ -4,6 +4,7 @@ import roster from './views/roster.vue'
 import person from './views/person.vue'
 import waiver from './views/waiver'
 import login from './views/login'
+import admin from './views/admin'
 Vue.use(Router)
 
 let router = new Router({
@@ -36,12 +37,9 @@ let router = new Router({
       component: waiver
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      path: '/admin',
+      name: 'admin',
+      component: admin
     }
   ]
 })

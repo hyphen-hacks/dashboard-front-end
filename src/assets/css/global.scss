@@ -8,7 +8,17 @@ body, #app {
   width: 100vw;
  overflow: hidden;
 }
+.support {
+  font-size: 0.8rem;
+  color: $grey;
+  margin: 3% auto;
+  font-weight: bold;
 
+  a {
+    color: $grey;
+    text-decoration: underline;
+  }
+}
 a {
   color: white;
   text-decoration: none;

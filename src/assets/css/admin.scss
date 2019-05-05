@@ -1,0 +1,49 @@
+@import "vars";
+.admin {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 45vh;
+  grid-column-gap: 2vw;
+}
+.admin > div {
+  padding: 4%;
+  @include rounding;
+}
+.admin__createNewAccount {
+
+  grid-column: 1/6;
+  background: $dark--background;
+  display: flex;
+  flex-direction: column;
+  h1 {
+    margin-bottom: auto;
+    color: $orange;
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+  form {
+    button {
+      @include button;
+      margin-top: 5%;
+    }
+
+    width: 80%;
+    margin: auto;
+
+    input {
+      @include textInput;
+      margin-bottom: 5%;
+    }
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+
+
+::-webkit-input-placeholder {
+  color: white;
+}
+}

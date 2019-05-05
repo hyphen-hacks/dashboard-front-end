@@ -8,8 +8,8 @@
       <button @click="signOut" class="nav__signout">Sign Out</button>
       <hr>
       <router-link class="nav__link" to="/">Home</router-link>
-      <router-link class="nav__link" to="/about">About</router-link>
       <router-link class="nav__link" to="/w/">Waiver Wizard</router-link>
+      <router-link class="nav__link" to="/admin">Admin</router-link>
     </nav>
     <router-view/>
   </div>
