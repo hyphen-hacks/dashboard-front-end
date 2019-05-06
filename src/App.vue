@@ -18,6 +18,7 @@
   import 'minireset.css'
   import '@/assets/css/global.scss'
 
+
   export default {
     name: 'appContainer',
     computed: {
@@ -46,6 +47,7 @@
     methods: {
       signOut() {
         this.$firebase.auth().signOut()
+        this.router.push('/login')
       }
 
     }
