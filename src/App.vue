@@ -4,7 +4,7 @@
       <h1>Hyphen-Hacks</h1>
     </nav>
     <nav v-if="user" id="nav--side">
-      <h1 class="nav__username">{{user.displayName}}</h1>
+      <h1 v-if="user.displayName" class="nav__username">{{user.displayName}}</h1>
       <button @click="signOut" class="nav__signout">Sign Out</button>
       <hr>
       <router-link class="nav__link" to="/">Home</router-link>
@@ -12,6 +12,30 @@
       <router-link class="nav__link" to="/admin">Admin</router-link>
     </nav>
     <router-view/>
+    <div v-if="loading" id="loading">
+      <div>
+        <div class="loader">
+          <svg viewBox="0 0 80 80">
+            <circle id="test" cx="40" cy="40" r="32"></circle>
+          </svg>
+        </div>
+
+        <div class="loader triangle">
+          <svg viewBox="0 0 86 80">
+            <polygon points="43 8 79 72 7 72"></polygon>
+          </svg>
+        </div>
+
+        <div class="loader">
+          <svg viewBox="0 0 80 80">
+            <rect x="8" y="8" width="64" height="64"></rect>
+          </svg>
+        </div>
+      </div>
+
+      <h1>LOADING</h1>
+    </div>
+
   </div>
 </template>
 <script>
@@ -43,12 +67,14 @@
           this.$store.dispatch('updateRoster')
           this.$store.dispatch('updateTicketTypes')
           this.$store.dispatch('liveUpdateRoster')
-          this.loading = false
+
         } else {
+
           this.$store.dispatch('updateUser')
           // No user is signed in.
           //  console.log('no user')
           this.$router.push('/login')
+          this.loading = false
         }
       });
     },

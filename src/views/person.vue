@@ -38,11 +38,22 @@
     name: "person.vue",
     data() {
       return {
-        personId: this.$route.params.personId
+        personId: this.$route.params.personId,
+        loaded: false
       }
     },
     mounted() {
 
+
+    },
+    watch: {
+      person() {
+        console.log('roster', this.loaded)
+        if (!this.loaded && this.person) {
+          this.loaded = true;
+          this.$parent.loading = false;
+        }
+      }
     },
     methods: {
       waiverStatus(id) {

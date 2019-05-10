@@ -52,6 +52,20 @@
 
   export default {
     name: "roster.vue",
+    data() {
+      return {
+      loaded: false
+      }
+    },
+    watch: {
+      roster() {
+        console.log('roster', this.loaded)
+        if (!this.loaded && this.roster) {
+          this.loaded = true;
+          this.$parent.loading = false;
+        }
+      }
+    },
     computed: {
       roster: {
         get: function () {
