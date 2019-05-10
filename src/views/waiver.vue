@@ -108,13 +108,15 @@
         if (this.waiverQuePosition > 0) {
           this.waiverQuePosition--
         } else {
-          this.waiverQuePosition = this.waiverQue.length
+          this.waiverQuePosition = this.waiverQue.length - 1
         }
+        this.waiverSrc = false;
+        this.person = false;
         this.figureOutId()
       },
       nextPerson() {
         console.log('next', this.waiverQuePosition, this.waiverQue.length)
-        if (this.waiverQuePosition < this.waiverQue.length) {
+        if (this.waiverQuePosition < this.waiverQue.length - 1) {
           this.waiverQuePosition++
         } else {
           this.waiverQuePosition = 0

@@ -98,6 +98,13 @@
     background: $dark--background;
     @include rounding;
 
+    div {
+      flex-direction: column;
+      align-content: center;
+      display: flex;
+      justify-content: center;
+    }
+
     *, *:before, *:after {
       box-sizing: border-box;
       position: relative;
@@ -113,7 +120,7 @@
     .spinner {
       width: 66px;
       height: 66px;
-
+      margin: 2% auto;
       animation: contanim 2s linear infinite;
     }
 
