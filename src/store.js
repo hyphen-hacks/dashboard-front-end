@@ -8,7 +8,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: {},
-    roster: {}
+    roster: {},
+    ticketTypes: false
   },
   mutations: {
     updateUser(state) {
@@ -27,9 +28,26 @@ export default new Vuex.Store({
     },
     removePerson(state, person) {
       delete state.roster[person.id]
+    },
+    setTicketTypes(state, data) {
+      state.ticketTypes = data
+    },
+    updateTicket(state, data) {
+      if (data.name === false) {
+        delete state.ticketTypes[data.id]
+      } else {
+        state.ticketTypes[data.id] = data
+      }
+
     }
   },
   actions: {
+    updateTicket(ct, data) {
+     // console.log('action active', data)
+      ct.commit('updateTicket', data)
+   //   console.log(ct.getters.getTicketTypes)
+      firebase.firestore().collection('secrets').doc('eventbriteTicketTypes').set(ct.getters.getTicketTypes)
+    },
     updatePerson(ct, person) {
       ct.commit('addPerson', {person: person, firebase: true})
     },
@@ -61,6 +79,12 @@ export default new Vuex.Store({
       )
 
     },
+    updateTicketTypes(ct) {
+      firebase.firestore().collection('secrets').doc('eventbriteTicketTypes').get().then(e => {
+        console.log(e.data())
+        ct.commit('setTicketTypes', e.data())
+      })
+    },
     liveUpdateRoster(context) {
       firebase.firestore().collection('people').onSnapshot((e) => {
         e.docChanges().forEach(function (change) {
@@ -85,6 +109,9 @@ export default new Vuex.Store({
 
   },
   getters: {
+    getTicketTypes(state) {
+      return state.ticketTypes
+    },
     getUser(state) {
       return state.user
     },

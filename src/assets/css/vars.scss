@@ -7,6 +7,11 @@ $grey: #4F5160;
 $rounding: 10px;
 $blue: #4281A4;
 $red: #ff4d4d;
+$red--hover: #e24444;
+.yellow--bg {
+  background: $yellow;
+}
+
 @mixin rounding {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -53,8 +58,9 @@ $red: #ff4d4d;
   -ms-transition-duration: 0.25s;
   -o-transition-duration: 0.25s;
   transition-duration: 0.25s;
-  background: none;
-  border: $yellow solid 2px;
+  background: rgba($dark, 1);
+  //border: $yellow solid 2px;
+  border: none;
   font-size: 1rem;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;

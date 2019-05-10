@@ -29,13 +29,17 @@
         <p class="person__info--waiverStatus"
            :class="{yellow: person.waiverStatus === 2, blue: person.waiverStatus === 1, orange: person.waiverStatus === 0, red: person.waiverStatus === 3 }">
           {{waiverStatus(person.waiverStatus)}}</p>
-        <div  class="person__checkbox--checkedIn">
-          <input @click.prevent="$store.dispatch('toggleCheckedIn', person)"  :id="person.id + 'checkedIn'" type="checkbox" :checked="person.checkedIn" @input="$store.dispatch('toggleCheckedIn', person)">
-          <label @click.prevent="$store.dispatch('toggleCheckedIn', person)" :for="person.id + 'checkedIn'">Checked In</label>
+        <div class="person__checkbox--checkedIn">
+          <input @click.prevent="$store.dispatch('toggleCheckedIn', person)" :id="person.id + 'checkedIn'"
+                 type="checkbox" :checked="person.checkedIn" @input="$store.dispatch('toggleCheckedIn', person)">
+          <label @click.prevent="$store.dispatch('toggleCheckedIn', person)" :for="person.id + 'checkedIn'">Checked
+            In</label>
         </div>
         <div class="person__checkbox--onCampus">
-          <input @click.prevent="$store.dispatch('toggleOnCampus', person)" :id="person.id + 'oncampus'" type="checkbox" :checked="person.onCampus" @input="$store.dispatch('toggleOnCampus', person)">
-          <label @click.prevent="$store.dispatch('toggleOnCampus', person)" :for="person.id + 'oncampus'">On Campus</label>
+          <input @click.prevent="$store.dispatch('toggleOnCampus', person)" :id="person.id + 'oncampus'" type="checkbox"
+                 :checked="person.onCampus" @input="$store.dispatch('toggleOnCampus', person)">
+          <label @click.prevent="$store.dispatch('toggleOnCampus', person)" :for="person.id + 'oncampus'">On
+            Campus</label>
         </div>
 
       </router-link>
@@ -57,8 +61,12 @@
           console.log(newValue)
         }
 
+      },
+      ticketTypes() {
+        return this.$store.getters.getTicketTypes
       }
     },
+
     methods: {
       waiverStatus(id) {
         if (id === 0) {
@@ -74,10 +82,8 @@
         }
       },
       roleCheck(id) {
-        if (id == '111244170') {
-          return 'Attendee'
-        } else if (id == '111414717') {
-          return 'Volunteer'
+        if (this.ticketTypes[id].name) {
+          return this.ticketTypes[id].name
         } else {
           return 'unknown ticket type'
         }

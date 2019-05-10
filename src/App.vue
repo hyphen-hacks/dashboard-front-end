@@ -21,25 +21,33 @@
 
   export default {
     name: 'appContainer',
+    data() {
+      return {
+        loading: true
+      }
+    },
     computed: {
       user() {
         return this.$store.getters.getUser
       }
+
     },
     mounted() {
-
+      this.loading = true;
       this.$firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           // User is signed in.
-        //   console.log('user')
+          //   console.log('user')
 
           this.$store.dispatch('updateUser')
           this.$store.dispatch('updateRoster')
+          this.$store.dispatch('updateTicketTypes')
           this.$store.dispatch('liveUpdateRoster')
+          this.loading = false
         } else {
           this.$store.dispatch('updateUser')
           // No user is signed in.
-        //  console.log('no user')
+          //  console.log('no user')
           this.$router.push('/login')
         }
       });

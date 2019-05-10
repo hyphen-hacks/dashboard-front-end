@@ -1,5 +1,5 @@
 <template>
-  <div class="page admin">
+  <main class="page admin">
     <div class="admin__createNewAccount">
       <h1>Create A New Admin Account</h1>
       <form @submit.prevent="makeNewUser">
@@ -12,28 +12,90 @@
         </p>
       </form>
     </div>
-  </div>
+    <div class="admin__ticketIdType">
+      <h1>Ticket ID Types</h1>
+      <button class="admin__ticketIdType__add" @click="editTicket('new')">ADD</button>
+      <div class="admin__ticketIdType__tickets">
+        <div class="ticket" :key="ticket.id" v-for="ticket in ticketTypes">
+          <p class="ticket__name">{{ticket.name}}</p>
+          <p class="ticket__id">{{ticket.id}}</p>
+          <edit-button :ticket="ticket"/>
+        </div>
+      </div>
+
+    </div>
+    <div v-if="modal" class="centeredBox">
+      <div v-if="modal" v-on-click-outside="closeModal" class="admin__ticketModal">
+        <h1>Edit Ticket Type</h1>
+        <form @submit.prevent="updateTicket">
+          <input type="text" placeholder="Name" v-model="editTicketData.name" required>
+          <input type="text" placeholder="Eventbrite ID" v-model="editTicketData.id" required>
+          <button @click="deleteTicket" class="delete">DELETE</button>
+          <button class=" submit" type="submit">UPDATE</button>
+        </form>
+      </div>
+    </div>
+
+  </main>
 </template>
 
 <script>
   import '@/assets/css/admin.scss'
   import CryptoJS from '../../node_modules/crypto-js/crypto-js'
+  import editButton from '@/components/edit.vue'
 
   export default {
     name: 'admin',
+    components: {
+      "edit-button": editButton
+    },
     data() {
       return {
+        modal: false,
         newName: '',
         newEmail: '',
         newPass: '',
         error: '',
-        apiKey: ''
+        apiKey: '',
+        editTicketData: {}
+      }
+    },
+    computed: {
+      ticketTypes() {
+        return this.$store.getters.getTicketTypes
       }
     },
     mounted() {
       this.updateApiKey()
     },
     methods: {
+      deleteTicket() {
+        this.$store.dispatch('updateTicket', {id: this.editTicketData.id, name: false})
+        this.modal = false;
+      },
+      closeModal: function () {
+        console.log(this.modal)
+        if (this.modal) {
+          this.modal = false
+        }
+      },
+      editTicket(ticket) {
+        if (ticket === 'new') {
+          this.editTicketData = {
+            id: '',
+            name: ''
+          };
+        } else {
+          this.editTicketData = ticket;
+        }
+
+        this.modal = true;
+      },
+      updateTicket() {
+       // console.log(this.editTicketData, 'data to update')
+        this.$store.dispatch('updateTicket', this.editTicketData)
+        this.modal = false;
+      },
       updateApiKey() {
         this.$firebase.firestore().collection('secrets').doc('apiKeyDashboard').get().then(doc => {
           this.apiKey = doc.data().key;

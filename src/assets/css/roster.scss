@@ -94,7 +94,7 @@
 }
 .person__info--role {
   @include person__info;
-  width: 4rem;
+  width: 8rem;
 }
 .person__info--gender {
   @include person__info;

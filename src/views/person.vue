@@ -59,10 +59,8 @@
         }
       },
       roleCheck(id) {
-        if (id == '111244170') {
-          return 'Attendee'
-        } else if (id == '111414717') {
-          return 'Volunteer'
+        if (this.ticketTypes[id].name) {
+          return this.ticketTypes[id].name
         } else {
           return 'unknown ticket type'
         }
@@ -77,6 +75,9 @@
           console.log(newValue)
         }
 
+      },
+      ticketTypes() {
+        return this.$store.getters.getTicketTypes
       }
     }
   }

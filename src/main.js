@@ -8,7 +8,7 @@ import 'firebase/auth'
 import 'firebase/firestore'
 import 'firebase/storage'
 import swal from 'sweetalert';
-
+import { directive as onClickOutside } from 'vue-on-click-outside'
 const startInit = performance.now();
 const firebaseConfig = {
   apiKey: "AIzaSyDCnWcOvTFf5P4mWeSl0KDxnGOEDRJTVwg",
@@ -25,6 +25,7 @@ Vue.prototype.$firebase = firebase
 Vue.prototype.$swal = swal
 Vue.config.productionTip = false
 
+Vue.directive('on-click-outside', onClickOutside)
 //console.log('vue init')
 firebase.auth().onAuthStateChanged(() => {
 
