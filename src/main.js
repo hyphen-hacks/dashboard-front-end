@@ -9,6 +9,8 @@ import 'firebase/firestore'
 import 'firebase/storage'
 import swal from 'sweetalert';
 import { directive as onClickOutside } from 'vue-on-click-outside'
+Vue.use(VueClazyLoad)
+import VueClazyLoad from 'vue-clazy-load'
 const startInit = performance.now();
 const firebaseConfig = {
   apiKey: "AIzaSyDCnWcOvTFf5P4mWeSl0KDxnGOEDRJTVwg",

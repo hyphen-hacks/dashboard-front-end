@@ -13,6 +13,24 @@
       </div>
 
     </div>
+    <div v-if="!person">
+      <div class="spinner personInfo" >
+        <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+          <circle class="length" fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+        </svg>
+        <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+          <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+        </svg>
+        <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+          <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+        </svg>
+        <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+          <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+        </svg>
+      </div>
+      <br>
+      <p>Loading person data</p>
+    </div>
     <div v-if="wizardMode" class="controls">
 
       <button @click="backPerson">BACK</button>
@@ -20,7 +38,46 @@
 
     </div>
     <div class="waiverContainer">
-      <img class="waiver" :src="waiverSrc">
+      <div v-if="!waiverSrc">
+        <div class="spinner">
+          <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+            <circle class="length" fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+          </svg>
+          <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+            <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+          </svg>
+          <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+            <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+          </svg>
+          <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+            <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+          </svg>
+        </div>
+        <br>
+        <p>Loading person data</p>
+      </div>
+      <clazy-load v-if="waiverSrc" :src="waiverSrc">
+        <img class="waiver"  :src="waiverSrc">
+        <div class="preloader" slot="placeholder">
+          <div class="spinner">
+            <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+              <circle class="length" fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+            </svg>
+            <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+              <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+            </svg>
+            <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+              <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+            </svg>
+            <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+              <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+            </svg>
+          </div>
+          <br>
+          <p>Loading Waiver</p>
+        </div>
+      </clazy-load>
+
 
 
     </div>
@@ -62,6 +119,8 @@
         } else {
           this.waiverQuePosition = 0
         }
+        this.waiverSrc = false;
+        this.person = false;
         this.figureOutId()
 
       },
