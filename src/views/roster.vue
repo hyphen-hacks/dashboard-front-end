@@ -23,7 +23,7 @@
     <div v-if="roster" class="roster__roster">
       <router-link :to="'/p/'+person.id" class="roster__person" v-for="person in roster" :key="person.id">
         <p class="person__info--name ">{{person.profile.name}}</p>
-        <p class="person__info--role">{{roleCheck(person.ticket_class_id)}}</p>
+        <p  class="person__info--role">{{roleCheck(person.ticket_class_id)}}</p>
         <p class="person__info--gender">{{person.profile.gender}}</p>
         <p class="person__info--school">{{person.answers[0].answer}}</p>
         <p class="person__info--waiverStatus"
@@ -59,7 +59,7 @@
     },
     watch: {
       roster() {
-        console.log('roster', this.loaded)
+        //console.log('roster', this.loaded)
         if (!this.loaded && this.roster) {
           this.loaded = true;
           this.$parent.loading = false;
@@ -96,11 +96,25 @@
         }
       },
       roleCheck(id) {
-        if (this.ticketTypes[id].name) {
-          return this.ticketTypes[id].name
+       // console.log('checking id role')
+        if (id) {
+         // console.log(this.ticketTypes[id])
+          if (this.ticketTypes[id]) {
+
+            if (this.ticketTypes[id].name) {
+              return this.ticketTypes[id].name
+            } else {
+              return 'unknown ticket type'
+            }
+          } else {
+           // console.log('ticket not loaded')
+            return 'loading ticket types'
+          }
+
         } else {
-          return 'unknown ticket type'
+          return 'no id specified'
         }
+
       }
     }
   }

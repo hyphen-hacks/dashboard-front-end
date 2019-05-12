@@ -48,7 +48,7 @@
     },
     watch: {
       person() {
-        console.log('roster', this.loaded)
+        //console.log('roster', this.loaded)
         if (!this.loaded && this.person) {
           this.loaded = true;
           this.$parent.loading = false;
@@ -70,11 +70,24 @@
         }
       },
       roleCheck(id) {
-        if (this.ticketTypes[id].name) {
-          return this.ticketTypes[id].name
+        if (id) {
+          // console.log(this.ticketTypes[id])
+          if (this.ticketTypes[id]) {
+
+            if (this.ticketTypes[id].name) {
+              return this.ticketTypes[id].name
+            } else {
+              return 'unknown ticket type'
+            }
+          } else {
+            // console.log('ticket not loaded')
+            return 'loading ticket types'
+          }
+
         } else {
-          return 'unknown ticket type'
+          return 'no id specified'
         }
+
       }
     },
     computed: {

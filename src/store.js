@@ -81,7 +81,7 @@ export default new Vuex.Store({
     },
     updateTicketTypes(ct) {
       firebase.firestore().collection('secrets').doc('eventbriteTicketTypes').get().then(e => {
-        console.log(e.data())
+       // console.log(e.data())
         ct.commit('setTicketTypes', e.data())
       })
     },
