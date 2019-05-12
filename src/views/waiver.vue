@@ -9,12 +9,14 @@
       <div class="buttonRow">
         <button v-if="this.person.waiverStatus === 1 || this.person.waiverStatus === 3" @click="approve">APPROVE
         </button>
-        <button @click="decline" class="orange--bg" v-if="this.person.waiverStatus !== 3">DECLINE</button>
+        <button @click="decline" class="orange--bg" v-if="this.person.waiverStatus !== 3 && person.waiverImage">
+          DECLINE
+        </button>
       </div>
 
     </div>
     <div v-if="!person">
-      <div class="spinner personInfo" >
+      <div class="spinner personInfo">
         <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
           <circle class="length" fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
         </svg>
@@ -38,8 +40,9 @@
 
     </div>
     <div class="waiverContainer">
+      <p v-if="person.profile.name && !person.waiverImage ">No Waiver Submited</p>
       <div v-if="!waiverSrc">
-        <div class="spinner">
+        <div v-if="!person.profile.name" class="spinner">
           <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
             <circle class="length" fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
           </svg>
@@ -53,15 +56,16 @@
             <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
           </svg>
         </div>
-        <br>
-        <p>Loading person data</p>
+        <br v-if="!person.profile.name">
+        <p v-if="!person.profile.name">Loading person data</p>
       </div>
       <clazy-load v-if="waiverSrc" :src="waiverSrc">
-        <img class="waiver"  :src="waiverSrc">
+        <img class="waiver" :src="waiverSrc">
         <div class="preloader" slot="placeholder">
           <div class="spinner">
             <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-              <circle class="length" fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
+              <circle class="length" fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33"
+                      r="28"></circle>
             </svg>
             <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
               <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
@@ -77,7 +81,6 @@
           <p>Loading Waiver</p>
         </div>
       </clazy-load>
-
 
 
     </div>
@@ -163,8 +166,6 @@
           })
 
 
-
-
         }
 
       },
@@ -194,12 +195,34 @@
           this.person.waiverStatus = 2
           this.person.waiverReviewedBy = {name: this.$parent.user.displayName, email: this.$parent.user.email}
           this.$store.dispatch('updatePerson', this.person)
+          const emailBody = {
+            type: 'waiverAccepted',
+            name: this.person.profile["first_name"],
+            email: this.person.profile.email
+          }
+          console.log('sending email', emailBody)
+          fetch('https://api.hyphen-hacks.com/api/v1/sendEmail', {
+            method: 'post',
+            headers: {
+              "authorization": this.apiKey,
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+
+            },
+            body: JSON.stringify(emailBody)
+          }).then(resp => resp.json()).then(resp => {
+            console.log(resp)
+            if (resp.error) {
+              this.$swal('ERROR In Email Sending', resp.error)
+            }
+          })
           this.$swal("Approved!", `${this.person.profile.name}'s waiver has been approved. They will get an email notifying them`, "success").then(() => {
             if (this.wizardMode) {
               this.waiverQue.splice(this.waiverQuePosition, 1)
 
             }
           })
+
 
         }
 
