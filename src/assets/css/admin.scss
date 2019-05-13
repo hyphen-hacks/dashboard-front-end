@@ -327,12 +327,16 @@ $grey--dark: #cdcdcd;
     display: flex;
     flex-direction: column;
     width: 90%;
-    margin: 5vh auto;
-    height: 70%;
+    margin: 3vh auto;
+    height: 80%;
 
     input {
       margin: 1vh 0;
       @include textInput;
+    }
+
+    select {
+     margin-top: 2%;
     }
 
     .delete {
@@ -385,6 +389,10 @@ $grey--dark: #cdcdcd;
 
     .ticket__id {
 
+    }
+
+    .ticket__waiverRef {
+      margin-left: 5%;
     }
 
     .ticket__edit {

@@ -19,6 +19,7 @@
         <div class="ticket" :key="ticket.id" v-for="ticket in ticketTypes">
           <p class="ticket__name">{{ticket.name}}</p>
           <p class="ticket__id">{{ticket.id}}</p>
+          <p class="ticket__waiverRef">{{ticket.waiverRef}}</p>
           <edit-button :ticket="ticket"/>
         </div>
       </div>
@@ -52,8 +53,15 @@
         <form @submit.prevent="updateTicket">
           <input type="text" placeholder="Name" v-model="editTicketData.name" required>
           <input type="text" placeholder="Eventbrite ID" v-model="editTicketData.id" required>
+          <select @change.prevent="selectSubmit" v-model="editTicketData.waiverRef" name="waiverType"
+                  @input.prevent="selectSubmit">
+            <option value="attendeeWavier">Attendee Waiver</option>
+            <option value="mentorWaiver">Mentor/Judge Waiver</option>
+            <option value="volunteerWaiver"> Volunteer Waiver</option>
+          </select>
+
           <button @click="deleteTicket" class="delete">DELETE</button>
-          <button class=" submit" type="submit">UPDATE</button>
+          <button class="submit" type="submit">UPDATE</button>
         </form>
       </div>
     </div>
@@ -124,7 +132,8 @@
         errorUploading: false,
         uploading: false,
         waiverFBref: false,
-        loadingCount: 4
+        loadingCount: 4,
+        preventTicketUpdate: false
       }
     },
     computed: {
@@ -157,6 +166,11 @@
       })
     },
     methods: {
+      selectSubmit() {
+        //console.log('select submit', 'preventing')
+        this.preventTicketUpdate = true
+        this.modal = true
+      },
       openUploadWaiver(type) {
         this.waiverType = type
         this.uploader = true
@@ -209,8 +223,8 @@
 
       },
       closeModal: function () {
-        console.log(this.modal)
-        if (this.modal) {
+       // console.log(this.modal, this.preventTicketUpdate)
+        if (this.modal && !this.preventTicketUpdate) {
           this.modal = false
         }
       },
@@ -233,9 +247,12 @@
         this.modal = true;
       },
       updateTicket() {
-        // console.log(this.editTicketData, 'data to update')
+       // console.log(this.editTicketData, this.preventTicketUpdate, 'data to update')
+        this.preventTicketUpdate = false
         this.$store.dispatch('updateTicket', this.editTicketData)
         this.modal = false;
+
+
       },
       updateApiKey() {
         this.$firebase.firestore().collection('secrets').doc('apiKeyDashboard').get().then(doc => {
