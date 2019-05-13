@@ -7,7 +7,7 @@
         {{person.profile.email}}</a>
       <p><span class="personInfo__type">Birth Date:</span> {{person.profile.birth_date}}</p>
       <p><span class="personInfo__type">Gender:</span> {{person.profile.gender}}</p>
-      <a target="_blank" :href='"https://hyphen-hacks.github.io/waiver-upload/#/p/" + person.id'><span
+      <a target="_blank" :href='"https://waivers.hyphen-hacks.com/#/p/" + person.id'><span
           class="personInfo__type">Waiver URL:</span> https://waivers.hyphen-hacks.com/#/p/{{person.id}}</a>
       <br>
       <router-link :to="'/w/'+person.id" class="personInfo__waiverStatus"
