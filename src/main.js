@@ -11,6 +11,7 @@ import swal from 'sweetalert';
 import { directive as onClickOutside } from 'vue-on-click-outside'
 Vue.use(VueClazyLoad)
 import VueClazyLoad from 'vue-clazy-load'
+import moment from 'moment'
 const startInit = performance.now();
 const firebaseConfig = {
   apiKey: "AIzaSyDCnWcOvTFf5P4mWeSl0KDxnGOEDRJTVwg",
@@ -25,6 +26,7 @@ let app
 firebase.initializeApp(firebaseConfig);
 Vue.prototype.$firebase = firebase
 Vue.prototype.$swal = swal
+Vue.prototype.$moment = moment
 Vue.config.productionTip = false
 
 Vue.directive('on-click-outside', onClickOutside)
