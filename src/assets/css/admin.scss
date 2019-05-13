@@ -243,13 +243,6 @@ $grey--dark: #cdcdcd;
   .upload {
     margin-top: auto;
     @include button;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-
-    span {
-      margin: auto;
-    }
 
   }
 }
