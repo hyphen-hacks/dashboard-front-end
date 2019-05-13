@@ -351,6 +351,7 @@ $grey--dark: #cdcdcd;
 
     button {
       @include button;
+
     }
   }
 
@@ -400,21 +401,24 @@ $grey--dark: #cdcdcd;
   background: $dark--background;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
 
   form {
 
     button {
       @include button;
+
       margin-top: 2%;
+
     }
 
     width: 80%;
-    margin: 2% auto;
+    margin: auto auto;
 
 
     input {
       @include textInput;
-      margin-bottom: 5%;
+      margin-bottom: 2%;
     }
 
 
