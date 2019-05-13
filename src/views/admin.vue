@@ -55,7 +55,7 @@
           <input type="text" placeholder="Eventbrite ID" v-model="editTicketData.id" required>
           <select @change.prevent="selectSubmit" v-model="editTicketData.waiverRef" name="waiverType"
                   @input.prevent="selectSubmit">
-            <option value="attendeeWavier">Attendee Waiver</option>
+            <option value="attendeeWaiver">Attendee Waiver</option>
             <option value="mentorWaiver">Mentor/Judge Waiver</option>
             <option value="volunteerWaiver"> Volunteer Waiver</option>
           </select>
