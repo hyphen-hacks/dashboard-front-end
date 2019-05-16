@@ -1,6 +1,13 @@
 <template>
   <main class="page waiverReview">
-    <div v-if="person" class="personInfo" :class="{small: wizardMode}">
+    <div class="waiverReview__allDone" v-if="allDone">
+      <div>
+        <img src="@/assets/done.svg" alt="">
+        <h1>All Submitted Waivers Approved!</h1>
+      </div>
+
+    </div>
+    <div v-if="person" class="personInfo" :class="{small: wizardMode && waiverQue.length > 1}">
       <h1 @click="goToPerson">{{person.profile.name}}</h1>
       <h2 @click="goToPerson">Born: {{person.profile.birth_date}}</h2>
       <p @click="goToPerson"
@@ -15,7 +22,7 @@
       </div>
 
     </div>
-    <div v-if="!person">
+    <div v-if="!person && !allDone">
       <div class="spinner personInfo">
         <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
           <circle class="length" fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28"></circle>
@@ -33,14 +40,14 @@
       <br>
       <p>Loading person data</p>
     </div>
-    <div v-if="wizardMode" class="controls">
+    <div v-if="wizardMode && waiverQue.length > 1" class="controls">
 
       <button @click="backPerson">BACK</button>
       <button @click="nextPerson">NEXT</button>
 
     </div>
-    <div class="waiverContainer">
-      <p v-if="person.profile.name && !person.waiverImage ">No Waiver Submited</p>
+    <div v-if="person" class="waiverContainer">
+      <p v-if="person.profile.name && !person.waiverImage ">No Waiver Submitted</p>
       <div v-if="!waiverSrc">
         <div v-if="!person.profile.name" class="spinner">
           <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
@@ -84,6 +91,25 @@
 
 
     </div>
+    <div v-if="declineModal" class="centeredBox">
+      <div v-if="declineModal" v-on-click-outside="closeDeclineModal" class="waiver__declineModal">
+        <h1>Decline Waiver Message</h1>
+        <form @submit.prevent="sendDeclineMessage">
+          <p>Dear {{person.profile['first_name']}},</p>
+          <br>
+          <textarea required v-model="declineMessage"
+                    placeholder="Write a 2-5 sentences clearly stating why their waiver was declined."></textarea>
+          <br>
+          <p>You can resubmit your waiver here: https://waivers.hyphen-hacks.com/#/p/{{this.person.id}}</p>
+          <br>
+          <p>If you think this is a mistake or if you have any questions, please email us,</p>
+          <p>-The Hyphen-Hacks Team</p>
+          <a>team@hyphen-hacks.com</a>
+          <button type="submit">SEND</button>
+        </form>
+
+      </div>
+    </div>
 
   </main>
 </template>
@@ -101,11 +127,20 @@
         apiKey: '',
         waiverQue: [],
         wizardMode: false,
-        waiverQuePosition: false
+        waiverQuePosition: false,
+        allDone: false,
+        declineModal: false,
+        declineMessage: ''
 
       }
     },
     methods: {
+      closeDeclineModal: function () {
+        // console.log(this.declineModal)
+        if (this.declineModal) {
+          this.declineModal = false
+        }
+      },
       backPerson() {
         console.log('back', this.waiverQuePosition, this.waiverQue.length)
         if (this.waiverQuePosition > 0) {
@@ -157,10 +192,30 @@
               console.log(resp)
               this.$parent.loading = false
               this.waiverQue = resp.que
-              this.id = this.waiverQue[0]
-              this.$route.params.personId = this.id
-              this.wizardMode = true;
-              this.loadData()
+
+              if (this.waiverQue.length === 0) {
+                this.person = false
+                //console.log(window.localStorage.getItem('preventWaiverNotice'))
+                if (!window.localStorage.getItem('preventWaiverNotice')) {
+                  this.$swal({
+                    icon: "success",
+                    title: "congratulations!",
+                    text: 'All submitted waivers have been approved!'
+                  })
+                }
+
+                window.localStorage.setItem('preventWaiverNotice', 'true')
+                this.person = false
+                this.allDone = true;
+
+              } else {
+                window.localStorage.removeItem('preventWaiverNotice')
+                this.id = this.waiverQue[0]
+                this.$route.params.personId = this.id
+                this.wizardMode = true;
+                this.loadData()
+              }
+
             })
 
           })
@@ -236,7 +291,11 @@
           dangerMode: true,
         })
         .then((willDelete) => {
+
           if (willDelete) {
+            this.declineMessage = ''
+            this.declineModal = true
+            /*
             this.$swal("Please write a message explaining why the waiver was declined", {
               content: "input",
             })
@@ -252,8 +311,53 @@
                 }
               })
             });
+            */
           }
         });
+
+      },
+      sendDeclineMessage() {
+        this.declineModal = false
+        let person = this.person
+        person.waiverStatus = 3
+        person.waiverMessage = this.declineMessage;
+        person.waiverReviewedBy = {name: this.$parent.user.displayName, email: this.$parent.user.email}
+
+        const emailBody = {
+          type: 'waiverDeclined',
+          name: person.profile["first_name"],
+          email: person.profile.email,
+          message: this.declineMessage,
+          url: `https://waivers.hyphen-hacks.com/#/p/${person.id}`
+        }
+        console.log(emailBody)
+        fetch('https://api.hyphen-hacks.com/api/v1/sendEmail', {
+          method: 'post',
+          headers: {
+            "authorization": this.apiKey,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(emailBody)
+        }).then(resp => resp.json()).then(resp => {
+          this.declineModal = false;
+          console.log(resp)
+          if (resp.error) {
+            this.$swal("Error", `Error in sending the email to ${person.email}`, "warning").then(() => {
+
+            })
+          }
+          if (resp.success) {
+            this.person = person
+            this.$store.dispatch('updatePerson', person)
+            this.$swal("Declined", `${this.person.profile.name}'s waiver has been declined. They will get an email notifying them`, "success").then(() => {
+              if (this.wizardMode) {
+                this.waiverQue.splice(this.waiverQuePosition, 1)
+              }
+            })
+          }
+        })
+
 
       },
       waiverStatus(id) {

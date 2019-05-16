@@ -25,7 +25,7 @@
         <p class="person__info--name ">{{person.profile.name}}</p>
         <p  class="person__info--role">{{roleCheck(person.ticket_class_id)}}</p>
         <p class="person__info--gender">{{person.profile.gender}}</p>
-        <p class="person__info--school">{{person.answers[0].answer}}</p>
+        <p v-if="person.answers[1].answer" class="person__info--school">{{person.answers[1].answer}}</p>
         <p class="person__info--waiverStatus"
            :class="{yellow: person.waiverStatus === 2, blue: person.waiverStatus === 1, orange: person.waiverStatus === 0, red: person.waiverStatus === 3 }">
           {{waiverStatus(person.waiverStatus)}}</p>

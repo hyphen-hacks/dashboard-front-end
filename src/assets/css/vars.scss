@@ -4,7 +4,9 @@ $dark--background: #27293D;
 $orange: #FDA085;
 $orange--hover: #db7d6e;
 $yellow: #F6D365;
+$yellow--brand: #DC8F2A;
 $grey: #4F5160;
+$grey--light: #646779;
 $rounding: 10px;
 $blue: #4281A4;
 $red: #ff4d4d;
@@ -23,6 +25,14 @@ $red--hover: #e24444;
 @mixin shadow {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 
+}
+
+@mixin transition {
+  -webkit-transition-duration: 0.25s;
+  -moz-transition-duration: 0.25s;
+  -ms-transition-duration: 0.25s;
+  -o-transition-duration: 0.25s;
+  transition-duration: 0.25s;
 }
 
 @mixin button {
@@ -47,6 +57,7 @@ $red--hover: #e24444;
     outline: none;
   }
 }
+
 @mixin button--hollow {
   @include button;
   background: none;
@@ -57,11 +68,7 @@ $red--hover: #e24444;
 }
 
 @mixin textInput {
-  -webkit-transition-duration: 0.25s;
-  -moz-transition-duration: 0.25s;
-  -ms-transition-duration: 0.25s;
-  -o-transition-duration: 0.25s;
-  transition-duration: 0.25s;
+  @include transition;
   background: rgba($dark, 1);
   //border: $yellow solid 2px;
   border: none;
@@ -87,3 +94,4 @@ $red--hover: #e24444;
     color: white;
   }
 }
+
