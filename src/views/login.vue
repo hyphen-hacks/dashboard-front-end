@@ -9,7 +9,7 @@
         <input required v-model="pass" type="password" @keypress.13="login" placeholder="password">
         <p class="error" v-if="error">{{error}}</p>
         <button @click="login" type="submit">LOGIN</button>
-        <p class="support">Trouble logging in? Email <a href="mailto:ronan@hyphen-hacks.com">ronan@hyphen-hacks.com</a>
+        <p class="support">Trouble logging in? Email <a href="mailto:ronan.furuta@hyphen-hacks.com">ronan.furuta@hyphen-hacks.com</a>
         </p>
       </form>
 
