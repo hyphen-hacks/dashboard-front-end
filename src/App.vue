@@ -1,29 +1,23 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <nav id="topNav">
+      <img src="@/assets/logo.svg" class="brand__image" alt="">
+      <h1 class="brand">Hyphen-Hacks Dashboard</h1>
+      <input type="text" placeholder="Search for a name, email, date, and more">
+      <div id="user">
+        <div class="text">
+          <h1>Ronan Furuta</h1>
+          <p>ronan.furuta@hyphen-hacks.com</p>
+        </div>
+        <font-awesome-icon icon="ellipsis-v" class="fa-2x icon" />
+      </div>
+    </nav>
+    <nav id="sideNav">
+      <button class="active">Home</button>
+      <button>Roster</button>
+      <button>Settings</button>
+      <button>Developer</button>
+    </nav>
     <router-view/>
   </div>
 </template>
-
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
