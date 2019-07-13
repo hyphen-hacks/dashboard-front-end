@@ -8,8 +8,7 @@
         <input required v-model="newPass" type="password" @keypress.13="makeNewUser" placeholder="password">
         <p class="error" v-if="error">{{error}}</p>
         <button type="submit">CREATE</button>
-        <p class="support">Having trouble? Email <a href="mailto:ronan.furuta@hyphen-hacks.com">ronan.furuta@hyphen-hacks.com</a>
-        </p>
+        <p class="support">Having trouble? Email <a href="mailto:ronan.furuta@hyphen-hacks.com">ronan.furuta@hyphen-hacks.com</a></p>
       </form>
     </div>
     <div class="admin__ticketIdType">

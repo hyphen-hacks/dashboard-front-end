@@ -5,6 +5,7 @@ import person from './views/person.vue'
 import waiver from './views/waiver'
 import login from './views/login'
 import admin from './views/admin'
+import logs from './views/logs'
 Vue.use(Router)
 
 let router = new Router({
@@ -20,6 +21,11 @@ let router = new Router({
       path: '/',
       name: 'Roster',
       component: roster
+    },
+    {
+      path: '/logs',
+      name: 'Logs',
+      component: logs
     },
     {
       path: '/p/:personId',

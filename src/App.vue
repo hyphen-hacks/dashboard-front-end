@@ -10,6 +10,7 @@
       <router-link class="nav__link" to="/">Home</router-link>
       <router-link class="nav__link" to="/w/">Waiver Wizard</router-link>
       <router-link class="nav__link" to="/admin">Admin</router-link>
+      <router-link class="nav__link" to="/logs">Logs</router-link>
     </nav>
     <router-view/>
     <div v-if="loading" id="loading">
