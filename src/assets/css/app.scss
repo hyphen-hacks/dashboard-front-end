@@ -11,6 +11,7 @@ $rounding: 10px;
 $font-size: 1rem;
 $font-size--heading: 20px;
 $spacing--sides: 3vw;
+$card--input: #414E63;
 @mixin rounding {
   -webkit-border-radius: $rounding;
   -moz-border-radius: $rounding;
@@ -26,9 +27,13 @@ $spacing--sides: 3vw;
   @include rounding;
   @include shadow;
   background: $card;
-  padding: 2%;
-}
+  padding: 2vw;
 
+}
+.card__heading {
+  font-size: $font-size--heading;
+  font-weight: bold;
+}
 .card {
   @include card;
 
@@ -36,6 +41,7 @@ $spacing--sides: 3vw;
 
 .card--dark {
   @include card;
+  padding: 1vw;
   background: $bg--dark;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
@@ -85,14 +91,16 @@ html, body, #app {
     #user {
       margin-left: auto;
       text-align: right;
-      display: inline-grid;
-      grid-template-columns: 15vw 1vw;
-      grid-template-rows: 1fr;
-      grid-column-gap: 5%;
+      display: inline-flex;
+      align-items: center;
 
 
       .text {
-        grid-column: 1/2;
+
+        display: inline-flex;
+        flex-direction: column;
+        width: 20vw;
+
       }
 
       h1 {
@@ -107,6 +115,7 @@ html, body, #app {
       }
 
       svg {
+        margin-left: 2%;
         height: 100%;
 
       }
@@ -179,6 +188,7 @@ html, body, #app {
 
       .heading {
         color: $grey;
+        font-size: $font-size;
       }
 
       .value {
@@ -190,6 +200,43 @@ html, body, #app {
 
   .send-notification {
     grid-column: 1/5;
+    display: flex;
+    flex-direction: column;
+    form {
+      margin-top: auto;
+      margin-bottom: auto;
+      display: flex;
+      flex-direction: column;
+      height: 45vh;
+      justify-content: space-between;
+      input {
+        padding: 5%;
+        font-size: $font-size;
+        background: $bg--dark;
+        @include rounding;
+        color: $text;
+        border: none;
+      }
+      button {
+        background: $brand;
+        color: $text;
+        border: none;
+        @include rounding;
+        padding: 5%;
+        font-size: $font-size;
+        font-weight: bold;
+      }
+      textarea {
+        background: $bg--dark;
+        border: none;
+        padding: 5%;
+        font-size: $font-size;
+        color: $text;
+        height: 100%;
+        @include rounding;
+        margin: 5% 0;
+      }
+    }
   }
 
   .stats {

@@ -22,8 +22,17 @@
         <p class="value">30%</p>
       </div>
     </div>
-    <div class="send-notification card--light"></div>
-    <div class="stats card--light"></div>
+    <div class="send-notification card--light">
+      <h1 class="card__heading">Send Notification</h1>
+      <form @submit.prevent>
+        <input placeholder="title" type="text">
+        <textarea placeholder="message"></textarea>
+       <button type="submit">SEND</button>
+      </form>
+    </div>
+    <div class="stats card--light">
+      <h1 class="card__heading">Stats</h1>
+    </div>
   </main>
 </template>
 
