@@ -13,11 +13,17 @@
       </div>
     </nav>
     <nav id="sideNav">
-      <button class="active">Home</button>
-      <button>Roster</button>
-      <button>Settings</button>
-      <button>Developer</button>
+      <router-link to="/" :class="{'active': $route.name === 'Home'}" class="link">Home</router-link>
+      <router-link to="/roster" :class="{'active': $route.name === 'Roster'}" class="link">Roster</router-link>
+      <router-link to="/" :class="{'active': $route.name === 'Settings'}" class="link">Settings</router-link>
+      <router-link to="/" :class="{'active': $route.name === 'Developer'}" class="link">Developer</router-link>
     </nav>
     <router-view/>
   </div>
 </template>
+<script>
+  export default  {
+    name: 'app'
+
+  }
+</script>

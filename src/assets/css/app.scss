@@ -12,6 +12,9 @@ $font-size: 1rem;
 $font-size--heading: 20px;
 $spacing--sides: 3vw;
 $card--input: #414E63;
+$green: #62FFB5;
+$red: #FF6262;
+$sideInfo: #354054;
 @mixin rounding {
   -webkit-border-radius: $rounding;
   -moz-border-radius: $rounding;
@@ -23,6 +26,17 @@ $card--input: #414E63;
 
 }
 
+@mixin circleCheck {
+  $target: 20px;
+  width: $target;
+  height: $target;
+  display: inline-block;
+  -webkit-border-radius: $target;
+  -moz-border-radius: $target;
+  border-radius: $target;
+  background: $red;
+}
+
 @mixin card {
   @include rounding;
   @include shadow;
@@ -30,10 +44,20 @@ $card--input: #414E63;
   padding: 2vw;
 
 }
+
+@mixin cardComponent {
+  @include card;
+  background: $card-component;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
 .card__heading {
   font-size: $font-size--heading;
   font-weight: bold;
 }
+
 .card {
   @include card;
 
@@ -141,7 +165,7 @@ html, body, #app {
     display: flex;
     flex-direction: column;
 
-    button {
+    .link {
       width: 100%;
       background: $bg--dark;
       color: $grey;
@@ -151,10 +175,14 @@ html, body, #app {
       text-align: left;
       padding-left: $spacing--sides;
       font-weight: bold;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+
 
     }
 
-    button.active {
+    .link.active {
       background: $card;
       color: $text;
       border-left: solid 5px $text;
@@ -202,6 +230,7 @@ html, body, #app {
     grid-column: 1/5;
     display: flex;
     flex-direction: column;
+
     form {
       margin-top: auto;
       margin-bottom: auto;
@@ -209,6 +238,7 @@ html, body, #app {
       flex-direction: column;
       height: 45vh;
       justify-content: space-between;
+
       input {
         padding: 5%;
         font-size: $font-size;
@@ -217,6 +247,7 @@ html, body, #app {
         color: $text;
         border: none;
       }
+
       button {
         background: $brand;
         color: $text;
@@ -226,6 +257,7 @@ html, body, #app {
         font-size: $font-size;
         font-weight: bold;
       }
+
       textarea {
         background: $bg--dark;
         border: none;
@@ -242,4 +274,174 @@ html, body, #app {
   .stats {
     grid-column: 5/13;
   }
+}
+
+.roster {
+  display: grid;
+  grid-template-columns: auto 25vw;
+
+  .roster__info {
+    background-color: $sideInfo;
+    @include shadow;
+    padding: 2vw;
+
+    .info__nameRow {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid $text;
+      padding-bottom: 4%;
+    }
+
+    .nameRow__name {
+      font-size: $font-size--heading;
+      font-weight: bold;
+    }
+
+    .nameRow__school {
+      font-weight: lighter;
+    }
+
+    .info__statusButtons {
+      @include cardComponent;
+      margin: 5% 0;
+      display: flex;
+      flex-wrap: wrap;
+
+      .statusButtons__checkmark {
+        background: none;
+        font-size: $font-size;
+        font-weight: lighter;
+        border: none;
+        color: $text;
+        width: 50%;
+        display: flex;
+        align-items: center;
+        padding: 4% 4% 4% 0;
+
+
+      }
+
+      .checkmark__mark {
+        margin-left: 2%;
+        @include circleCheck;
+
+      }
+
+      .statusButtons__waiverStatus {
+        padding: 4% 4% 4% 0;
+        font-weight: lighter;
+
+        span {
+          font-weight: bold;
+        }
+        span.green {
+          color: $green;
+        }
+      }
+    }
+  }
+
+  .roster__people {
+    display: flex;
+    flex-direction: column;
+    padding-top: 12vh;
+    overflow-y: scroll;
+    padding-left: 3vw;
+    padding-right: 3vw;
+  }
+
+  $nameWidth: 12vw;
+  $roleWidth: 5vw;
+  $schoolWidth: 11vw;
+  $waiverWidth: 5vw;
+  $checkWidth: 6vw;
+  $dataSpace: 1%;
+
+  .people__nav {
+    margin-top: -12vh;
+    margin-left: -3vw;
+    display: flex;
+    width: 60vw;
+    @include shadow;
+    height: 10vh;
+    position: fixed;
+    background: $bg;
+    align-items: flex-end;
+    padding: 1% 3vw 1% 5vw;
+
+    .nav__name {
+      width: $nameWidth;
+      margin-right: $dataSpace;
+    }
+
+    .nav__role {
+      width: $roleWidth;
+      margin-right: $dataSpace;
+    }
+
+    .nav__school {
+      width: $schoolWidth;
+      margin-right: $dataSpace;
+    }
+
+    .nav__waiver {
+      width: $waiverWidth;
+      margin-right: $dataSpace;
+    }
+
+    .nav__checkedIn {
+      margin-left: auto;
+      width: $checkWidth;
+      margin-right: $dataSpace;
+    }
+  }
+
+  .person {
+    @include card;
+    display: flex;
+    width: 100%;
+    padding: 2vw;
+
+    .person__name {
+      font-weight: bold;
+      width: $nameWidth;
+      margin-right: $dataSpace;
+    }
+
+    .person__role {
+      width: $roleWidth;
+      margin-right: $dataSpace;
+    }
+
+    .person__school {
+      width: $schoolWidth;
+      margin-right: $dataSpace;
+    }
+
+    .person__waiver {
+      width: $waiverWidth;
+      margin-right: $dataSpace;
+    }
+
+    .person__checkedIn {
+      margin-left: auto;
+      width: $checkWidth;
+      margin-right: $dataSpace;
+      @include circleCheck;
+    }
+
+    .person__onCampus {
+      margin-left: auto;
+      width: $checkWidth;
+      margin-right: $dataSpace;
+      @include circleCheck;
+    }
+
+    .checked {
+      background-color: $green;
+    }
+  }
+
 }
