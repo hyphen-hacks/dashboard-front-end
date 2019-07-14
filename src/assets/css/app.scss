@@ -55,6 +55,46 @@ $sideInfo: #354054;
 
 }
 
+@mixin button {
+  padding: 1vw;
+  font-size: $font-size;
+  background: $brand;
+  border: none;
+  @include rounding;
+  color: $text;
+  font-weight: bold;
+  width: 100%;
+}
+
+@mixin input {
+
+  padding: 1vw;
+  background: $brand--dark;
+  border: none;
+  @include rounding;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+  font-size: $font-size;
+
+}
+
+.red {
+  color: $red;
+}
+
+.input {
+  @include input;
+}
+
+.btn {
+  @include button;
+}
+
+.green {
+  color: $green;
+}
+
 .card__heading {
   font-size: $font-size--heading;
   font-weight: bold;
@@ -149,14 +189,7 @@ html, body, #app {
 
     input {
       width: 30vw;
-      padding: 1%;
-      background: $brand--dark;
-      border: none;
-      @include rounding;
-      margin-left: auto;
-      margin-right: auto;
-      color: white;
-      font-size: $font-size;
+      @include input;
     }
   }
 
@@ -281,6 +314,7 @@ html, body, #app {
 .roster {
   display: grid;
   grid-template-columns: auto 25vw;
+  overflow-y: scroll;
 
   .roster__info {
     background-color: $sideInfo;
@@ -340,9 +374,7 @@ html, body, #app {
           font-weight: bold;
         }
 
-        span.green {
-          color: $green;
-        }
+
       }
     }
 
@@ -377,22 +409,40 @@ html, body, #app {
       }
 
     }
+
+    .info__waiver {
+      @include cardComponent;
+
+      .waiver__header {
+        display: flex;
+        justify-content: space-between;
+
+        h1 {
+          font-weight: bold;
+          font-size: $font-size--heading;
+        }
+
+        p {
+          font-weight: lighter;
+        }
+      }
+    }
   }
 
   .roster__people {
     display: flex;
     flex-direction: column;
     padding-top: 12vh;
-    overflow-y: scroll;
+    overflow: scroll !important;
     padding-left: 3vw;
     padding-right: 3vw;
   }
 
-  $nameWidth: 12vw;
+  $nameWidth: 13vw;
   $roleWidth: 5vw;
-  $schoolWidth: 11vw;
+  $schoolWidth: 15vw;
   $waiverWidth: 5vw;
-  $checkWidth: 6vw;
+  $checkWidth: 5vw;
   $dataSpace: 1%;
 
   .people__nav {
@@ -434,11 +484,17 @@ html, body, #app {
     }
   }
 
+  .person.chosen {
+    background: $card--focus;
+  }
+
   .person {
     @include card;
     display: flex;
     width: 100%;
     padding: 2vw;
+    margin-bottom: 2vw;
+    align-items: center;
 
     .person__name {
       font-weight: bold;

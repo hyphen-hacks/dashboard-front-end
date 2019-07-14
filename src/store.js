@@ -5,10 +5,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-
+    roster: {}
   },
   mutations: {
-
+    setRoster(state, roster) {
+      state.roster = roster
+    }
   },
   actions: {
 
