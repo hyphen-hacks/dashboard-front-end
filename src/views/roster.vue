@@ -31,6 +31,27 @@
         <button class="statusButtons__checkmark">On Campus <span class="checkmark__mark"></span></button>
         <p class="statusButtons__waiverStatus">Waiver Status: <span class="green">Accepted</span></p>
       </div>
+      <div class="info__contact">
+        <p class="info__data">Email: <a href="mailto:rsf.sho@gmail.com" class="info__data__value">rsf.sho@gmail.com</a>
+        </p>
+        <p class="info__data">Phone: <a class="info__data__value" href="tel:5104092752">(510) 409-2752</a></p>
+        <p class="info__data">Address: <span class="info__data__value">755 Ocean Ave, San Francisco</span></p>
+      </div>
+      <details class="info__card">
+        <summary>Demographics</summary>
+        <p class="info__data">Race/Ethnicity: <span class="info__data__value">Asian or Asian American</span></p>
+        <p class="info__data">Gender: <span class="info__data__value">Male</span></p>
+        <p class="info__data">Food Allergies: <span class="info__data__value">None</span></p>
+        <p class="info__data">Dietary Restrictions: <span class="info__data__value">None</span></p>
+        <p class="info__data">Special Needs: <span class="info__data__value">None</span></p>
+      </details>
+      <details class="info__card">
+        <summary>Profile</summary>
+        <p class="info__data">Why are you attending Hyphen-Hacks:</p>
+        <p class="info__data__value">Sam told me I would get free candy, I didn't</p>
+        <p class="info__data">Why are you attending Hyphen-Hacks:</p>
+        <p class="info__data__value">Sam told me I would get free candy, I didn't</p>
+      </details>
     </div>
   </main>
 </template>

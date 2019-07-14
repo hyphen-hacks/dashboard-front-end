@@ -51,6 +51,8 @@ $sideInfo: #354054;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+  padding: 1.5vw;
+
 }
 
 .card__heading {
@@ -305,6 +307,7 @@ html, body, #app {
 
     .info__statusButtons {
       @include cardComponent;
+      padding: 1vw;
       margin: 5% 0;
       display: flex;
       flex-wrap: wrap;
@@ -318,7 +321,7 @@ html, body, #app {
         width: 50%;
         display: flex;
         align-items: center;
-        padding: 4% 4% 4% 0;
+        padding: 4%;
 
 
       }
@@ -330,16 +333,49 @@ html, body, #app {
       }
 
       .statusButtons__waiverStatus {
-        padding: 4% 4% 4% 0;
+        padding: 4%;
         font-weight: lighter;
 
         span {
           font-weight: bold;
         }
+
         span.green {
           color: $green;
         }
       }
+    }
+
+    .info__contact {
+      @include cardComponent;
+
+    }
+
+    .info__data {
+      font-weight: bold;
+      color: $text;
+      margin: 5% 0;
+      font-size: $font-size;
+      margin-bottom: 0;
+
+    }
+
+    .info__data__value {
+      font-weight: lighter;
+      color: $text;
+      text-decoration: none;
+      margin-top: 2%;
+    }
+
+    .info__card {
+      @include cardComponent;
+      margin: 5% 0;
+
+      summary {
+        font-size: $font-size--heading;
+        font-weight: bold;
+      }
+
     }
   }
 
