@@ -64,6 +64,9 @@ $sideInfo: #354054;
   color: $text;
   font-weight: bold;
   width: 100%;
+  display: block;
+  text-align: center;
+  text-decoration: none;
 }
 
 @mixin input {
@@ -91,6 +94,9 @@ $sideInfo: #354054;
   @include button;
 }
 
+.btn.grey {
+  background: $bg--dark;
+}
 .green {
   color: $green;
 }
@@ -315,11 +321,20 @@ html, body, #app {
   display: grid;
   grid-template-columns: auto 25vw;
   overflow-y: scroll;
-
+.roster__info.help {
+  display: flex;
+  flex-direction: column;
+  .helpText {
+    margin: auto;
+    text-align: center;
+  }
+}
   .roster__info {
     background-color: $sideInfo;
     @include shadow;
     padding: 2vw;
+    overflow: scroll;
+
 
     .info__nameRow {
       width: 100%;
@@ -328,6 +343,7 @@ html, body, #app {
       justify-content: space-between;
       border-bottom: 2px solid $text;
       padding-bottom: 4%;
+
     }
 
     .nameRow__name {
@@ -425,6 +441,16 @@ html, body, #app {
         p {
           font-weight: lighter;
         }
+      }
+      .waiver__waiverDisplay {
+        margin: 5% 0;
+        display: block;
+        .error {
+          color: $text;
+        }
+      }
+      .btn {
+        margin: 5% 0;
       }
     }
   }

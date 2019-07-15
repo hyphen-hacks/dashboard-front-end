@@ -27,7 +27,8 @@
     data() {
       return {
         user: false,
-        search: null
+        search: null,
+        apiKey: false
       }
     },
     mounted() {
@@ -50,7 +51,9 @@
           }, err => {
             console.log(`Encountered error: ${err}`);
           });
-
+          this.$firebase.firestore().collection('secrets').doc('apiKeyDashboard').get().then(doc => {
+            this.apiKey = doc.data().key;
+          })
 
         }
       })

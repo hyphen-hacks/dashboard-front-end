@@ -26,81 +26,117 @@
     <div v-if="chosenPerson" class="roster__info">
       <div class="info__nameRow">
         <div class="nameRow__nameContainer">
-          <h1 class="nameRow__name">{{roster[chosenPerson].name}}</h1>
-          <p v-if="roster[chosenPerson].ticket_class_name === 'High school Student'" class="nameRow__school">
-            {{roster[chosenPerson].answers[1].answer}}, {{roster[chosenPerson].answers[0].answer}}</p>
-          <p v-if="roster[chosenPerson].ticket_class_name === 'Mentor/Judge'" class="nameRow__school">
-            {{roster[chosenPerson].answers[15].answer}}</p>
+          <h1 class="nameRow__name">{{unfilterdRoster[chosenPerson].name}}</h1>
+          <p v-if="unfilterdRoster[chosenPerson].ticket_class_name === 'High school Student'" class="nameRow__school">
+            {{unfilterdRoster[chosenPerson].answers[1].answer}}, {{unfilterdRoster[chosenPerson].answers[0].answer}}</p>
+          <p v-if="unfilterdRoster[chosenPerson].ticket_class_name === 'Mentor/Judge'" class="nameRow__school">
+            {{unfilterdRoster[chosenPerson].answers[15].answer}}</p>
         </div>
-        <p v-if="roster[chosenPerson].ticket_class_name === 'High school Student'" class="person__role">Attendee</p>
-        <p v-if="roster[chosenPerson].ticket_class_name === 'Mentor/Judge'" class="person__role">Mentor</p>
+        <p v-if="unfilterdRoster[chosenPerson].ticket_class_name === 'High school Student'" class="person__role">
+          Attendee</p>
+        <p v-if="unfilterdRoster[chosenPerson].ticket_class_name === 'Mentor/Judge'" class="person__role">Mentor</p>
       </div>
       <div class="info__statusButtons">
         <button class="statusButtons__checkmark">Checked In <span class="checkmark__mark"></span></button>
         <button class="statusButtons__checkmark">On Campus <span class="checkmark__mark"></span></button>
         <p class="statusButtons__waiverStatus">Waiver Status: <span
-            :class="waiverStatusColor(roster[chosenPerson].waiverStatus)">{{waiverStatus(roster[chosenPerson].waiverStatus)}}</span>
+            :class="waiverStatusColor(unfilterdRoster[chosenPerson].waiverStatus)">{{waiverStatus(unfilterdRoster[chosenPerson].waiverStatus)}}</span>
         </p>
       </div>
       <div class="info__contact">
-        <p class="info__data">Email: <a :href="'mailto:'+roster[chosenPerson].profile.email" class="info__data__value">{{roster[chosenPerson].profile.email}}</a>
+        <p class="info__data">Email: <a :href="'mailto:'+unfilterdRoster[chosenPerson].profile.email"
+                                        class="info__data__value">{{unfilterdRoster[chosenPerson].profile.email}}</a>
         </p>
         <p class="info__data">Phone: <a class="info__data__value"
-                                        :href="'tel:'+roster[chosenPerson].profile.cell_phone">{{roster[chosenPerson].profile.cell_phone}}</a>
+                                        :href="'tel:'+unfilterdRoster[chosenPerson].profile.cell_phone">{{unfilterdRoster[chosenPerson].profile.cell_phone}}</a>
         </p>
-        <p v-if="roster[chosenPerson].profile.addresses.home" class="info__data">Address: <span
-            class="info__data__value">{{roster[chosenPerson].profile.addresses.home.address_1}} {{roster[chosenPerson].profile.addresses.home.city}}</span>
+        <p v-if="unfilterdRoster[chosenPerson].profile.addresses.home" class="info__data">Address: <span
+            class="info__data__value">{{unfilterdRoster[chosenPerson].profile.addresses.home.address_1}} {{unfilterdRoster[chosenPerson].profile.addresses.home.city}}</span>
+        </p>
+        <p class="info__data">EventID: <a class="info__data__value" target="_blank"
+                                          :href="'https://waivers.hyphen-hacks.com/#/p/'+unfilterdRoster[chosenPerson].id">{{unfilterdRoster[chosenPerson].id}}</a>
         </p>
       </div>
-      <details v-if="roster[chosenPerson].ticket_class_name === 'High school Student'" class="info__card">
+      <details v-if="unfilterdRoster[chosenPerson].ticket_class_name === 'High school Student'" class="info__card">
         <summary>Demographics</summary>
         <p class="info__data">Race/Ethnicity: <span
-            class="info__data__value">{{roster[chosenPerson].answers[3].answer}}</span></p>
-        <p class="info__data">Gender: <span class="info__data__value">{{roster[chosenPerson].answers[4].answer}}</span>
+            class="info__data__value">{{unfilterdRoster[chosenPerson].answers[3].answer}}</span></p>
+        <p class="info__data">Gender: <span class="info__data__value">{{unfilterdRoster[chosenPerson].answers[4].answer}}</span>
         </p>
       </details>
       <details class="info__card">
         <summary>Notes/Special Needs</summary>
         <p class="info__data">Food Allergies: <span
-            class="info__data__value">{{roster[chosenPerson].answers[5].answer}}</span></p>
-        <p class="info__data">Dietary Restrictions: <span class="info__data__value">{{roster[chosenPerson].answers[6].answer}}</span>
+            class="info__data__value">{{unfilterdRoster[chosenPerson].answers[5].answer}}</span></p>
+        <p class="info__data">Dietary Restrictions: <span class="info__data__value">{{unfilterdRoster[chosenPerson].answers[6].answer}}</span>
         </p>
         <p class="info__data">Special Needs: <span
-            class="info__data__value">{{roster[chosenPerson].answers[7].answer}}</span></p>
+            class="info__data__value">{{unfilterdRoster[chosenPerson].answers[7].answer}}</span></p>
       </details>
-      <details class="info__card">
+      <details v-if="unfilterdRoster[chosenPerson].ticket_class_name === 'High school Student'" class="info__card">
         <summary>Profile</summary>
         <p class="info__data">Why are you attending Hyphen-Hacks:</p>
-        <p class="info__data__value">{{roster[chosenPerson].answers[8].answer}}</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[8].answer}}</p>
         <p class="info__data">Experience with software:</p>
-        <p class="info__data__value">{{roster[chosenPerson].answers[9].answer}}</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[9].answer}}</p>
         <p class="info__data">Experience with hardware:</p>
-        <p class="info__data__value">{{roster[chosenPerson].answers[10].answer}}</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[10].answer}}</p>
         <p class="info__data">Experience with hackathons:</p>
-        <p class="info__data__value">{{roster[chosenPerson].answers[11].answer}}</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[11].answer}}</p>
         <p class="info__data">Experience with team coding:</p>
-        <p class="info__data__value">{{roster[chosenPerson].answers[12].answer}}</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[12].answer}}</p>
         <p class="info__data">desc of compsci and hackathon exp:</p>
-        <p class="info__data__value">{{roster[chosenPerson].answers[13].answer}}</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[13].answer}}</p>
         <p class="info__data">Laptop:</p>
-        <p class="info__data__value">{{roster[chosenPerson].answers[21].answer}}</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[21].answer}}</p>
         <p class="info__data">Do you have a team:</p>
-        <p class="info__data__value">{{roster[chosenPerson].answers[22].answer}}</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[22].answer}}</p>
         <p class="info__data">How did you hear about us:</p>
-        <p class="info__data__value">{{roster[chosenPerson].answers[23].answer}}</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[23].answer}}</p>
+      </details>
+      <details v-if="unfilterdRoster[chosenPerson].ticket_class_name === 'Mentor/Judge'" class="info__card">
+        <summary>Profile</summary>
+        <p class="info__data">Mentor or Judge:</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[14].answer}}</p>
+        <p class="info__data">Company/program:</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[15].answer}}</p>
+        <p class="info__data">Position at company:</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[16].answer}}</p>
+        <p class="info__data">Desc exp attending hackathons:</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[17].answer}}</p>
+        <p class="info__data">Desc exp mentoring or judging hackathons:</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[18].answer}}</p>
+        <p class="info__data">Experience working with high schoolers:</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[19].answer}}</p>
+        <p class="info__data">Areas of expertise:</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[20].answer}}</p>
+        <p class="info__data">Laptop:</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[21].answer}}</p>
+        <p class="info__data">How did you hear about us:</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[23].answer}}</p>
       </details>
       <div class="info__waiver">
         <div class="waiver__header">
           <h1>Waiver</h1>
-          <p class="green">Accepted</p>
+          <p :class="waiverStatusColor(unfilterdRoster[chosenPerson].waiverStatus)">
+            {{waiverStatus(unfilterdRoster[chosenPerson].waiverStatus)}}</p>
+
         </div>
-        <div class="waiver__waiverDisplay"></div>
-        <button class="waiver__control">ACCEPT</button>
-        <button class="waiver__openInNewTab">OPEN IN NEW TAB</button>
+        <a :href="chosenPersonWaiver" target="_blank" v-if="chosenPersonWaiver" class="waiver__waiverDisplay">
+          <img :src="chosenPersonWaiver">
+          <p class="error" v-if="pdf">PDF preview is browser dependant. If something doesn't look right click open in
+            new tab</p>
+        </a>
+        <button @click="approve"
+                v-if="unfilterdRoster[chosenPerson].waiverStatus > 0 && unfilterdRoster[chosenPerson].waiverStatus < 3"
+                class="waiver__control btn">APPROVE
+        </button>
+        <a v-if="unfilterdRoster[chosenPerson].waiverStatus > 0 && unfilterdRoster[chosenPerson].waiverStatus < 3"
+           class="waiver__openInNewTab btn grey" :href="chosenPersonWaiver" target="_blank">OPEN IN NEW TAB</a>
       </div>
     </div>
-    <div v-if="!chosenPerson" class="roster__info">
-      <p>Click on someone from the roster to get more information about them</p>
+    <div v-if="!chosenPerson" class="roster__info help">
+      <p class="helpText">Click on someone from the roster to get more information about them</p>
     </div>
   </main>
 </template>
@@ -118,8 +154,8 @@
         if (this.$parent.search) {
           for (let key in roster) {
             if (roster.hasOwnProperty(key)) {
-              console.log(key, roster[key]);
-              if (roster[key].email.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].name.toLowerCase().includes(this.$parent.search.toLowerCase())|| roster[key].profile.cell_phone.toLowerCase().includes(this.$parent.search.toLowerCase())){
+
+              if (roster[key].email.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].name.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].profile.cell_phone.toLowerCase().includes(this.$parent.search.toLowerCase())) {
                 filteredRoster[key] = roster[key]
               }
             }
@@ -134,15 +170,48 @@
     },
     data() {
       return {
-        chosenPerson: false
+        chosenPerson: false,
+        chosenPersonWaiver: false,
+        pdf: false
       }
     },
     mounted() {
-
+      this.$firebase.firestore().collection('secrets').doc('apiKeyDashboard').get().then(doc => {
+        this.$parent.apiKey = doc.data().key;
+      })
     },
     methods: {
+      approve() {
+        if (this.$parent.apiKey && this.unfilterdRoster[this.chosenPerson].waiverStatus === 1 || this.unfilterdRoster[this.chosenPerson].waiverStatus === 3) {
+          console.log('ready to approve')
+          
+        } else {
+          console.log('error approving')
+        }
+      },
       choosePerson(person) {
+        this.chosenPersonWaiver = false
+        this.pdf = false
         this.chosenPerson = person.id
+        if (this.unfilterdRoster[this.chosenPerson].waiverStatus > 0) {
+          let waiverStorageRef = this.$firebase.storage().ref().child(this.unfilterdRoster[this.chosenPerson].waiverImage)
+          waiverStorageRef.getDownloadURL().then((url) => {
+            //console.log(url)
+            this.chosenPersonWaiver = url
+          })
+          waiverStorageRef.getMetadata().then((metadata) => {
+            //  console.log(metadata.contentType)
+            if (metadata.contentType === 'application/pdf') {
+              this.pdf = true
+            }
+            // Metadata now contains the metadata for 'images/forest.jpg'
+          }).catch(function (error) {
+            // Uh-oh, an error occurred!
+          });
+        } else {
+          this.chosenPersonWaiver = false
+        }
+
       },
       waiverStatus(id) {
         switch (id) {

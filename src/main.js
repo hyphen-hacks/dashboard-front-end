@@ -11,6 +11,7 @@ import '@/assets/css/app.scss'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
+import 'firebase/storage'
 
 const firebaseConfig = {
   apiKey: "AIzaSyDCnWcOvTFf5P4mWeSl0KDxnGOEDRJTVwg",
