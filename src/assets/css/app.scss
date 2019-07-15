@@ -34,7 +34,7 @@ $sideInfo: #354054;
   -webkit-border-radius: $target;
   -moz-border-radius: $target;
   border-radius: $target;
-  background: $red;
+
 }
 
 @mixin card {
@@ -92,6 +92,12 @@ $sideInfo: #354054;
 
 .btn {
   @include button;
+}
+.greenBG {
+  background: $green;
+}
+.redBG {
+  background: $red;
 }
 
 .btn.grey {
@@ -447,6 +453,13 @@ html, body, #app {
         display: block;
         .error {
           color: $text;
+        }
+        iframe {
+          width: 18vw;
+          height: 32vw;
+        }
+        embed {
+          height: 50vh;
         }
       }
       .btn {

@@ -19,8 +19,8 @@
         <p v-if="person.ticket_class_name === 'Mentor/Judge'" class="person__school">{{person.answers[15].answer}}</p>
         <p :class="waiverStatusColor(person.waiverStatus)" class="person__waiver">
           {{waiverStatus(person.waiverStatus)}}</p>
-        <div class="person__checkedIn"></div>
-        <div class="person__onCampus"></div>
+        <div class="person__checkedIn" :class="{greenBG: person.checkedIn, redBG: !person.checkedIn}"></div>
+        <div class="person__onCampus" :class="{greenBG: person.checkedIn, redBG: !person.onCampus}"></div>
       </div>
     </div>
     <div v-if="chosenPerson" class="roster__info">
@@ -37,8 +37,12 @@
         <p v-if="unfilterdRoster[chosenPerson].ticket_class_name === 'Mentor/Judge'" class="person__role">Mentor</p>
       </div>
       <div class="info__statusButtons">
-        <button class="statusButtons__checkmark">Checked In <span class="checkmark__mark"></span></button>
-        <button class="statusButtons__checkmark">On Campus <span class="checkmark__mark"></span></button>
+        <button class="statusButtons__checkmark">Checked In <span
+            :class="{greenBG: unfilterdRoster[chosenPerson].checkedIn, redBG: !unfilterdRoster[chosenPerson].checkedIn}"
+            class="checkmark__mark"></span></button>
+        <button class="statusButtons__checkmark">On Campus <span
+            :class="{greenBG: unfilterdRoster[chosenPerson].checkedIn, redBG: !unfilterdRoster[chosenPerson].onCampus}"
+            class="checkmark__mark"></span></button>
         <p class="statusButtons__waiverStatus">Waiver Status: <span
             :class="waiverStatusColor(unfilterdRoster[chosenPerson].waiverStatus)">{{waiverStatus(unfilterdRoster[chosenPerson].waiverStatus)}}</span>
         </p>
@@ -123,8 +127,10 @@
 
         </div>
         <a :href="chosenPersonWaiver" target="_blank" v-if="chosenPersonWaiver" class="waiver__waiverDisplay">
-          <img :src="chosenPersonWaiver">
-          <p class="error" v-if="pdf">PDF preview is browser dependant. If something doesn't look right click open in
+          <!--<iframe v-if="pdf" :src="chosenPersonWaiver" frameborder="0"></iframe>-->
+          <embed  v-if="pdf" :src="chosenPersonWaiver" type="application/pdf"/>
+          <img v-if="!pdf" :src="chosenPersonWaiver">
+          <p class="error" v-if="pdf">PDF preview is in very early beta. If something doesn't look right click open in
             new tab</p>
         </a>
         <button @click="approve"
@@ -154,10 +160,16 @@
         if (this.$parent.search) {
           for (let key in roster) {
             if (roster.hasOwnProperty(key)) {
-
-              if (roster[key].email.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].name.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].profile.cell_phone.toLowerCase().includes(this.$parent.search.toLowerCase())) {
-                filteredRoster[key] = roster[key]
+              if (roster[key].answers[1].answer) {
+                if (roster[key].email.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].name.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].profile.cell_phone.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].answers[1].answer.toLowerCase().includes(this.$parent.search.toLowerCase())) {
+                  filteredRoster[key] = roster[key]
+                }
+              } else {
+                if (roster[key].email.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].name.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].profile.cell_phone.toLowerCase().includes(this.$parent.search.toLowerCase())) {
+                  filteredRoster[key] = roster[key]
+                }
               }
+
             }
           }
         } else {
@@ -184,7 +196,7 @@
       approve() {
         if (this.$parent.apiKey && this.unfilterdRoster[this.chosenPerson].waiverStatus === 1 || this.unfilterdRoster[this.chosenPerson].waiverStatus === 3) {
           console.log('ready to approve')
-          
+
         } else {
           console.log('error approving')
         }
