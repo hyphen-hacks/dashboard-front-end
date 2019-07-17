@@ -141,9 +141,9 @@
                 v-if="unfilterdRoster[chosenPerson].waiverStatus === 1 || unfilterdRoster[chosenPerson].waiverStatus === 3"
                 class="waiver__control btn">APPROVE
         </button>
-        <button @click=""
+        <button @click="decline"
                 v-if="unfilterdRoster[chosenPerson].waiverStatus === 2"
-                class="waiver__control btn">DECLINE
+                class="waiver__control btn redBG">DECLINE
         </button>
         <a v-if="unfilterdRoster[chosenPerson].waiverStatus > 0 && unfilterdRoster[chosenPerson].waiverStatus < 3"
            class="waiver__openInNewTab btn grey" :href="chosenPersonWaiver" target="_blank">OPEN IN NEW TAB</a>
@@ -212,11 +212,75 @@
 
 
       },
+      decline() {
+        if (this.$parent.apiKey && this.unfilterdRoster[this.chosenPerson].waiverStatus === 2) {
+          console.log('ready to decline')
+          this.$swal({
+            icon: 'warning',
+            title: 'Decline Waiver',
+            text: 'Write a couple of sentences about why their waiver was declined. THIS WILL BE SENT TO THE APPLICANT, MAKE SURE ITS PROFESSIONAL. If you want to cancel click away from this modal',
+            content: "input",
+            buttons: {
+              cancel: "Cancel",
+              decline: {
+                text: "Decline",
+                closeModal: false,
+              }
+            }
+          }).then(message => {
+            if (message) {
+              let person = this.unfilterdRoster[this.chosenPerson]
+              const oldData = person
+
+              const emailBody = {
+                type: 'waiverDeclined',
+                name: person.profile["first_name"],
+                email: person.profile.email,
+                message: message,
+                url: `https://waivers.hyphen-hacks.com/#/p/${person.id}`
+              }
+              fetch('https://api.hyphen-hacks.com/api/v1/sendEmail', {
+                method: 'post',
+                headers: {
+                  "authorization": this.$parent.apiKey,
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(emailBody)
+              }).then(resp => resp.json()).then(resp => {
+                console.log(resp)
+                if (resp.error) {
+
+                  this.$swal("Error", `Error in sending the email to ${person.email}. Waiver not declined`, "warning").then(() => {
+                  })
+                }
+                if (resp.success) {
+                  person.waiverStatus = 3
+                  person.waiverMessage = message;
+                  person.waiverReviewedBy = {name: this.$parent.user.displayName, email: this.$parent.user.email}
+                  this.$store.dispatch('updatePerson', {
+                    id: person.id,
+                    data: person
+                  })
+                  this.$swal("Declined", `${person.name}'s waiver has been declined. They will get an email notifying them`, "success").then(() => {
+
+                  })
+                }
+              })
+            } else {
+              this.$swal({
+                title: 'Waiver Not Declined',
+                text: 'if this is by mistake make sure that a reason is specified'
+              })
+            }
+          })
+        }
+      },
       approve() {
         if (this.$parent.apiKey && this.unfilterdRoster[this.chosenPerson].waiverStatus === 1 || this.unfilterdRoster[this.chosenPerson].waiverStatus === 3) {
           console.log('ready to approve')
           let person = this.unfilterdRoster[this.chosenPerson]
-          person.waiverStatus = 2
+
           const emailBody = {
             type: 'waiverAccepted',
             name: this.unfilterdRoster[this.chosenPerson].profile["first_name"],
@@ -233,15 +297,18 @@
             body: JSON.stringify(emailBody)
           }).then(resp => resp.json()).then(resp => {
             console.log(resp)
-            this.$store.dispatch('updatePerson', {
-              id: person.id,
-              data: person
-            })
+
             if (resp.error) {
-              this.$swal('ERROR In Email Sending (Waiver Still Aprroved)', resp.error)
+
+              this.$swal('ERROR In Email Sending', resp.error)
             } else {
               this.$swal("Approved!", `${this.unfilterdRoster[this.chosenPerson].profile.name}'s waiver has been approved. They will get an email notifying them`, "success").then(() => {
 
+                person.waiverStatus = 2
+                this.$store.dispatch('updatePerson', {
+                  id: person.id,
+                  data: person
+                })
               })
             }
           })

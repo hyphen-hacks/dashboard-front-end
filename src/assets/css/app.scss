@@ -34,6 +34,11 @@ $sideInfo: #354054;
   -webkit-border-radius: $target;
   -moz-border-radius: $target;
   border-radius: $target;
+  cursor: pointer;
+  transition-duration: 300ms;
+  &:hover {
+    opacity: 0.8;
+  }
 
 }
 
@@ -67,6 +72,11 @@ $sideInfo: #354054;
   display: block;
   text-align: center;
   text-decoration: none;
+  cursor: pointer;
+  transition-duration: 300ms;
+  &:hover {
+    opacity: 0.8;
+  }
 }
 
 @mixin input {
@@ -97,7 +107,7 @@ $sideInfo: #354054;
   background: $green;
 }
 .redBG {
-  background: $red;
+  background: $red!important;
 }
 
 .btn.grey {
@@ -225,6 +235,7 @@ html, body, #app {
       display: flex;
       align-items: center;
       text-decoration: none;
+      cursor: pointer;
 
 
     }
@@ -528,12 +539,17 @@ html, body, #app {
   }
 
   .person {
+    cursor: pointer;
     @include card;
     display: flex;
     width: 100%;
     padding: 2vw;
     margin-bottom: 2vw;
     align-items: center;
+    transition-duration: 300ms;
+    &:hover {
+      opacity: 0.8;
+    }
 
     .person__name {
       font-weight: bold;
