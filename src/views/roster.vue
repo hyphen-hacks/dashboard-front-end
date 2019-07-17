@@ -19,8 +19,10 @@
         <p v-if="person.ticket_class_name === 'Mentor/Judge'" class="person__school">{{person.answers[15].answer}}</p>
         <p :class="waiverStatusColor(person.waiverStatus)" class="person__waiver">
           {{waiverStatus(person.waiverStatus)}}</p>
-        <div class="person__checkedIn" :class="{greenBG: person.checkedIn, redBG: !person.checkedIn}"></div>
-        <div class="person__onCampus" :class="{greenBG: person.checkedIn, redBG: !person.onCampus}"></div>
+        <div class="person__checkedIn" @click="toggleCheck({id: person.id, value: 'checkedIn'})"
+             :class="{greenBG: person.checkedIn, redBG: !person.checkedIn}"></div>
+        <div class="person__onCampus" @click="toggleCheck({id: person.id, value: 'onCampus'})"
+             :class="{greenBG: person.onCampus, redBG: !person.onCampus}"></div>
       </div>
     </div>
     <div v-if="chosenPerson" class="roster__info">
@@ -37,12 +39,14 @@
         <p v-if="unfilterdRoster[chosenPerson].ticket_class_name === 'Mentor/Judge'" class="person__role">Mentor</p>
       </div>
       <div class="info__statusButtons">
-        <button class="statusButtons__checkmark">Checked In <span
-            :class="{greenBG: unfilterdRoster[chosenPerson].checkedIn, redBG: !unfilterdRoster[chosenPerson].checkedIn}"
-            class="checkmark__mark"></span></button>
-        <button class="statusButtons__checkmark">On Campus <span
-            :class="{greenBG: unfilterdRoster[chosenPerson].checkedIn, redBG: !unfilterdRoster[chosenPerson].onCampus}"
-            class="checkmark__mark"></span></button>
+        <button @click="toggleCheck({id: chosenPerson, value: 'checkedIn'})" class="statusButtons__checkmark">Checked In
+          <span
+              :class="{greenBG: unfilterdRoster[chosenPerson].checkedIn, redBG: !unfilterdRoster[chosenPerson].checkedIn}"
+              class="checkmark__mark"></span></button>
+        <button @click="toggleCheck({id: chosenPerson, value: 'onCampus'})" class="statusButtons__checkmark">On Campus
+          <span
+              :class="{greenBG: unfilterdRoster[chosenPerson].onCampus, redBG: !unfilterdRoster[chosenPerson].onCampus}"
+              class="checkmark__mark"></span></button>
         <p class="statusButtons__waiverStatus">Waiver Status: <span
             :class="waiverStatusColor(unfilterdRoster[chosenPerson].waiverStatus)">{{waiverStatus(unfilterdRoster[chosenPerson].waiverStatus)}}</span>
         </p>
@@ -128,14 +132,18 @@
         </div>
         <a :href="chosenPersonWaiver" target="_blank" v-if="chosenPersonWaiver" class="waiver__waiverDisplay">
           <!--<iframe v-if="pdf" :src="chosenPersonWaiver" frameborder="0"></iframe>-->
-          <embed  v-if="pdf" :src="chosenPersonWaiver" type="application/pdf"/>
+          <embed v-if="pdf" :src="chosenPersonWaiver" type="application/pdf"/>
           <img v-if="!pdf" :src="chosenPersonWaiver">
           <p class="error" v-if="pdf">PDF preview is in very early beta. If something doesn't look right click open in
             new tab</p>
         </a>
         <button @click="approve"
-                v-if="unfilterdRoster[chosenPerson].waiverStatus > 0 && unfilterdRoster[chosenPerson].waiverStatus < 3"
+                v-if="unfilterdRoster[chosenPerson].waiverStatus === 1 || unfilterdRoster[chosenPerson].waiverStatus === 3"
                 class="waiver__control btn">APPROVE
+        </button>
+        <button @click=""
+                v-if="unfilterdRoster[chosenPerson].waiverStatus === 2"
+                class="waiver__control btn">DECLINE
         </button>
         <a v-if="unfilterdRoster[chosenPerson].waiverStatus > 0 && unfilterdRoster[chosenPerson].waiverStatus < 3"
            class="waiver__openInNewTab btn grey" :href="chosenPersonWaiver" target="_blank">OPEN IN NEW TAB</a>
@@ -193,9 +201,51 @@
       })
     },
     methods: {
+      toggleCheck(params) {
+        console.log('toggling', params, !this.unfilterdRoster[params.id][params.value])
+        let person = this.unfilterdRoster[params.id]
+        person[params.value] = !person[params.value]
+        this.$store.dispatch('updatePerson', {
+          id: params.id,
+          data: person
+        })
+
+
+      },
       approve() {
         if (this.$parent.apiKey && this.unfilterdRoster[this.chosenPerson].waiverStatus === 1 || this.unfilterdRoster[this.chosenPerson].waiverStatus === 3) {
           console.log('ready to approve')
+          let person = this.unfilterdRoster[this.chosenPerson]
+          person.waiverStatus = 2
+          const emailBody = {
+            type: 'waiverAccepted',
+            name: this.unfilterdRoster[this.chosenPerson].profile["first_name"],
+            email: this.unfilterdRoster[this.chosenPerson].profile.email
+          }
+          console.log('sending email', emailBody)
+          fetch('https://api.hyphen-hacks.com/api/v1/sendEmail', {
+            method: 'post',
+            headers: {
+              "authorization": this.$parent.apiKey,
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(emailBody)
+          }).then(resp => resp.json()).then(resp => {
+            console.log(resp)
+            this.$store.dispatch('updatePerson', {
+              id: person.id,
+              data: person
+            })
+            if (resp.error) {
+              this.$swal('ERROR In Email Sending (Waiver Still Aprroved)', resp.error)
+            } else {
+              this.$swal("Approved!", `${this.unfilterdRoster[this.chosenPerson].profile.name}'s waiver has been approved. They will get an email notifying them`, "success").then(() => {
+
+              })
+            }
+          })
+
 
         } else {
           console.log('error approving')
