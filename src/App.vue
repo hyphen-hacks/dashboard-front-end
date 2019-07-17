@@ -15,8 +15,33 @@
     <nav v-if="user" id="sideNav">
       <router-link to="/" :class="{'active': $route.name === 'Home'}" class="link">Home</router-link>
       <router-link to="/roster" :class="{'active': $route.name === 'Roster'}" class="link">Roster</router-link>
-      <router-link to="/" :class="{'active': $route.name === 'Settings'}" class="link">Settings</router-link>
-      <router-link to="/" :class="{'active': $route.name === 'Developer'}" class="link">Developer</router-link>
+      <router-link v-if="settingsReady" to="/" :class="{'active': $route.name === 'Settings'}" class="link">Settings
+      </router-link>
+      <router-link v-if="developerValidate" to="/" :class="{'active': $route.name === 'Developer'}" class="link">
+        Developer
+      </router-link>
+      <div class="counters">
+        <h3 class="heading">Applied</h3>
+        <p class="stat">Attendees: <span>{{attendeesApplied}}</span></p>
+        <p class="stat">Mentors: <span>{{mentorsApplied}}</span></p>
+        <p class="stat">Volunteers: <span>{{volunteersApplied}}</span></p>
+
+        <h3 class="heading">Checked In</h3>
+        <p class="stat">Attendees: <span>{{attendeesCheckedIn}}</span></p>
+        <p class="stat">Mentors: <span>{{mentorsCheckedIn}}</span></p>
+        <p class="stat">Volunteers: <span>{{volunteersCheckedIn}}</span></p>
+
+        <h3 class="heading">On Campus</h3>
+        <p class="stat">Attendees: <span>{{attendeesOnCampus}}</span></p>
+        <p class="stat">Mentors: <span>{{mentorsOnCampus}}</span></p>
+        <p class="stat">Volunteers: <span>{{volunteersOnCampus}}</span></p>
+
+        <h3 class="heading">Waivers</h3>
+        <p class="stat">Attendees: <span>{{attendeesWaivers}}%</span></p>
+        <p class="stat">Mentors: <span>{{mentorsWaivers}}%</span></p>
+        <p class="stat">Volunteers: <span>{{volunteersWaivers}}%</span></p>
+
+      </div>
     </nav>
     <router-view/>
   </div>
@@ -28,7 +53,50 @@
       return {
         user: false,
         search: null,
-        apiKey: false
+        apiKey: false,
+        settingsReady: false,
+        notificationsRead: false
+      }
+    },
+    computed: {
+      attendeesApplied() {
+        return this.$store.getters.attendeesApplied
+      },
+      mentorsApplied() {
+        return this.$store.getters.mentorsApplied
+      },
+      volunteersApplied() {
+        return this.$store.getters.volunteersApplied
+      },
+      attendeesCheckedIn() {
+        return this.$store.getters.attendeesCheckedIn
+      },
+      mentorsCheckedIn() {
+        return this.$store.getters.mentorsCheckedIn
+      },
+      volunteersCheckedIn() {
+        return this.$store.getters.volunteersCheckedIn
+      },
+      attendeesOnCampus() {
+        return this.$store.getters.attendeesOnCampus
+      },
+      mentorsOnCampus() {
+        return this.$store.getters.mentorsOnCampus
+      },
+      volunteersOnCampus() {
+        return this.$store.getters.volunteersOnCampus
+      },
+      developerValidate() {
+        return this.user.displayName === "Ronan Furuta" || this.user.displayName === "Ben Grant";
+      },
+      attendeesWaivers() {
+        return this.$store.getters.attendeesWaivers
+      },
+      mentorsWaivers() {
+        return this.$store.getters.mentorsWaivers
+      },
+      volunteersWaivers() {
+        return this.$store.getters.volunteersWaivers
       }
     },
     mounted() {
@@ -42,11 +110,14 @@
           let observer = rosterRef.onSnapshot(docSnapshot => {
             console.log(docSnapshot);
             let roster = {}
+            let rosterArray = []
             docSnapshot.docs.forEach(i => {
               const data = i.data()
               roster[data.id] = data
+              rosterArray.push(data)
             })
             this.$store.commit('setRoster', roster)
+            this.$store.commit('setRosterArray', rosterArray)
             // ...
           }, err => {
             console.log(`Encountered error: ${err}`);

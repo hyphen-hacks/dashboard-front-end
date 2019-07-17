@@ -103,16 +103,19 @@ $sideInfo: #354054;
 .btn {
   @include button;
 }
+
 .greenBG {
   background: $green;
 }
+
 .redBG {
-  background: $red!important;
+  background: $red !important;
 }
 
 .btn.grey {
   background: $bg--dark;
 }
+
 .green {
   color: $green;
 }
@@ -245,6 +248,41 @@ html, body, #app {
       color: $text;
       border-left: solid 5px $text;
     }
+
+    .counters {
+      justify-self: flex-end;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      margin-top: auto;
+
+      .heading {
+        margin-top: 2vh;
+        font-size: $font-size--heading;
+        font-weight: bold;
+        padding-left: $spacing--sides;
+      }
+
+      .stat {
+        width: 100%;
+        color: $grey;
+        border: none;
+        font-size: $font-size;
+
+        text-align: left;
+        padding-left: $spacing--sides;
+
+
+        text-decoration: none;
+        margin: 1vh 0;
+
+        span {
+          color: $text;
+          font-weight: bold;
+        }
+
+      }
+    }
   }
 }
 
@@ -338,14 +376,17 @@ html, body, #app {
   display: grid;
   grid-template-columns: auto 25vw;
   overflow-y: scroll;
-.roster__info.help {
-  display: flex;
-  flex-direction: column;
-  .helpText {
-    margin: auto;
-    text-align: center;
+
+  .roster__info.help {
+    display: flex;
+    flex-direction: column;
+
+    .helpText {
+      margin: auto;
+      text-align: center;
+    }
   }
-}
+
   .roster__info {
     background-color: $sideInfo;
     @include shadow;
@@ -459,20 +500,25 @@ html, body, #app {
           font-weight: lighter;
         }
       }
+
       .waiver__waiverDisplay {
         margin: 5% 0;
         display: block;
+
         .error {
           color: $text;
         }
+
         iframe {
           width: 18vw;
           height: 32vw;
         }
+
         embed {
           height: 50vh;
         }
       }
+
       .btn {
         margin: 5% 0;
       }
@@ -547,6 +593,7 @@ html, body, #app {
     margin-bottom: 2vw;
     align-items: center;
     transition-duration: 300ms;
+
     &:hover {
       opacity: 0.8;
     }

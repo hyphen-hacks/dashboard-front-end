@@ -33,9 +33,14 @@ Vue.use(Vuex)
 library.add(faEllipsisV)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false
+let app = false
+firebase.auth().onAuthStateChanged(user => {
+  if (!app) {
+    app = new Vue({
+      router,
+      store,
+      render: h => h(App)
+    }).$mount('#app')
+  }
+})
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
