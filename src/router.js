@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Roster from './views/roster.vue'
 import Login from './views/login.vue'
+import Reset from './views/reset.vue'
 
 Vue.use(Router)
 
@@ -24,6 +25,11 @@ export default new Router({
       path: '/login',
       name: "Login",
       component: Login
+    },
+    {
+      path: '/reset',
+      name: "reset",
+      component: Reset
     }
   ]
 })

@@ -14,6 +14,7 @@ import 'firebase/firestore'
 import 'firebase/storage'
 import swal from 'sweetalert'
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyDCnWcOvTFf5P4mWeSl0KDxnGOEDRJTVwg",
   authDomain: "hyphen-hacks-2019.firebaseapp.com",

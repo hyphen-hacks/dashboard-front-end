@@ -3,13 +3,18 @@
     <nav id="topNav">
       <img src="@/assets/logo.svg" class="brand__image" alt="">
       <h1 class="brand">Hyphen-Hacks Dashboard</h1>
-      <input v-model="search" v-if="user" type="text" placeholder="Search for a name, email, date, and more">
-      <div v-if="user" id="user">
+      <input id="search" @keypress="searching" v-model="search" v-if="user" type="text"
+             placeholder="Search for a name, email, date, and more" autofocus autocomplete="off"
+             @keypress.enter="proccessCommand">
+      <div @click="toggleUserOptions" v-if="user" id="user">
         <div class="text">
           <h1>{{user.displayName}}</h1>
           <p>{{user.email}}</p>
         </div>
         <font-awesome-icon icon="ellipsis-v" class="fa-2x icon"/>
+      </div>
+      <div v-if="userOptions" class="userOptions">
+        <button @click="logOut" class="btn grey logout">LOGOUT</button>
       </div>
     </nav>
     <nav v-if="user" id="sideNav">
@@ -47,6 +52,7 @@
   </div>
 </template>
 <script>
+
   export default {
     name: 'app',
     data() {
@@ -55,7 +61,50 @@
         search: null,
         apiKey: false,
         settingsReady: false,
-        notificationsRead: false
+        notificationsRead: false,
+        preventFocus: false,
+        userOptions: false
+      }
+    },
+    methods: {
+      logOut() {
+        this.$firebase.auth().signOut()
+        this.userOptions = false
+      },
+      toggleUserOptions() {
+        this.userOptions = !this.userOptions
+      },
+      proccessCommand() {
+        if (this.search === 'home') {
+          this.search = null
+          this.$router.push('/')
+        } else if (this.search === 'roster') {
+          this.search = null
+          this.$router.push('/roster')
+        } else {
+          this.search = null
+        }
+      },
+      handleKeyPress() {
+        if (!this.preventFocus && this.user) {
+          document.getElementById("search").focus();
+        }
+
+      },
+      searching() {
+        if (this.$route.name != 'Roster') {
+          this.$router.push('/roster')
+        }
+      }
+    },
+    created() {
+      if (typeof window !== 'undefined') {
+        document.addEventListener('keydown', this.handleKeyPress)
+      }
+    },
+    beforeDestroy() {
+      if (typeof window !== 'undefined') {
+        document.removeEventListener('keydown', this.handleKeyPress)
       }
     },
     computed: {

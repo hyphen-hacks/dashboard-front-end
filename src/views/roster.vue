@@ -166,6 +166,7 @@
         let roster = this.unfilterdRoster
         let filteredRoster = {}
         if (this.$parent.search) {
+
           for (let key in roster) {
             if (roster.hasOwnProperty(key)) {
               if (roster[key].answers[1].answer) {
@@ -180,6 +181,18 @@
 
             }
           }
+          let firstItem
+          for (firstItem in filteredRoster) {
+            // object[prop]
+            break;
+          }
+          //console.log(firstItem)
+          if (firstItem) {
+            this.chosenPerson = firstItem
+          } else {
+            this.chosenPerson = null
+          }
+
         } else {
           filteredRoster = roster
         }
@@ -215,6 +228,7 @@
       decline() {
         if (this.$parent.apiKey && this.unfilterdRoster[this.chosenPerson].waiverStatus === 2) {
           console.log('ready to decline')
+          this.$parent.preventFocus = true
           this.$swal({
             icon: 'warning',
             title: 'Decline Waiver',
@@ -228,6 +242,7 @@
               }
             }
           }).then(message => {
+            this.$parent.preventFocus = false
             if (message) {
               let person = this.unfilterdRoster[this.chosenPerson]
               const oldData = person

@@ -6,6 +6,7 @@
         <input v-model="email" required class="input" type="email" placeholder="email">
         <input v-model="password" required class="input" type="password" placeholder="password">
         <button type="submit" class="btn">LOGIN</button>
+        <router-link class="login__resetPassword" to="/reset">reset password</router-link>
         <p class="red error">{{error}}</p>
       </form>
     </div>
@@ -28,7 +29,7 @@
             if (user) {
               this.$router.push('/')
             }
-          }).catch((error) =>{
+          }).catch((error) => {
             // Handle Errors here.
             const errorCode = error.code;
             const errorMessage = error.message;
@@ -71,9 +72,18 @@
     .card__heading {
       margin-right: auto;
     }
+
     .error {
-     font-weight: bold;
+      font-weight: bold;
       text-align: center;
+      margin-top: 2%;
+    }
+
+    .login__resetPassword {
+      text-align: center;
+      color: #A8ADB3;
+      display: block;
+
       margin-top: 2%;
     }
 
