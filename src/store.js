@@ -22,19 +22,19 @@ export default new Vuex.Store({
   getters: {
     attendeesApplied(state) {
       let attendeesArray = state.rosterArray.filter((i) => {
-        return i.ticket_class_name === 'High school Student'
+        return i.ticket_class_name === 'High school Student' && i.testApplicant != true
       })
       return attendeesArray.length
     },
     mentorsApplied(state) {
       let array = state.rosterArray.filter((i) => {
-        return i.ticket_class_name === 'Mentor/Judge'
+        return i.ticket_class_name === 'Mentor/Judge' && i.testApplicant != true
       })
       return array.length
     },
     volunteersApplied(state) {
       let array = state.rosterArray.filter((i) => {
-        return i.ticket_class_name === 'Volunteer'
+        return i.ticket_class_name === 'Volunteer' && i.testApplicant != true
       })
       return array.length
     },

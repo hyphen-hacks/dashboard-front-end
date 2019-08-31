@@ -70,6 +70,8 @@
         <p class="info__data">Race/Ethnicity: <span
             class="info__data__value">{{unfilterdRoster[chosenPerson].answers[3].answer}}</span></p>
         <p class="info__data">Gender: <span class="info__data__value">{{unfilterdRoster[chosenPerson].answers[4].answer}}</span>
+        <p class="info__data">Birthday: <span class="info__data__value">{{unfilterdRoster[chosenPerson].birth_date}}</span>
+
         </p>
       </details>
       <details class="info__card">
@@ -142,7 +144,7 @@
                 class="waiver__control btn">APPROVE
         </button>
         <button @click="decline"
-                v-if="unfilterdRoster[chosenPerson].waiverStatus === 2"
+                v-if="unfilterdRoster[chosenPerson].waiverStatus === 2 || unfilterdRoster[chosenPerson].waiverStatus === 1"
                 class="waiver__control btn redBG">DECLINE
         </button>
         <a v-if="unfilterdRoster[chosenPerson].waiverStatus > 0 && unfilterdRoster[chosenPerson].waiverStatus < 3"
@@ -226,7 +228,7 @@
 
       },
       decline() {
-        if (this.$parent.apiKey && this.unfilterdRoster[this.chosenPerson].waiverStatus === 2) {
+        if (this.$parent.apiKey && this.unfilterdRoster[this.chosenPerson].waiverStatus === 2 || this.$parent.apiKey && this.unfilterdRoster[this.chosenPerson].waiverStatus === 1) {
           console.log('ready to decline')
           this.$parent.preventFocus = true
           this.$swal({

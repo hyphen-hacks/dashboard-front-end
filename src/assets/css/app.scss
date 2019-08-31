@@ -390,6 +390,14 @@ html, body, #app {
 
   .stats {
     grid-column: 5/13;
+    overflow-y: scroll;
+    canvas {
+      margin: 2% 0 2% 0;
+    }
+    .secondaryHeading {
+      font-size: 14px;
+      font-weight: lighter;
+    }
   }
 }
 

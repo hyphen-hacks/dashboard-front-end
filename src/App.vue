@@ -2,7 +2,7 @@
   <div id="app">
     <nav id="topNav">
       <img src="@/assets/logo.svg" class="brand__image" alt="">
-      <h1 class="brand">Hyphen-Hacks Dashboard</h1>
+      <h1 class="brand">Hyphen-Hacks Dashboard <span>{{version}}</span></h1>
       <input id="search" @keypress="searching" v-model="search" v-if="user" type="text"
              placeholder="Search for a name, email, date, and more" autofocus autocomplete="off"
              @keypress.enter="proccessCommand">
@@ -63,7 +63,8 @@
         settingsReady: false,
         notificationsRead: false,
         preventFocus: false,
-        userOptions: false
+        userOptions: false,
+        version: require('../package.json').version
       }
     },
     methods: {
