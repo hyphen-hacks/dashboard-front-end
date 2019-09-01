@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Roster from './views/roster.vue'
 import Login from './views/login.vue'
 import Reset from './views/reset.vue'
+import Developer from './views/developer.vue'
 
 Vue.use(Router)
 
@@ -20,6 +21,11 @@ export default new Router({
       path: '/roster',
       name: "Roster",
       component: Roster
+    },
+    {
+      path: '/developer',
+      name: "Developer",
+      component: Developer
     },
     {
       path: '/login',

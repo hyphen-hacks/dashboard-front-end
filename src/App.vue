@@ -22,7 +22,7 @@
       <router-link to="/roster" :class="{'active': $route.name === 'Roster'}" class="link">Roster</router-link>
       <router-link v-if="settingsReady" to="/" :class="{'active': $route.name === 'Settings'}" class="link">Settings
       </router-link>
-      <router-link v-if="developerValidate" to="/" :class="{'active': $route.name === 'Developer'}" class="link">
+      <router-link v-if="developerValidate" to="/developer" :class="{'active': $route.name === 'Developer'}" class="link">
         Developer
       </router-link>
       <div class="counters">

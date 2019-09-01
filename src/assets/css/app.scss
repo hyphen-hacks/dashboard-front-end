@@ -310,7 +310,10 @@ html, body, #app {
   color: $grey;
   opacity: 1; /* Firefox */
 }
-
+.developer {
+  width: 100%;
+  padding: 2% 5%;
+}
 .home {
   width: 100%;
   padding: 2% 5%;
@@ -391,8 +394,11 @@ html, body, #app {
   .stats {
     grid-column: 5/13;
     overflow-y: scroll;
+    .chartItem {
+      margin: 5% 0 5% 0;
+    }
     canvas {
-      margin: 2% 0 2% 0;
+      margin: 1% 0 2% 0;
     }
     .secondaryHeading {
       font-size: 14px;

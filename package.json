@@ -1,6 +1,6 @@
 {
   "name": "hyphen-hacks-dashboard",
-  "version": "1.4.3",
+  "version": "1.6.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -11,10 +11,12 @@
     "@fortawesome/free-solid-svg-icons": "^5.9.0",
     "@fortawesome/vue-fontawesome": "^0.1.6",
     "chart.js": "^2.8.0",
+    "compromise": "^11.14.3",
     "core-js": "^2.6.5",
     "crypto-js": "^3.1.9-1",
     "firebase": "^6.3.0",
     "minireset.css": "0.0.5",
+    "moment": "^2.24.0",
     "sweetalert": "^2.1.2",
     "vue": "^2.6.10",
     "vue-chartjs": "^3.4.2",

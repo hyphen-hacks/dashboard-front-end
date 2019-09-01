@@ -17,9 +17,7 @@
     </div>
     <div class="stats card--light">
       <h1 class="card__heading">Stats <span class="secondaryHeading">Updated {{updatedTime}}</span></h1>
-      <canvas id="genderDistribution"></canvas>
-      <canvas id="gradeDistribution"></canvas>
-      <canvas id="codingExperience"></canvas>
+      <chart v-for="dataSet in stats" :input="dataSet" :key="dataSet.title"></chart>
     </div>
   </main>
 </template>
@@ -29,15 +27,20 @@
   import Chart from 'chart.js'
   import moment from 'moment'
 
+  import DataStorage from '../dataStorage.js'
+  import chart from '../components/chart.vue'
+
   Chart.defaults.global.defaultFontColor = "#fff";
 
   export default {
     name: 'home',
+    components: {chart},
 
     data() {
       return {
         headerRow: false,
-        updatedTime: null
+        updatedTime: null,
+        stats: []
 
       }
     },
@@ -61,7 +64,7 @@
           if (res.data) {
             const bytes = CryptoJS.AES.decrypt(res.data, this.$parent.apiKey);
             const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-            console.log(decryptedData)
+            //console.log(decryptedData)
             this.headerRow = decryptedData.headerRow
           } else {
             console.log('no data')
@@ -69,8 +72,8 @@
 
 
         })
-        fetch('https://api.hyphen-hacks.com/api/v2/statsBlock', {
-        //fetch('http://localhost:3000/api/v2/statsBlock', {
+        fetch('https://api.hyphen-hacks.com/api/v3/statsBlock', {
+          //fetch('http://localhost:3000/api/v3/statsBlock', {
           method: 'GET',
           headers: {
             "authorization": this.$parent.apiKey,
@@ -83,149 +86,66 @@
             const bytes = CryptoJS.AES.decrypt(res.data, this.$parent.apiKey);
             const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
             console.log(decryptedData)
-            console.log(moment(decryptedData.timeStamp).fromNow())
-            this.updatedTime = moment(decryptedData.timeStamp).fromNow()
-            const ctx = document.getElementById('genderDistribution').getContext('2d');
-            new Chart(ctx, {
-              type: 'bar',
-              data: {
-                labels: ['Male', 'Female', 'Non Gender Binary', 'Prefer Not To Say'],
-                datasets: [{
-                  label: 'Gender Break Down',
-                  data: [decryptedData.maleAttendees, decryptedData.femaleAttendees, decryptedData.nonGenderBinaryAttendees, decryptedData.preferNotToSayAttendees],
-                  backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                  ],
-                  borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                  ],
-                  borderWidth: 1
-                }]
-              },
-              options: {
-                scaleFontColor: 'white',
-                legend: {
-                  fontColor: 'white',
-                  defaultFontColor: 'white',
-                  labels: {
-                    // This more specific font property overrides the global property
-                    fontColor: 'white',
-                    defaultFontColor: 'white'
-                  }
-                },
-                scales: {
-                  yAxes: [{
-                    ticks: {
-                      beginAtZero: true
-                    }
-                  }]
-                }
-              }
-            });
-            const gradeDist = document.getElementById('gradeDistribution').getContext('2d');
-            new Chart(gradeDist, {
-              type: 'bar',
-              data: {
-                labels: ['2020', '2021', '2022', '2023'],
-                datasets: [{
-                  label: 'Grade Break Down',
-                  data: [decryptedData.gradeDistribution[2020], decryptedData.gradeDistribution[2021], decryptedData.gradeDistribution[2022], decryptedData.gradeDistribution[2023]],
-                  backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                  ],
-                  borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                  ],
-                  borderWidth: 1
-                }]
-              },
-              options: {
-                scaleFontColor: 'white',
-                legend: {
-                  fontColor: 'white',
-                  defaultFontColor: 'white',
-                  labels: {
-                    // This more specific font property overrides the global property
-                    fontColor: 'white',
-                    defaultFontColor: 'white'
-                  }
-                },
-                scales: {
-                  yAxes: [{
-                    ticks: {
-                      beginAtZero: true
-                    }
-                  }]
-                }
-              }
-            });
-            const codeExp = document.getElementById('codingExperience').getContext('2d');
-            new Chart(codeExp, {
-              type: 'bar',
-              data: {
-                labels: ['none', 'a little', 'some', 'a lot', 'this is my life'],
-                datasets: [{
-                  label: 'Coding Experience',
-                  data: [decryptedData.codingExperience['none'], decryptedData.codingExperience['a little bit'], decryptedData.codingExperience['some amount'], decryptedData.codingExperience['a lot'],decryptedData.codingExperience['this is my life']],
-                  backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                  ],
-                  borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                  ],
-                  borderWidth: 1
-                }]
-              },
-              options: {
-                scaleFontColor: 'white',
-                legend: {
-                  fontColor: 'white',
-                  defaultFontColor: 'white',
-                  labels: {
-                    // This more specific font property overrides the global property
-                    fontColor: 'white',
-                    defaultFontColor: 'white'
-                  }
-                },
-                scales: {
-                  yAxes: [{
-                    ticks: {
-                      beginAtZero: true
-                    }
-                  }]
-                }
-              }
-            });
+
+            let DS = new DataStorage()
+            DS.loadJSON(decryptedData.store)
+            console.log(DS.getMeta({path: 'timeStamp'}))
+            const referrers = DS.multiTextStat.toChart({path: 'referrers'})
+            const genderBreakdown = DS.textStat.toChart({path: 'attendeeGenderDistribution'})
+            const codeBreakdown = DS.textStat.toChart({path: 'attendeeSoftwareExperience'})
+            const gradeBreakdown = DS.textStat.toChart({path: 'graduationdistribution'})
+            const raceBreakdown = DS.textStat.toChart({path: 'attendeeRaceDistribution'})
+            const shirtSizeDistribution = DS.textStat.toChart({path: 'shirtSizeDistribution'})
+            const applicationDistribution = DS.dateStat.toChart({path: 'attendeesSignedUp'})
+            //console.log(applicationDistribution)
+            // console.log(referrers, genderBreakdown, 'rfom store')
+            this.updatedTime = moment(DS.getMeta({path: 'timeStamp'})).fromNow()
+
+            this.stats.push({
+              title: 'Gender Breakdown',
+              labels: genderBreakdown.labels,
+              chartData: genderBreakdown.data,
+              type: 'pie'
+            })
+
+            this.stats.push({
+              title: 'Grade Breakdown',
+              labels: gradeBreakdown.labels,
+              chartData: gradeBreakdown.data,
+              type: 'bar'
+            })
+            this.stats.push({
+              title: 'Race Breakdown',
+              labels: raceBreakdown.labels,
+              chartData: raceBreakdown.data,
+              type: 'bar'
+            })
+            this.stats.push({
+              title: 'Coding Experience',
+              labels: codeBreakdown.labels,
+              chartData: codeBreakdown.data,
+              type: 'bar'
+            })
+            this.stats.push({
+              title: 'Shirts',
+              labels: shirtSizeDistribution.labels,
+              chartData: shirtSizeDistribution.data,
+              type: 'bar'
+            })
+            this.stats.push({
+              title: 'Referral Sources',
+              labels: referrers.labels,
+              chartData: referrers.data,
+              type: 'pie'
+            })
+            this.stats.push({
+              title: 'Application Breakdown',
+              chartData: applicationDistribution.data,
+              type: 'line',
+              labels: applicationDistribution.labels,
+              end: applicationDistribution.end,
+              start: applicationDistribution.start
+            })
 
           } else {
             console.log('no data')
