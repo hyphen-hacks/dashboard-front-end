@@ -9,7 +9,7 @@
       </div>
 
     </div>
-    <div class="send-notification notReady card--light">
+    <div v-if="false" class="send-notification notReady card--light">
       <h1 class="card__heading">Send Notification</h1>
       <form @submit.prevent>
         <input disabled placeholder="title" type="text">
@@ -21,6 +21,7 @@
       <h1 class="card__heading">Stats <span class="secondaryHeading">Updated {{updatedTime}}</span></h1>
       <chart v-for="dataSet in chartData" :input="dataSet" :key="dataSet.title"></chart>
     </div>
+    <br>
   </main>
 </template>
 

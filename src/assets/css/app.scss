@@ -415,14 +415,17 @@ html, body, #app {
   width: 100%;
   padding: 2vh 5vw;
   display: grid;
-  grid-template-rows: auto 60vh;
+  /*
+  grid-template-rows: auto auto;
   grid-row-gap: 4%;
   grid-column-gap: 2%;
   grid-template-columns: repeat(12, 6.5%);
+  */
+
+  overflow-y: scroll;
 
   .stats-row {
-    grid-row: 1/2;
-    grid-column: 1/13;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -497,8 +500,8 @@ html, body, #app {
   }
 
   .stats {
-    grid-column: 5/13;
-    overflow-y: scroll;
+    width: 100%;
+
 
     .chartItem {
       margin: 5% 0 5% 0;
