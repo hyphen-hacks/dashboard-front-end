@@ -1,6 +1,7 @@
 <template>
   <main class="home">
     <loader v-if="loadingData"/>
+    <p>Updated {{updatedTime}}</p>
     <div class="stats-row">
       <div v-if="headerRow" v-for="item in headerRow" class="card--dark stat-block"
            :class="{margined: headerRow.indexOf(item) !== 0 && headerRow.indexOf(item) !== 4 }">
