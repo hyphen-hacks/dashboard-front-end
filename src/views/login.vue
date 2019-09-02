@@ -1,21 +1,15 @@
 <template>
   <main class="login">
-    <div class="loginBox">
-      <h1>Login</h1>
-      <!--<p>Pleas login to access Hyphen-Hacks 2019 dashboard. <br> Accidentally got here? return to the main site: <a
-          href="https://hyphen-hacks.com">https://hyphen-hacks.com</a></p>-->
+    <div class="card--light loginDiv">
+      <h1 class="card__heading">Login</h1>
       <form @submit.prevent="login">
-        <input required v-model="email" type="email" placeholder="email">
-        <input required v-model="pass" type="password" @keypress.13="login" placeholder="password">
-        <p class="error" v-if="error">{{error}}</p>
-        <button @click="login" type="submit">LOGIN</button>
-        <p class="support">Trouble logging in? Email <a href="mailto:ronan.furuta@hyphen-hacks.com">ronan.furuta@hyphen-hacks.com</a>
-        </p>
+        <input v-model="email" required class="input" type="email" placeholder="email">
+        <input v-model="password" required class="input" type="password" placeholder="password">
+        <button type="submit" class="btn">LOGIN</button>
+        <router-link class="login__resetPassword" to="/reset">reset password</router-link>
+        <p class="red error">{{error}}</p>
       </form>
-
-
     </div>
-    <small>Hyphen-Hacks 2019 Dashboard was donated to Hyphen-Hacks from Stomprocket</small>
   </main>
 </template>
 <script>
@@ -23,118 +17,79 @@
     name: 'login',
     data() {
       return {
-        email: '',
-        pass: '',
-        error: ''
+        email: null,
+        password: null,
+        error: null
       }
-
     },
     methods: {
       login() {
-        // console.log('auth')
-        if (this.email && this.pass) {
-          // console.log('loggingin')
-          this.$firebase.auth().signInWithEmailAndPassword(this.email, this.pass).then(user => {
-            this.$router.push('/')
+        if (this.email && this.password) {
+          this.$firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(user => {
+            if (user) {
+              this.$router.push('/')
+            }
           }).catch((error) => {
             // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            this.error = errorMessage
+            const errorCode = error.code;
+            const errorMessage = error.message;
             console.log(error)
+            if (errorCode === 'auth/user-not-found' || errorCode === 'auth/wrong-password') {
+              this.error = 'The email or password is incorrect'
+            } else {
+              this.error = errorMessage
+            }
             // ...
           });
         }
-
-      }
-    },
-    mounted() {
-      if (this.$firebase.auth().currentUser) {
-        this.$router.push('/')
       }
     }
   }
 </script>
-<style scoped lang="scss">
-  @import '@/assets/css/vars.scss';
-
+<style lang="scss">
   .login {
+    grid-column: 1/3;
+    padding: 2vw;
     display: flex;
-    width: 100%;
-    height: 100vh;
-    position: absolute;
-    background-image: linear-gradient(180deg, $yellow 0%, $orange 100%);
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-
-  }
-
-  a {
-    color: $yellow;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  small {
-    margin-top: auto;
-  }
-
-  .loginBox {
-    .error {
-      color: $red;
-      font-size: 0.9rem;
-      font-weight: bold;
-    }
-
-   
-
-    p {
-      margin-top: auto;
-      font-weight: lighter;
-    }
-
-    margin-top: auto;
-    background: $dark--background;
-    padding: 2%;
-    @include rounding;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 35%;
-    height: 50vh;
-
-    h1 {
-      font-size: 4rem;
-      font-weight: bold;
-    }
+    justify-content: center;
 
     form {
-      button {
-        @include button;
-        margin-top: 5%;
-      }
-
-      width: 80%;
-      margin: auto;
-
-      input {
-       @include textInput;
-        margin-bottom: 5%;
-      }
-
-
-      max-height: 20vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      margin-top: auto;
+      width: 30vw;
+      margin-bottom: auto;
     }
 
-  }
+    .loginDiv {
+      width: 35vw;
+      height: 30vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
 
-  ::-webkit-input-placeholder {
-    color: white;
+    .card__heading {
+      margin-right: auto;
+    }
+
+    .error {
+      font-weight: bold;
+      text-align: center;
+      margin-top: 2%;
+    }
+
+    .login__resetPassword {
+      text-align: center;
+      color: #A8ADB3;
+      display: block;
+
+      margin-top: 2%;
+    }
+
+    .input {
+      width: 100%;
+      margin-bottom: 5%;
+    }
   }
 </style>

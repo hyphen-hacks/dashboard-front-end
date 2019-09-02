@@ -1,0 +1,804 @@
+$bg: #1B2332;
+$bg--dark: #111721;
+$grey: #A8ADB3;
+$text: #FDFFFF;
+$card: #263044;
+$card--focus: #3D4B60;
+$card-component: #414E63;
+$brand: #3F6BB1;
+$brand--dark: #35578D;
+$rounding: 10px;
+$font-size: 1rem;
+$font-size--heading: 20px;
+$spacing--sides: 3vw;
+$card--input: #414E63;
+$green: #62FFB5;
+$red: #FF6262;
+$sideInfo: #354054;
+@mixin rounding {
+  -webkit-border-radius: $rounding;
+  -moz-border-radius: $rounding;
+  border-radius: $rounding;
+}
+
+@mixin shadow {
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+
+}
+
+@mixin circleCheck {
+  $target: 20px;
+  width: $target;
+  height: $target;
+  display: inline-block;
+  -webkit-border-radius: $target;
+  -moz-border-radius: $target;
+  border-radius: $target;
+  cursor: pointer;
+  transition-duration: 300ms;
+  &:hover {
+    opacity: 0.8;
+  }
+
+}
+
+@mixin card {
+  @include rounding;
+  @include shadow;
+  background: $card;
+  padding: 2vw;
+
+}
+
+@mixin cardComponent {
+  @include card;
+  background: $card-component;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  padding: 1.5vw;
+
+}
+
+@mixin button {
+  padding: 1vw;
+  font-size: $font-size;
+  background: $brand;
+  border: none;
+  @include rounding;
+  color: $text;
+  font-weight: bold;
+  width: 100%;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition-duration: 300ms;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+@mixin input {
+
+  padding: 1vw;
+  background: $brand--dark;
+  border: none;
+  @include rounding;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+  font-size: $font-size;
+
+}
+
+
+.notReady {
+  opacity: 0.5 !important;
+
+}
+
+.red {
+  color: $red;
+}
+
+.input {
+  @include input;
+}
+
+.btn {
+  @include button;
+}
+
+.greenBG {
+  background: $green;
+}
+
+.redBG {
+  background: $red !important;
+}
+
+.btn.grey {
+  background: $bg--dark;
+}
+
+.green {
+  color: $green;
+}
+
+.card__heading {
+  font-size: $font-size--heading;
+  font-weight: bold;
+}
+
+.card {
+  @include card;
+
+}
+
+.card--dark {
+  @include card;
+  padding: 1vw;
+  background: $bg--dark;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.card--light {
+  @include card;
+  background: $card--focus;
+}
+
+
+html, body, #app {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  background: $bg;
+  font-family: sans-serif;
+  font-size: $font-size;
+  color: $text;
+}
+
+#app {
+  display: grid;
+  grid-template-columns: 15vw auto;
+  grid-template-rows: 8vh auto;
+
+  #topNav {
+
+    grid-column: 1/3;
+    grid-row: 1/2;
+    background-color: $brand;
+    display: flex;
+    align-items: center;
+    padding: 0 $spacing--sides;
+
+    .brand__image {
+      height: 5vh;
+      margin-right: 1%;
+    }
+
+    .brand {
+      font-weight: bold;
+      font-size: $font-size--heading;
+
+    }
+
+    #user {
+      cursor: pointer;
+      margin-left: auto;
+      text-align: right;
+      display: inline-flex;
+      align-items: center;
+
+
+      .text {
+
+        display: inline-flex;
+        flex-direction: column;
+        width: 20vw;
+
+      }
+
+      h1 {
+
+        font-weight: bold;
+        font-size: $font-size--heading;
+      }
+
+      p {
+        font-weight: lighter;
+
+      }
+
+      svg {
+        margin-left: 2%;
+        height: 100%;
+
+      }
+    }
+
+    .searchOptions {
+      position: absolute;
+      width: 100vw;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      right: 0;
+      top: 8vh;
+
+      z-index: 99999;
+
+      .options {
+        width: 50vw;
+        background: $brand--dark;
+        border: 2px $bg solid;
+        border-top: none;
+        padding: 2%;
+        @include shadow;
+      }
+    }
+
+    .userOptions {
+      position: absolute;
+      width: 20vw;
+      background: $brand--dark;
+      top: 8vh;
+      right: $spacing--sides;
+      border: 2px $bg solid;
+      border-top: none;
+      padding: 2%;
+      @include shadow;
+      z-index: 99999;
+    }
+
+    input {
+      width: 30vw;
+      @include input;
+    }
+  }
+
+  #sideNav {
+    grid-column: 1/2;
+    grid-row: 2/3;
+    background-color: $bg--dark;
+    display: flex;
+    flex-direction: column;
+
+    .link {
+      width: 100%;
+      background: $bg--dark;
+      color: $grey;
+      border: none;
+      font-size: $font-size;
+      height: 8vh;
+      text-align: left;
+      padding-left: $spacing--sides;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      cursor: pointer;
+
+
+    }
+
+    .link.active {
+      background: $card;
+      color: $text;
+      border-left: solid 5px $text;
+    }
+
+    .counters {
+      justify-self: flex-end;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      margin: auto;
+      width: 80%;
+
+
+@include shadow;
+
+      .heading {
+
+        font-size: $font-size--heading;
+        font-weight: bold;
+
+      }
+
+      .stat {
+        width: 100%;
+        color: $grey;
+        border: none;
+        font-size: $font-size;
+
+        text-align: left;
+
+
+
+        text-decoration: none;
+        margin: 1vh 0;
+
+        span {
+          color: $text;
+          font-weight: bold;
+        }
+
+      }
+    }
+  }
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: $grey;
+  opacity: 1; /* Firefox */
+}
+
+.developer {
+  width: 100%;
+  padding: 2% 5%;
+  overflow-y: scroll;
+
+  .card--light {
+    margin: 2vh 0;
+  }
+
+  .btn {
+    display: inline;
+    width: 10vw;
+    margin-top: 5px;
+    padding: 1% 0;
+    margin-right: 5px;
+  }
+
+  .black {
+    background: black;
+  }
+
+  .chartItem {
+    width: 100%;
+    padding: 1%;
+    @include rounding;
+    background: $bg;
+    display: flex;
+    align-items: center;
+
+    input {
+      background: $card--input;
+      border: none;
+      padding: 1%;
+      color: white;
+      font-size: 1rem;
+      @include rounding;
+    }
+
+    button {
+      margin-left: auto;
+      font-size: 1rem;
+      padding: 1%;
+      width: 10%;
+    }
+
+    .title {
+      width: 20%;
+    }
+
+    .type {
+      width: 100px;
+    }
+  }
+
+  .headerRowItem {
+    margin: 5px 0;
+
+    input {
+      width: 10vw;
+      margin: 0 10px;
+    }
+
+    input.path {
+      width: 80%;
+    }
+
+    input.pathChart {
+      width: 30vw;
+    }
+  }
+}
+
+
+.home {
+  width: 100%;
+  padding: 2vh 5vw;
+  display: grid;
+  grid-template-rows: auto 60vh;
+  grid-row-gap: 4%;
+  grid-column-gap: 2%;
+  grid-template-columns: repeat(12, 6.5%);
+
+  .stats-row {
+    grid-row: 1/2;
+    grid-column: 1/13;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .margined {
+
+    }
+
+    .stat-block {
+      width: 24%;
+      height: 10vh;
+
+
+      .heading {
+        color: $grey;
+        font-size: $font-size;
+      }
+
+      .value {
+        font-weight: bold;
+        font-size: 40px;
+      }
+    }
+  }
+
+  .send-notification {
+    grid-column: 1/5;
+    display: flex;
+    flex-direction: column;
+
+
+    form {
+      margin-top: auto;
+      margin-bottom: auto;
+      display: flex;
+      flex-direction: column;
+      height: 45vh;
+      justify-content: space-between;
+
+      input {
+        padding: 5%;
+        font-size: $font-size;
+        background: $bg--dark;
+        @include rounding;
+        color: $text;
+        border: none;
+      }
+
+      button {
+        background: $brand;
+        color: $text;
+        border: none;
+        @include rounding;
+        padding: 5%;
+        font-size: $font-size;
+        font-weight: bold;
+      }
+
+      textarea {
+        background: $bg--dark;
+        border: none;
+        padding: 5%;
+        font-size: $font-size;
+        color: $text;
+        height: 100%;
+        @include rounding;
+        margin: 5% 0;
+      }
+    }
+  }
+
+  .stats {
+    grid-column: 5/13;
+    overflow-y: scroll;
+
+    .chartItem {
+      margin: 5% 0 5% 0;
+
+    }
+
+    canvas {
+      margin: 1% 0 2% 0;
+    }
+
+    .secondaryHeading {
+      font-size: 14px;
+      font-weight: lighter;
+    }
+  }
+}
+
+.roster {
+  display: grid;
+  grid-template-columns: auto 25vw;
+  overflow-y: scroll;
+
+  .roster__info.help {
+    display: flex;
+    flex-direction: column;
+
+    .helpText {
+      margin: auto;
+      text-align: center;
+    }
+  }
+
+  .roster__info {
+    background-color: $sideInfo;
+    @include shadow;
+    padding: 2vw;
+    overflow: scroll;
+
+
+    .info__nameRow {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid $text;
+      padding-bottom: 4%;
+
+    }
+
+    .nameRow__name {
+      font-size: $font-size--heading;
+      font-weight: bold;
+    }
+
+    .nameRow__school {
+      font-weight: lighter;
+    }
+
+    .info__statusButtons {
+      @include cardComponent;
+      padding: 1vw;
+      margin: 5% 0;
+      display: flex;
+      flex-wrap: wrap;
+
+      .statusButtons__checkmark {
+        background: none;
+        font-size: $font-size;
+        font-weight: lighter;
+        border: none;
+        color: $text;
+        width: 50%;
+        display: flex;
+        align-items: center;
+        padding: 4%;
+
+
+      }
+
+      .checkmark__mark {
+        margin-left: 2%;
+        @include circleCheck;
+
+      }
+
+      .statusButtons__waiverStatus {
+        padding: 4%;
+        font-weight: lighter;
+
+        span {
+          font-weight: bold;
+        }
+
+
+      }
+    }
+
+    .info__contact {
+      @include cardComponent;
+
+    }
+
+    .info__data {
+      font-weight: bold;
+      color: $text;
+      margin: 5% 0;
+      font-size: $font-size;
+      margin-bottom: 0;
+
+    }
+
+    .info__data__value {
+      font-weight: lighter;
+      color: $text;
+      text-decoration: none;
+      margin-top: 2%;
+    }
+
+    .info__card {
+      @include cardComponent;
+      margin: 5% 0;
+
+      summary {
+        font-size: $font-size--heading;
+        font-weight: bold;
+      }
+
+    }
+
+    .info__waiver {
+      @include cardComponent;
+
+      .waiver__header {
+        display: flex;
+        justify-content: space-between;
+
+        h1 {
+          font-weight: bold;
+          font-size: $font-size--heading;
+        }
+
+        p {
+          font-weight: lighter;
+        }
+      }
+
+      .waiver__waiverDisplay {
+        margin: 5% 0;
+        display: block;
+
+        .error {
+          color: $text;
+        }
+
+        iframe {
+          width: 18vw;
+          height: 32vw;
+        }
+
+        embed {
+          height: 50vh;
+        }
+      }
+
+      .btn {
+        margin: 5% 0;
+      }
+    }
+  }
+
+  $navHeight: 10vh;
+
+  .roster__people {
+    display: flex;
+    flex-direction: column;
+    padding-top: ($navHeight + 2vh);
+    overflow: scroll !important;
+    padding-left: 3vw;
+    padding-right: 3vw;
+  }
+
+  $nameWidth: 13vw;
+  $roleWidth: 5vw;
+  $schoolWidth: 15vw;
+  $waiverWidth: 5vw;
+  $checkWidth: 5vw;
+  $dataSpace: 1%;
+
+  .people__nav {
+    margin-top: -($navHeight + 2vh);
+    margin-left: -3vw;
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+    @include shadow;
+    height: $navHeight;
+    position: fixed;
+    background: $bg;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 1% 3vw 1% 5vw;
+
+    .filterRow {
+      select {
+        margin-left: 10px;
+      }
+    }
+
+
+    .items {
+      margin-top: auto;
+      display: flex;
+      width: 100%;
+
+      align-items: flex-end;
+
+    }
+
+    .nav__name {
+      width: $nameWidth;
+      margin-right: $dataSpace;
+    }
+
+    .nav__role {
+      width: $roleWidth;
+      margin-right: $dataSpace;
+    }
+
+    .nav__school {
+      width: $schoolWidth;
+      margin-right: $dataSpace;
+    }
+
+    .nav__waiver {
+      width: $waiverWidth;
+      margin-right: $dataSpace;
+    }
+
+    .nav__checkedIn {
+      margin-left: auto;
+      width: $checkWidth;
+      margin-right: $dataSpace;
+    }
+  }
+
+  .person.chosen {
+    background: $card--focus;
+  }
+
+  .person {
+    cursor: pointer;
+    @include card;
+    display: flex;
+    width: 100%;
+    padding: 2vw;
+    margin-bottom: 2vw;
+    align-items: center;
+    transition-duration: 300ms;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    .person__name {
+      font-weight: bold;
+      width: $nameWidth;
+      margin-right: $dataSpace;
+    }
+
+    .person__role {
+      width: $roleWidth;
+      margin-right: $dataSpace;
+    }
+
+    .person__school {
+      width: $schoolWidth;
+      margin-right: $dataSpace;
+    }
+
+    .person__waiver {
+      width: $waiverWidth;
+      margin-right: $dataSpace;
+    }
+
+    .person__checkedIn {
+      margin-left: auto;
+      width: $checkWidth;
+      margin-right: $dataSpace;
+      @include circleCheck;
+    }
+
+    .person__onCampus {
+      margin-left: auto;
+      width: $checkWidth;
+      margin-right: $dataSpace;
+      @include circleCheck;
+    }
+
+    .checked {
+      background-color: $green;
+    }
+  }
+
+}

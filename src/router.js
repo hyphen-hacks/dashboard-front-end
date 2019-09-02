@@ -1,53 +1,41 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import roster from './views/roster.vue'
-import person from './views/person.vue'
-import waiver from './views/waiver'
-import login from './views/login'
-import admin from './views/admin'
-import logs from './views/logs'
+import Home from './views/Home.vue'
+import Roster from './views/roster.vue'
+import Login from './views/login.vue'
+import Reset from './views/reset.vue'
+import Developer from './views/developer.vue'
+
 Vue.use(Router)
 
-let router = new Router({
+export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/login',
-      name: 'login',
-      component: login
-    },
-    {
       path: '/',
-      name: 'Roster',
-      component: roster
+      name: 'Home',
+      component: Home
     },
     {
-      path: '/logs',
-      name: 'Logs',
-      component: logs
+      path: '/roster',
+      name: "Roster",
+      component: Roster
     },
     {
-      path: '/p/:personId',
-      name: 'Person',
-      component: person
+      path: '/developer',
+      name: "Developer",
+      component: Developer
     },
     {
-      path: '/w/:personId',
-      name: 'waiver Person',
-      component: waiver
+      path: '/login',
+      name: "Login",
+      component: Login
     },
     {
-      path: '/w/',
-      name: 'Waiver Wizard',
-      component: waiver
-    },
-    {
-      path: '/admin',
-      name: 'admin',
-      component: admin
+      path: '/reset',
+      name: "reset",
+      component: Reset
     }
   ]
 })
-
-export default router;
