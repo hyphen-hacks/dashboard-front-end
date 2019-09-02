@@ -197,7 +197,7 @@
           this.user = user
           const rosterRef = this.$firebase.firestore().collection('people');
           let observer = rosterRef.onSnapshot(docSnapshot => {
-            console.log(docSnapshot);
+            //console.log(docSnapshot);
             let roster = {}
             let rosterArray = []
             docSnapshot.docs.forEach(i => {
