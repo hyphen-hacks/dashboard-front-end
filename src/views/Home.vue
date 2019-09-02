@@ -2,7 +2,8 @@
   <main class="home">
     <loader v-if="loadingData"/>
     <div class="stats-row">
-      <div v-if="headerRow" v-for="item in headerRow" class="card--dark stat-block" :class="{margined: headerRow.indexOf(item) !== 0 && headerRow.indexOf(item) !== 4 }">
+      <div v-if="headerRow" v-for="item in headerRow" class="card--dark stat-block"
+           :class="{margined: headerRow.indexOf(item) !== 0 && headerRow.indexOf(item) !== 4 }">
         <p class="heading">{{item.title}}</p>
         <p class="value">{{item.value}}</p>
       </div>
@@ -131,16 +132,37 @@
               row.forEach(i => {
                 // console.log(i)
                 if (i.type === 'singleStat') {
-                  let params = i.path.split('.')
-                  let value = 0;
-                  if (params.length === 1) {
-                    value = DS.singleStat.get({path: i.path})
+                  let value = 0
+                  let data = 0
+                  let additions = i.path.split(',')
+                  if (additions.length === 1) {
+                    let params = i.path.split('.')
+
+                    if (params.length === 1) {
+                      data = DS.singleStat.get({path: i.path})
+                    } else {
+                      data = DS.textStat.get({path: params[0], value: params[1]})
+                    }
                   } else {
-                    value = DS.textStat.get({path: params[0], value: params[1]})
+                    additions.forEach(a => {
+
+
+                      let params = a.split('.')
+                      //console.log(a,params)
+                      if (params.length === 1) {
+
+                        data += DS.singleStat.get({path: a})
+                      } else {
+                        data += DS.textStat.get({path: params[0], value: params[1]})
+                      }
+
+                    })
                   }
+
+
                   this.headerRow.push({
                     title: i.title,
-                    value: value
+                    value: data
                   })
                 } else if (i.type === 'percent') {
 
