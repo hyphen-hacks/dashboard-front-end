@@ -233,7 +233,7 @@
           // object[prop]
           break;
         }
-        console.log(firstItem)
+        //console.log(firstItem)
         //if (firstItem) {
         if (false) {
           this.chosenPerson = firstItem
