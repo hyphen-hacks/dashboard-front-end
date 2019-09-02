@@ -1,5 +1,6 @@
 <template>
   <main v-if="$parent.user" class="roster">
+    <loader v-if="roster.length < 1" roster="true"/>
     <div class="roster__people">
       <nav class="people__nav">
         <div class="filterRow">
@@ -186,9 +187,10 @@
 
 <script>
   import moment from 'moment'
-
+  import loader from '../components/loader'
   export default {
     name: 'Roster',
+    components: {loader},
     computed: {
       unfilterdRoster() {
         return this.$store.state.roster

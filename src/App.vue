@@ -37,7 +37,8 @@
                    class="link">
         Developer
       </router-link>
-      <div v-if="attendeesApplied" class="counters">
+
+      <div v-if="attendeesApplied" class="counters card--light">
         <h3 class="heading">Applied</h3>
         <p class="stat">Attendees: <span>{{attendeesApplied}}</span></p>
         <p class="stat">Mentors: <span>{{mentorsApplied}}</span></p>

@@ -297,13 +297,17 @@ html, body, #app {
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      margin-top: auto;
+      margin: auto;
+      width: 80%;
+
+
+@include shadow;
 
       .heading {
-        margin-top: 2vh;
+
         font-size: $font-size--heading;
         font-weight: bold;
-        padding-left: $spacing--sides;
+
       }
 
       .stat {
@@ -313,7 +317,7 @@ html, body, #app {
         font-size: $font-size;
 
         text-align: left;
-        padding-left: $spacing--sides;
+
 
 
         text-decoration: none;

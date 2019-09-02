@@ -11,6 +11,7 @@
       <h1 class="card__heading">Header Row Data <span class="red" v-if="unsaved">UNSAVED</span><span class="green"
                                                                                                      v-if="!unsaved">SAVED</span>
       </h1>
+      <p>drag to reorder</p>
       <br>
       <draggable v-model="headerRow.raw" @start="drag=true; unsaved = true" @end="drag=false">
         <div v-for="row in headerRow.raw" class="headerRowItem chartItem">

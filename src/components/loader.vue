@@ -1,5 +1,5 @@
 <template>
-  <div class="loader">
+  <div class="loader" :class="{'rosterLoader': roster == 'true'}">
     <div class="spinner-box">
       <div class="solar-system">
         <div class="earth-orbit orbit">
@@ -18,6 +18,12 @@
     <h1>LOADING</h1>
   </div>
 </template>
+<script>
+  export default {
+    name: 'loader',
+    props: ['roster']
+  }
+</script>
 
 <style lang="css" scoped>
   @keyframes spin {
@@ -76,6 +82,12 @@
       opacity: .25;
       transform: scale(.75);
     }
+  }
+  .loader.rosterLoader {
+    grid-column: 1/3;
+    position: absolute;
+    margin: 0;
+    grid-row: 1/2;
   }
   .loader {
     position: absolute;
