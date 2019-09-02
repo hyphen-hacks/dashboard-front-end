@@ -34,7 +34,7 @@ export default new Vuex.Store({
     },
     volunteersApplied(state) {
       let array = state.rosterArray.filter((i) => {
-        return i.ticket_class_name === 'Volunteer' && i.testApplicant != true
+        return i.ticket_class_name === 'volunteer' && i.testApplicant != true
       })
       return array.length
     },

@@ -92,6 +92,7 @@ $sideInfo: #354054;
 
 }
 
+
 .notReady {
   opacity: 0.5 !important;
 
@@ -148,6 +149,7 @@ $sideInfo: #354054;
   @include card;
   background: $card--focus;
 }
+
 
 html, body, #app {
   width: 100vw;
@@ -216,6 +218,27 @@ html, body, #app {
         margin-left: 2%;
         height: 100%;
 
+      }
+    }
+
+    .searchOptions {
+      position: absolute;
+      width: 100vw;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      right: 0;
+      top: 8vh;
+
+      z-index: 99999;
+
+      .options {
+        width: 50vw;
+        background: $brand--dark;
+        border: 2px $bg solid;
+        border-top: none;
+        padding: 2%;
+        @include shadow;
       }
     }
 
@@ -310,15 +333,85 @@ html, body, #app {
   color: $grey;
   opacity: 1; /* Firefox */
 }
+
 .developer {
   width: 100%;
   padding: 2% 5%;
+  overflow-y: scroll;
+
+  .card--light {
+    margin: 2vh 0;
+  }
+
+  .btn {
+    display: inline;
+    width: 10vw;
+    margin-top: 5px;
+    padding: 1% 0;
+    margin-right: 5px;
+  }
+
+  .black {
+    background: black;
+  }
+
+  .chartItem {
+    width: 100%;
+    padding: 1%;
+    @include rounding;
+    background: $bg;
+    display: flex;
+    align-items: center;
+
+    input {
+      background: $card--input;
+      border: none;
+      padding: 1%;
+      color: white;
+      font-size: 1rem;
+      @include rounding;
+    }
+
+    button {
+      margin-left: auto;
+      font-size: 1rem;
+      padding: 1%;
+      width: 10%;
+    }
+
+    .title {
+      width: 20%;
+    }
+
+    .type {
+      width: 100px;
+    }
+  }
+
+  .headerRowItem {
+    margin: 5px 0;
+
+    input {
+      width: 10vw;
+      margin: 0 10px;
+    }
+
+    input.path {
+      width: 80%;
+    }
+
+    input.pathChart {
+      width: 30vw;
+    }
+  }
 }
+
+
 .home {
   width: 100%;
-  padding: 2% 5%;
+  padding: 2vh 5vw;
   display: grid;
-  grid-template-rows: 10vh 60vh;
+  grid-template-rows: auto 60vh;
   grid-row-gap: 4%;
   grid-column-gap: 2%;
   grid-template-columns: repeat(12, 6.5%);
@@ -329,9 +422,16 @@ html, body, #app {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+
+    .margined {
+
+    }
 
     .stat-block {
-      width: 18%;
+      width: 24%;
+      height: 10vh;
+
 
       .heading {
         color: $grey;
@@ -394,12 +494,16 @@ html, body, #app {
   .stats {
     grid-column: 5/13;
     overflow-y: scroll;
+
     .chartItem {
       margin: 5% 0 5% 0;
+
     }
+
     canvas {
       margin: 1% 0 2% 0;
     }
+
     .secondaryHeading {
       font-size: 14px;
       font-weight: lighter;
@@ -560,10 +664,12 @@ html, body, #app {
     }
   }
 
+  $navHeight: 10vh;
+
   .roster__people {
     display: flex;
     flex-direction: column;
-    padding-top: 12vh;
+    padding-top: ($navHeight + 2vh);
     overflow: scroll !important;
     padding-left: 3vw;
     padding-right: 3vw;
@@ -577,16 +683,34 @@ html, body, #app {
   $dataSpace: 1%;
 
   .people__nav {
-    margin-top: -12vh;
+    margin-top: -($navHeight + 2vh);
     margin-left: -3vw;
     display: flex;
+    flex-direction: column;
     width: 60vw;
     @include shadow;
-    height: 10vh;
+    height: $navHeight;
     position: fixed;
     background: $bg;
-    align-items: flex-end;
+    align-items: flex-start;
+    justify-content: flex-end;
     padding: 1% 3vw 1% 5vw;
+
+    .filterRow {
+      select {
+        margin-left: 10px;
+      }
+    }
+
+
+    .items {
+      margin-top: auto;
+      display: flex;
+      width: 100%;
+
+      align-items: flex-end;
+
+    }
 
     .nav__name {
       width: $nameWidth;

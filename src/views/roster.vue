@@ -2,21 +2,35 @@
   <main v-if="$parent.user" class="roster">
     <div class="roster__people">
       <nav class="people__nav">
-        <p class="nav__name">Name</p>
-        <p class="nav__role">Role</p>
-        <p class="nav__school">School/Work</p>
-        <p class="nav__waiver">Waiver</p>
-        <p class="nav__checkedIn">Checked In</p>
-        <p class="nav__onCampus">On Campus</p>
+        <div class="filterRow">
+          Filter:
+          <select v-model="filterOption" name="" id="">
+            <option value="dateApplied">Date Applied</option>
+            <option value="waiverStatus">Waiver Status</option>
+          </select>
+          <select v-model="orderOption" name="" id="">
+            <option value="1">Descending</option>
+            <option value="0">Ascending</option>
+          </select>
+        </div>
+        <div class="items"><p class="nav__name">Name</p>
+          <p class="nav__role">Role</p>
+          <p class="nav__school">School/Work</p>
+          <p class="nav__waiver">Waiver</p>
+          <p class="nav__checkedIn">Checked In</p>
+          <p class="nav__onCampus">On Campus</p></div>
+
       </nav>
       <div @click="choosePerson(person)" :key="person.id" v-for="person in roster "
            :class="{chosen: chosenPerson === person.id}" class="person">
         <p class="person__name">{{person.name}}</p>
         <p v-if="person.ticket_class_name === 'High school Student'" class="person__role">Attendee</p>
         <p v-if="person.ticket_class_name === 'Mentor/Judge'" class="person__role">Mentor</p>
+        <p v-if="person.ticket_class_name === 'volunteer'" class="person__role">Volunteer</p>
         <p v-if="person.ticket_class_name === 'High school Student'" class="person__school">
           {{person.answers[1].answer}}</p>
         <p v-if="person.ticket_class_name === 'Mentor/Judge'" class="person__school">{{person.answers[15].answer}}</p>
+        <p v-if="person.ticket_class_name === 'volunteer'" class="person__school">na</p>
         <p :class="waiverStatusColor(person.waiverStatus)" class="person__waiver">
           {{waiverStatus(person.waiverStatus)}}</p>
         <div class="person__checkedIn" @click="toggleCheck({id: person.id, value: 'checkedIn'})"
@@ -33,10 +47,12 @@
             {{unfilterdRoster[chosenPerson].answers[1].answer}}, {{unfilterdRoster[chosenPerson].answers[0].answer}}</p>
           <p v-if="unfilterdRoster[chosenPerson].ticket_class_name === 'Mentor/Judge'" class="nameRow__school">
             {{unfilterdRoster[chosenPerson].answers[15].answer}}</p>
+
         </div>
         <p v-if="unfilterdRoster[chosenPerson].ticket_class_name === 'High school Student'" class="person__role">
           Attendee</p>
         <p v-if="unfilterdRoster[chosenPerson].ticket_class_name === 'Mentor/Judge'" class="person__role">Mentor</p>
+        <p v-if="unfilterdRoster[chosenPerson].ticket_class_name === 'volunteer'" class="person__role">Volunteer</p>
       </div>
       <div class="info__statusButtons">
         <button @click="toggleCheck({id: chosenPerson, value: 'checkedIn'})" class="statusButtons__checkmark">Checked In
@@ -70,7 +86,8 @@
         <p class="info__data">Race/Ethnicity: <span
             class="info__data__value">{{unfilterdRoster[chosenPerson].answers[3].answer}}</span></p>
         <p class="info__data">Gender: <span class="info__data__value">{{unfilterdRoster[chosenPerson].answers[4].answer}}</span>
-        <p class="info__data">Birthday: <span class="info__data__value">{{unfilterdRoster[chosenPerson].birth_date}}</span>
+        <p class="info__data">Birthday: <span
+            class="info__data__value">{{unfilterdRoster[chosenPerson].birth_date}}</span>
 
         </p>
       </details>
@@ -101,6 +118,16 @@
         <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[21].answer}}</p>
         <p class="info__data">Do you have a team:</p>
         <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[22].answer}}</p>
+        <p class="info__data">How did you hear about us:</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[23].answer}}</p>
+      </details>
+      <details v-if="unfilterdRoster[chosenPerson].ticket_class_name === 'volunteer'" class="info__card">
+        <summary>Profile</summary>
+
+        <p class="info__data">Laptop:</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[21].answer}}</p>
+        <p class="info__data">Connection to hyphen-hacks:</p>
+        <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[24].answer}}</p>
         <p class="info__data">How did you hear about us:</p>
         <p class="info__data__value">{{unfilterdRoster[chosenPerson].answers[23].answer}}</p>
       </details>
@@ -158,6 +185,8 @@
 </template>
 
 <script>
+  import moment from 'moment'
+
   export default {
     name: 'Roster',
     computed: {
@@ -167,6 +196,7 @@
       roster() {
         let roster = this.unfilterdRoster
         let filteredRoster = {}
+        let arrayRoster = []
         if (this.$parent.search) {
 
           for (let key in roster) {
@@ -174,32 +204,67 @@
               if (roster[key].answers[1].answer) {
                 if (roster[key].email.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].name.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].profile.cell_phone.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].answers[1].answer.toLowerCase().includes(this.$parent.search.toLowerCase())) {
                   filteredRoster[key] = roster[key]
+                  arrayRoster.push(roster[key])
                 }
               } else {
                 if (roster[key].email.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].name.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].profile.cell_phone.toLowerCase().includes(this.$parent.search.toLowerCase())) {
                   filteredRoster[key] = roster[key]
+                  arrayRoster.push(roster[key])
                 }
               }
 
             }
+
           }
-          let firstItem
-          for (firstItem in filteredRoster) {
-            // object[prop]
-            break;
-          }
-          //console.log(firstItem)
-          if (firstItem) {
-            this.chosenPerson = firstItem
-          } else {
-            this.chosenPerson = null
-          }
+
 
         } else {
           filteredRoster = roster
+          for (let key in roster) {
+            if (roster.hasOwnProperty(key)) {
+              arrayRoster.push(roster[key])
+            }
+          }
+        }
+        let firstItem
+        for (firstItem in filteredRoster) {
+          // object[prop]
+          break;
+        }
+        console.log(firstItem)
+        //if (firstItem) {
+        if (false) {
+          this.chosenPerson = firstItem
+        } else {
+          this.chosenPerson = null
         }
 
-        return filteredRoster
+        arrayRoster = arrayRoster.sort((a, b) => {
+          let paramA, paramB
+          if (this.filterOption === 'dateApplied') {
+            // console.log(a.created, b.created)
+            paramA = moment(a.created).unix()
+            paramB = moment(b.created).unix()
+
+          } else if (this.filterOption === 'waiverStatus') {
+            // console.log(a.created, b.created)
+            paramA = a.waiverStatus
+            paramB = b.waiverStatus
+
+          } else {
+            paramA = 1
+            paramB = 0
+
+          }
+          if (this.orderOption === '0') {
+            return paramA - paramB
+          } else {
+            return paramB - paramA
+          }
+
+        })
+
+        return arrayRoster
       },
 
     },
@@ -207,7 +272,9 @@
       return {
         chosenPerson: false,
         chosenPersonWaiver: false,
-        pdf: false
+        pdf: false,
+        filterOption: 'dateApplied',
+        orderOption: '0'
       }
     },
     mounted() {

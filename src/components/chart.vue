@@ -20,7 +20,7 @@
     },
     mounted() {
       const ctx = document.getElementById(this.id).getContext('2d');
-      if (this.input.type === 'line') {
+      if (this.input.type === 'scatter') {
         new Chart(ctx, {
           type: 'scatter',
           data: {
@@ -49,8 +49,8 @@
                   max: this.input.end,
                   callback: (value, index, values) => {
                     const indexLabel = Math.round((index / values.length) * (this.input.labels.length))
-                    console.log(this.input.end)
-                    console.log(indexLabel, this.input.labels[indexLabel], moment(value).format('MMM'), moment.unix(this.input.end).format('MMM d'))
+                 //  console.log(this.input.end)
+                  //  console.log(indexLabel, this.input.labels[indexLabel], moment(value).format('MMM'), moment.unix(this.input.end).format('MMM d'))
 
                     return moment.unix(value).format('MMM D')
 
