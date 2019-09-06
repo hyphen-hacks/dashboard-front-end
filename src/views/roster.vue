@@ -276,7 +276,7 @@
         chosenPersonWaiver: false,
         pdf: false,
         filterOption: 'dateApplied',
-        orderOption: '0'
+        orderOption: '1'
       }
     },
     mounted() {

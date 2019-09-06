@@ -5,6 +5,7 @@ import Roster from './views/roster.vue'
 import Login from './views/login.vue'
 import Reset from './views/reset.vue'
 import Developer from './views/developer.vue'
+import Emails from './views/emails'
 
 Vue.use(Router)
 
@@ -26,6 +27,10 @@ export default new Router({
       path: '/developer',
       name: "Developer",
       component: Developer
+    }, {
+      path: '/emails',
+      name: "Emails",
+      component: Emails
     },
     {
       path: '/login',
