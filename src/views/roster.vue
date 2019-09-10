@@ -8,6 +8,9 @@
           <select v-model="filterOption" name="" id="">
             <option value="dateApplied">Date Applied</option>
             <option value="waiverStatus">Waiver Status</option>
+            <option value="attendees">Attendees</option>
+            <option value="mentors">Mentors</option>
+            <option value="volunteers">Volunteers</option>
           </select>
           <select v-model="orderOption" name="" id="">
             <option value="1">Descending</option>
@@ -265,6 +268,19 @@
           }
 
         })
+        if (this.filterOption === 'attendees') {
+          arrayRoster = arrayRoster.filter(i => {
+            return i.ticket_class_name === 'High school Student';
+          })
+        } else  if (this.filterOption === 'mentors') {
+          arrayRoster = arrayRoster.filter(i => {
+            return i.ticket_class_name === 'Mentor/Judge';
+          })
+        } else  if (this.filterOption === 'volunteers') {
+          arrayRoster = arrayRoster.filter(i => {
+            return i.ticket_class_name === 'volunteer';
+          })
+        }
 
         return arrayRoster
       },
