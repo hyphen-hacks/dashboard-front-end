@@ -31,7 +31,7 @@
     <nav v-if="user" id="sideNav">
       <router-link to="/" :class="{'active': $route.name === 'Home'}" class="link">Home</router-link>
       <router-link to="/roster" :class="{'active': $route.name === 'Roster'}" class="link">Roster</router-link>
-      <router-link to="/emails" :class="{'active': $route.name === 'Emails'}" class="link">Emails</router-link>
+      <router-link to="/emails" :class="{'active': $route.name === 'Emails'}" class="link">Admin</router-link>
       <router-link v-if="settingsReady" to="/" :class="{'active': $route.name === 'Settings'}" class="link">Settings
       </router-link>
 

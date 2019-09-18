@@ -336,18 +336,39 @@ html, body, #app {
   color: $grey;
   opacity: 1; /* Firefox */
 }
+
 .pageHeading {
   font-size: 5vw;
   font-weight: bold;
 }
+
 .pageDesc {
   margin-top: 1%;
   margin-bottom: 3%;
 }
+
 .developer {
   width: 100%;
   padding: 2% 5%;
   overflow-y: scroll;
+
+  .link {
+    color: white;
+  }
+
+  .downloading {
+    position: absolute;
+    width: 85vw;
+    height: 100%;
+    background: #1B2332;
+    margin-top: -1vh;
+    margin-left: -7vh;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 
   .card--light {
     margin: 2vh 0;
@@ -356,11 +377,13 @@ html, body, #app {
   .emails__input {
     width: 100%;
     margin-top: 2%;
-   transition-duration: 0.25s;
+    transition-duration: 0.25s;
+
     &:hover {
       opacity: 0.6;
     }
   }
+
   .emails__desc {
     font-size: 0.8rem;
     font-weight: lighter;
@@ -534,10 +557,12 @@ html, body, #app {
 
   }
 }
+
 .secondaryHeading {
   font-size: 14px;
   font-weight: lighter;
 }
+
 .roster {
   display: grid;
   grid-template-columns: auto 25vw;

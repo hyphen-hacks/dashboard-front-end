@@ -1,9 +1,25 @@
 <template>
   <main class="developer">
     <loader v-if="attendeeEmails.length < 1"></loader>
+    <div v-if="downloading" class="downloading">
+      <h1>Downloading, Please Don't Close this Window</h1>
+
+      <p>This is very much a beta feature expect long load times. If something breaks please immediately email Ronan @
+        <a class="link" href="mailto:ronan.furuta@hyphen-hacks.com">ronan.furuta@hyphen-hacks.com</a></p>
+    </div>
+    <div class="card--light">
+      <h1 class="card__heading">Download Completed Waivers</h1>
+      <br>
+      <p>This is still very much a beta feature expect long load times. If something breaks please immediately email
+        Ronan @
+        <a class="link" href="mailto:ronan.furuta@hyphen-hacks.com">ronan.furuta@hyphen-hacks.com</a></p>
+      <button class="btn" @click="downloadWaivers">Download</button>
+    </div>
     <h1 class="pageHeading">Emails</h1>
-    <p class="pageDesc">Welcome to the emails page. The emails on this page are updated in realtime from each of their respected ticket
-      types. <br><b class="red">Please try to not use these emails. Instead, ask Ronan to send "branded" emails from Sendgrid</b></p>
+    <p class="pageDesc">Welcome to the emails page. The emails on this page are updated in realtime from each of their
+      respected ticket
+      types. <br><b class="red">Please try to not use these emails. Instead, ask Ronan to send "branded" emails from
+        Sendgrid</b></p>
     <div class="card--light">
       <h1 class="card__heading">Mentor Emails <span class="secondaryHeading">({{mentorEmails.length}})</span></h1>
 
@@ -57,6 +73,7 @@
     data() {
       return {
         loadingData: true,
+        downloading: false
       }
     },
     mounted() {
@@ -67,6 +84,34 @@
 
     },
     methods: {
+      download(i) {
+        let element = document.createElement('a');
+        element.setAttribute('href', i);
+        element.setAttribute('download', 'completedWaivers.zip');
+        element.setAttribute('target', '_blank');
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+      },
+      downloadWaivers() {
+        this.downloading = true;
+        fetch('https://api.hyphen-hacks.com/api/v2/getCompletedWaivers', {
+          headers: {
+            authorization: this.$parent.apiKey
+          }
+        }).then(res => res.json()).then(res => {
+          //console.log(res)
+          this.$firebase.storage().ref('private/completedWaivers.zip').getDownloadURL().then(i => {
+            this.download(i)
+            this.downloading = false;
+          })
+
+        })
+      },
+
       copy(id) {
         console.log('coppying')
         let elm = document.getElementById(id)
@@ -83,7 +128,6 @@
       },
       allEmails() {
         if (this.roster) {
-
 
 
           let mapped = this.roster.map(a => {
