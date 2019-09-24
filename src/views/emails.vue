@@ -3,7 +3,7 @@
     <loader v-if="attendeeEmails.length < 1"></loader>
     <div v-if="downloading" class="downloading">
       <h1>Downloading, Please Don't Close this Window</h1>
-
+      <h2>{{downloadingText}}</h2>
       <p>This is very much a beta feature expect long load times. If something breaks please immediately email Ronan @
         <a class="link" href="mailto:ronan.furuta@hyphen-hacks.com">ronan.furuta@hyphen-hacks.com</a></p>
     </div>
@@ -13,7 +13,7 @@
       <p>This is still very much a beta feature expect long load times. If something breaks please immediately email
         Ronan @
         <a class="link" href="mailto:ronan.furuta@hyphen-hacks.com">ronan.furuta@hyphen-hacks.com</a></p>
-      <button class="btn" @click="downloadWaivers">Download</button>
+      <button class="btn" @click="downloadWaiversVTwo">Download</button>
     </div>
     <h1 class="pageHeading">Emails</h1>
     <p class="pageDesc">Welcome to the emails page. The emails on this page are updated in realtime from each of their
@@ -73,7 +73,8 @@
     data() {
       return {
         loadingData: true,
-        downloading: false
+        downloading: false,
+        downloadingText: 'Initializing Download Process...'
       }
     },
     mounted() {
@@ -95,6 +96,12 @@
         element.click();
 
         document.body.removeChild(element);
+        this.$swal({
+          title: "SUCCESS",
+          text: `Waivers are being downloaded`,
+          icon: "success",
+          dangerMode: true,
+        })
       },
       downloadWaivers() {
         this.downloading = true;
@@ -109,6 +116,60 @@
             this.downloading = false;
           })
 
+        })
+      },
+      downloadWaiversVTwo() {
+        this.downloading = true;
+        fetch('https://api.hyphen-hacks.com/api/v3/getCompletedWaivers', {
+          headers: {
+            authorization: this.$parent.apiKey
+          }
+        }).then(res => {
+          const reader = res.body.getReader();
+          const decoder = new TextDecoder();
+          let process = (result) => {
+            if (result.done) return;
+            const text = decoder.decode(result.value, {stream: true});
+            console.log(text);
+
+            let jsonResult = JSON.parse(text)
+            if (jsonResult.error) {
+              this.downloading = false
+              this.$swal({
+                title: "ERROR",
+                text: `Error downloading waivers ${jsonResult.error}`,
+                icon: "warning",
+                dangerMode: true,
+              })
+              return;
+            }
+            if (jsonResult.status) {
+              console.log(jsonResult.status)
+              this.downloadingText = jsonResult.status
+            }
+            if (jsonResult.success) {
+              this.downloadingText = 'Getting Download Reference'
+              this.$firebase.storage().ref('private/completedWaivers.zip').getDownloadURL().then(i => {
+                this.download(i)
+                this.downloading = false;
+              })
+            }
+
+
+            return reader.read().then(process);
+          }
+          reader.read().then(process).then(() => {
+            console.log('All done!');
+          });
+        }).catch(e => {
+          this.downloading = false
+          console.log(e)
+          this.$swal({
+            title: "ERROR",
+            text: "Error downloading waivers",
+            icon: "warning",
+            dangerMode: true,
+          })
         })
       },
 

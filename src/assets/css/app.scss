@@ -358,16 +358,24 @@ html, body, #app {
 
   .downloading {
     position: absolute;
-    width: 85vw;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background: #1B2332;
-    margin-top: -1vh;
-    margin-left: -7vh;
+    top: 0;
+    left: 0;
     z-index: 99999;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    h1 {
+      font-size: 3vw;
+    }
+    h2 {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
   }
 
   .card--light {
