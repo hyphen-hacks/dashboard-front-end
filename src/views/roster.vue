@@ -1,6 +1,6 @@
 <template>
   <main v-if="$parent.user" class="roster">
-    <loader v-if="roster.length < 1" roster="true"/>
+    <loader v-if="unfilterdRoster.length < 1" roster="true"/>
     <div class="roster__people">
       <nav class="people__nav">
         <div class="filterRow">
