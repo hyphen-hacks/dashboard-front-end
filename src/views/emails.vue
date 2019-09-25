@@ -98,7 +98,7 @@
         document.body.removeChild(element);
         this.$swal({
           title: "SUCCESS",
-          text: `Waivers are being downloaded`,
+          text: `Waivers are being downloaded. Make sure you allow popups`,
           icon: "success",
           dangerMode: true,
         })
