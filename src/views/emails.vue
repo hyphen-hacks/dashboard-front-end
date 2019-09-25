@@ -131,8 +131,15 @@
             if (result.done) return;
             const text = decoder.decode(result.value, {stream: true});
             console.log(text);
-
-            let jsonResult = JSON.parse(text)
+            let jsonResult
+            try {
+              jsonResult = JSON.parse(text)
+            } catch {
+              let arrayJSON = text.split('}')
+              let lastStatement = arrayJSON[arrayJSON.length - 2] + "}"
+              console.log(arrayJSON, lastStatement)
+              jsonResult = JSON.parse(lastStatement)
+            }
             if (jsonResult.error) {
               this.downloading = false
               this.$swal({
