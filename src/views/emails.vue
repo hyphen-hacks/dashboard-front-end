@@ -74,6 +74,7 @@
       return {
         loadingData: true,
         downloading: false,
+        md5Hash: '',
         downloadingText: 'Initializing Download Process...'
       }
     },
@@ -85,7 +86,7 @@
 
     },
     methods: {
-      download(i) {
+      download(i, downloadInfo) {
         let element = document.createElement('a');
         element.setAttribute('href', i);
         element.setAttribute('download', 'completedWaivers.zip');
@@ -98,7 +99,7 @@
         document.body.removeChild(element);
         this.$swal({
           title: "SUCCESS",
-          text: `Waivers are being downloaded. Make sure you allow popups`,
+          text: `Waivers are being downloaded. Make sure you allow popups. MD5 Hash: ${downloadInfo.md5Hash}`,
           icon: "success",
           dangerMode: true,
         })
@@ -157,7 +158,7 @@
             if (jsonResult.success) {
               this.downloadingText = 'Getting Download Reference'
               this.$firebase.storage().ref('private/completedWaivers.zip').getDownloadURL().then(i => {
-                this.download(i)
+                this.download(i, jsonResult.uploaded)
                 this.downloading = false;
               })
             }
