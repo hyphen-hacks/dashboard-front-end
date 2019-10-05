@@ -253,8 +253,18 @@
 
           } else if (this.filterOption === 'waiverStatus') {
             // console.log(a.created, b.created)
-            paramA = a.waiverStatus
-            paramB = b.waiverStatus
+            if (a.waiverStatus === 2) {
+              paramA = 5
+            } else {
+              paramA = a.waiverStatus
+            }
+            if (b.waiverStatus === 2) {
+              paramB = 5
+            } else {
+              paramB = b.waiverStatus
+            }
+
+
 
           } else {
             paramA = 1

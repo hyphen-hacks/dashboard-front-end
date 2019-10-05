@@ -19,7 +19,6 @@
             <option value="singleStat">Single Stat</option>
             <option value="percent">Percent</option>
             <option value="bestTextStat">Best textStat</option>
-
           </select>
           <input class="title" @keypress="unsaved = true" v-model="row.title" type="text" placeholder="Title">
           <input @keypress="unsaved = true" class="path" v-model="row.path" type="text" placeholder="path(s)">
@@ -79,7 +78,8 @@
         headerRow: false,
         chartData: [],
         unsaved: false,
-        unsavedChart: false
+        unsavedChart: false,
+        waiverDownloadUrl: ''
 
       }
     },
