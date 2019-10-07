@@ -6,6 +6,8 @@ import Login from './views/login.vue'
 import Reset from './views/reset.vue'
 import Developer from './views/developer.vue'
 import Emails from './views/emails'
+import AppControls from './views/appControls'
+import schedule from './views/schedule'
 
 Vue.use(Router)
 
@@ -41,6 +43,16 @@ export default new Router({
       path: '/reset',
       name: "reset",
       component: Reset
+    },
+    {
+      path: '/notifications',
+      name: "notifications",
+      component: AppControls
+    },
+    {
+      path: '/schedule',
+      name: "schedule",
+      component: schedule
     }
   ]
 })

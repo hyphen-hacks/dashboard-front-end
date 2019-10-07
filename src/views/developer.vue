@@ -6,7 +6,11 @@
       <p>THIS PAGE LOOKS BAD CUZ YOUR NOT SUPPOSED TO WANT TO EDIT IT</p>
       <p>MAKE SURE U HAVE CHECKED ALL STUFF BEFORE YOU SAVE IT</p>
     </div>
-
+<div class="card--light">
+  <h1 class="card__heading">Developer info</h1>
+  <br>
+  <p>API Key: {{$parent.apiKey}}</p>
+</div>
     <div class="card--light">
       <h1 class="card__heading">Header Row Data <span class="red" v-if="unsaved">UNSAVED</span><span class="green"
                                                                                                      v-if="!unsaved">SAVED</span>

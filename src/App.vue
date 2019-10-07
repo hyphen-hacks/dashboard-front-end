@@ -31,7 +31,10 @@
     <nav v-if="user" id="sideNav">
       <router-link to="/" :class="{'active': $route.name === 'Home'}" class="link">Home</router-link>
       <router-link to="/roster" :class="{'active': $route.name === 'Roster'}" class="link">Roster</router-link>
+      <router-link to="/notifications" :class="{'active': $route.name === 'notifications'}" class="link">Notifications</router-link>
+      <router-link to="/schedule" :class="{'active': $route.name === 'schedule'}" class="link">Schedule</router-link>
       <router-link to="/emails" :class="{'active': $route.name === 'Emails'}" class="link">Admin</router-link>
+
       <router-link v-if="settingsReady" to="/" :class="{'active': $route.name === 'Settings'}" class="link">Settings
       </router-link>
 
@@ -41,10 +44,6 @@
       </router-link>
 
       <div v-if="attendeesApplied" class="counters card--light">
-        <h3 class="heading">Applied</h3>
-        <p class="stat">Attendees: <span>{{attendeesApplied}}</span></p>
-        <p class="stat">Mentors: <span>{{mentorsApplied}}</span></p>
-        <p class="stat">Volunteers: <span>{{volunteersApplied}}</span></p>
 
         <h3 class="heading">Checked In</h3>
         <p class="stat">Attendees: <span>{{attendeesCheckedIn}}</span></p>
@@ -56,10 +55,6 @@
         <p class="stat">Mentors: <span>{{mentorsOnCampus}}</span></p>
         <p class="stat">Volunteers: <span>{{volunteersOnCampus}}</span></p>
 
-        <h3 class="heading">Waivers</h3>
-        <p class="stat">Attendees: <span>{{attendeesWaivers}}%</span></p>
-        <p class="stat">Mentors: <span>{{mentorsWaivers}}%</span></p>
-        <p class="stat">Volunteers: <span>{{volunteersWaivers}}%</span></p>
 
       </div>
     </nav>
