@@ -219,95 +219,111 @@
           labels: [],
           datasets: [{
             data: [],
-            label: 'Attendees',
-            borderColor: "#3e95cd",
+            label: 'Attendees (Diff scale)',
+            borderColor: "#f6e58d",
             fill: false,
-            yAxisID: "B"
+            yAxisID: "B",
+            lineTension: 0
           },
             {
               data: [],
               label: 'Attendees On Campus',
-              borderColor: "#8e5ea2",
+              borderColor: "#ffbe76",
               fill: false,
-              yAxisID: "A"
+              yAxisID: "A",
+              lineTension: 0
             },
             {
               data: [],
               label: 'Attendees Checked In',
-              borderColor: "#3cba9f",
+              borderColor: "#ff7979",
               fill: false,
-              yAxisID: "A"
+              yAxisID: "A",
+              lineTension: 0
             }, {
               data: [],
               label: 'Mentors',
-              borderColor: "#1abc9c",
+              borderColor: "#badc58",
               fill: false,
-              yAxisID: "A"
+              yAxisID: "A",
+              lineTension: 0
             },
             {
               data: [],
               label: 'Mentors On Campus',
-              borderColor: "#2ecc71",
+              borderColor: "#dff9fb",
               fill: false,
-              yAxisID: "A"
+              yAxisID: "A",
+              lineTension: 0
             },
             {
               data: [],
               label: 'Mentors Checked In',
-              borderColor: "#3498db",
+              borderColor: "#7ed6df",
               fill: false,
-              yAxisID: "A"
+              yAxisID: "A",
+              lineTension: 0
             },
             {
               data: [],
               label: 'Volunteers',
-              borderColor: "#3e95cd",
+              borderColor: "#e056fd",
               fill: false,
-              yAxisID: "A"
+              yAxisID: "A",
+              lineTension: 0
             },
             {
               data: [],
               label: 'Volunteers On Campus',
-              borderColor: "#9b59b6",
+              borderColor: "#686de0",
               fill: false,
-              yAxisID: "A"
+              yAxisID: "A",
+              lineTension: 0
             },
             {
               data: [],
               label: 'Volunteers Checked In',
-              borderColor: "#e74c3c",
+              borderColor: "#95afc0",
               fill: false,
-              yAxisID: "A"
+              yAxisID: "A",
+              lineTension: 0
             },
             {
               data: [],
               label: 'Waivers Completed',
               borderColor: "#e67e22",
               fill: false,
-              yAxisID: "A"
+              yAxisID: "A",
+              lineTension: 0
             }]
         }
+        let minValue = 1222123123123123123123203948;
+        let maxValue = 0;
         snap.forEach(time => {
           //analyticsData.push(time.data())
           const data = time.data()
-         // console.log(data.timeStamp, moment.unix(data.timeStamp).toObject(), new Date(data.timeStamp).toLocaleString())
+          // console.log(data.timeStamp, moment.unix(data.timeStamp).toObject(), new Date(data.timeStamp).toLocaleString())
           analyticsData.labels.push(moment.unix(data.timeStamp).format('dddd, MMMM Do YYYY, h:mm:ss a'))
           //const timeToUse = moment.unix(data.timeStamp).toDate()
-          const timeToUse = new Date(data.timeStamp)
-          console.log(timeToUse, 'time to use')
+          const timeToUse = new Date(moment.unix(data.timeStamp).toDate())
+          if (data.timeStamp < minValue) {
+            minValue = data.timeStamp
+           // console.log(minValue, 'new min')
+          }
+         // console.log(timeToUse, 'time to use')
           analyticsData.datasets[0].data.push({t: timeToUse, y: data.attendees.total})
-          //analyticsData.datasets[1].data.push({t: timeToUse, y: data.attendees.onCampus})
-          //analyticsData.datasets[2].data.push({t: timeToUse, y: data.attendees.checkedIn})
-         // analyticsData.datasets[3].data.push({t: timeToUse, y: data.mentors.total})
-         // analyticsData.datasets[4].data.push({t: timeToUse, y: data.mentors.onCampus})
-         // analyticsData.datasets[5].data.push({t: timeToUse, y: data.mentors.checkedIn})
-         // analyticsData.datasets[6].data.push({t: timeToUse, y: data.volunteers.total})
-         /// analyticsData.datasets[7].data.push({t: timeToUse, y: data.volunteers.onCampus})
-        ///  analyticsData.datasets[8].data.push({t: timeToUse, y: data.volunteers.checkedIn})
-        //  analyticsData.datasets[9].data.push({
-          //  t: timeToUse,
-          //  y: (data.attendees.waiversComplete + data.volunteers.waiversComplete + data.mentors.waiversComplete)
-         // })
+          analyticsData.datasets[1].data.push({t: timeToUse, y: data.attendees.onCampus})
+          analyticsData.datasets[2].data.push({t: timeToUse, y: data.attendees.checkedIn})
+          analyticsData.datasets[3].data.push({t: timeToUse, y: data.mentors.total})
+          analyticsData.datasets[4].data.push({t: timeToUse, y: data.mentors.onCampus})
+          analyticsData.datasets[5].data.push({t: timeToUse, y: data.mentors.checkedIn})
+          analyticsData.datasets[6].data.push({t: timeToUse, y: data.volunteers.total})
+          analyticsData.datasets[7].data.push({t: timeToUse, y: data.volunteers.onCampus})
+          analyticsData.datasets[8].data.push({t: timeToUse, y: data.volunteers.checkedIn})
+          analyticsData.datasets[9].data.push({
+            t: timeToUse,
+            y: (data.attendees.waiversComplete + data.volunteers.waiversComplete + data.mentors.waiversComplete)
+          })
           /*analyticsData.datasets[0].data.push({x: data.timeStamp, y: data.attendees.total})
           analyticsData.datasets[1].data.push({x: data.timeStamp, y: data.attendees.onCampus})
           analyticsData.datasets[2].data.push({x: data.timeStamp, y: data.attendees.checkedIn})
@@ -323,7 +339,7 @@
           })*/
 
         })
-        console.log(analyticsData)
+        //console.log(analyticsData, minValue)
         const ctx = document.getElementById('eventAnalyticsChart').getContext('2d');
         eventAnalyticsChart = new Chart(ctx, {
           type: 'line',
@@ -362,7 +378,10 @@
               xAxes: [{
                 type: 'time',
                 time: {
-                //  unit: 'hour'
+                  //unit: "day",
+                  distribution: "linear",
+                  bounds: 'data',
+                  min: moment.unix(minValue).toDate()
                 }
               }],
               yAxes: [{
