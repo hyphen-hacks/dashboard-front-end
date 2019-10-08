@@ -612,20 +612,25 @@ html, body, #app {
       height: 77vh;
       display: flex;
       flex-direction: column;
+
       .input {
         width: 100%;
         margin-bottom: 5%;
         margin-top: 1%;
       }
+
       label {
         display: flex;
+
         span {
           margin-left: auto;
         }
       }
+
       button {
         margin-top: auto;
       }
+
       textarea {
         height: 100%;
       }
@@ -789,6 +794,8 @@ html, body, #app {
     align-items: flex-start;
     justify-content: flex-end;
     padding: 1% 3vw 1% 5vw;
+
+
 
     .filterRow {
       select {

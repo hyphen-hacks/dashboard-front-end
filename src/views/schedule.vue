@@ -20,20 +20,22 @@
         <p class="person__location">{{item.data.location}}</p>
 
       </div>
+      <button class="btn" @click="createNew">New</button>
     </div>
     <div v-if="selectedItem" class="roster__info">
       <div class="info__nameRow">
         <div class="nameRow__nameContainer">
-          <h1 class="nameRow__name">Opening Ceremony</h1>
+          <h1 class="nameRow__name">{{selectedItem.data.title}}</h1>
 
-          <p class="nameRow__school">Sat, 10:00am to Sat, 11:00am in Gym</p>
+          <p class="nameRow__school">{{parseTime(selectedItem.data.startTime)}} <span v-if="selectedItem.data.endTime">to {{parseTime(selectedItem.data.endTime)}}</span>
+            <span v-if="selectedItem.data.location"> in {{selectedItem.data.location}}</span></p>
 
 
         </div>
 
       </div>
       <br>
-      <form class="scheduleDetails" @submit.prevent="saveSchedule">
+      <form class="scheduleDetails" @submit.prevent="saveSchedule(selectedItem.id,selectedItem.data)">
         <label for="scheduleTitle">Title</label>
         <input class="input" id="scheduleTitle" type="text" placeholder="Title" v-model="selectedItem.data.title">
         <label for="scheduleStart">Start Time (ex. 2019-10-12 09:30) <span class="green">Valid</span></label>
@@ -52,10 +54,8 @@
         <label for="scheduleDesc">Description</label>
         <textarea class="input" id="scheduleDesc" placeholder="Description"
                   v-model="selectedItem.data.description"></textarea>
-        <button type="submit" class="btn"
-                :class="{grey: JSON.stringify(this.selectedItem.data) === JSON.stringify(this.scheduleJSON[this.selectedItem.id])}"
-                :disabled="JSON.stringify(this.selectedItem.data) === JSON.stringify(this.scheduleJSON[this.selectedItem.id])">
-          {{saved}}
+        <button type="submit" class="btn" v-if="needToSave">
+          save
         </button>
       </form>
 
@@ -82,12 +82,15 @@
         loadingData: true,
         schedule: [],
         scheduleJSON: {},
-        selectedItem: false
+        selectedItem: false,
+
 
       }
     },
     computed: {
-
+      needToSave() {
+        return JSON.stringify(this.selectedItem.data) !== JSON.stringify(this.scheduleJSON[this.selectedItem.id])
+      },
       saved() {
         if (JSON.stringify(this.selectedItem.data) === JSON.stringify(this.scheduleJSON[this.selectedItem.id])) {
           return 'saved'
@@ -111,7 +114,7 @@
         })
 
         function compare(a, b) {
-          console.log(a,b)
+          console.log(a, b)
           let aStart = moment(a.data.startTime).unix()
           let bStart = moment(b.data.startTime).unix()
           console.log(aStart, a.data.startTime, bStart)
@@ -128,8 +131,23 @@
 
     },
     methods: {
-      saveSchedule() {
-        this.$firebase.firestore().collection('schedule').doc(this.selectedItem.id).set(this.selectedItem.data)
+      createNew() {
+        const id = String.fromCharCode(65 + Math.floor(Math.random() * 26)) + Date.now()
+        console.log('new', id)
+        this.schedule.push({id: id, data: {}})
+        this.scheduleJSON[id] = {}
+        this.selectedItem = {
+          id: id, data: {}
+        }
+
+      },
+      saveSchedule(id, data) {
+
+        this.$firebase.firestore().collection('schedule').doc(id).set(data).then(e => {
+          this.scheduleJSON[id] = data
+          console.log('saved')
+          this.selectedItem = false
+        })
       },
       choose(id, data) {
         this.selectedItem = {
