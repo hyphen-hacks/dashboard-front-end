@@ -746,6 +746,12 @@ html, body, #app {
   $waiverWidth: 5vw;
   $checkWidth: 5vw;
   $dataSpace: 1%;
+  $timeWidth: 5vw;
+  $locationWidth: 8vw;
+
+  .start {
+    margin-left: auto;
+  }
 
   .people__nav {
     margin-top: -($navHeight + 2vh);
@@ -797,6 +803,18 @@ html, body, #app {
       margin-right: $dataSpace;
     }
 
+    .nav__time {
+      width: $timeWidth;
+      text-align: right;
+      margin-right: $dataSpace;
+    }
+
+    .nav__location {
+      width: $locationWidth;
+      text-align: right;
+      margin-right: $dataSpace + 3%;
+    }
+
     .nav__checkedIn {
       margin-left: auto;
       width: $checkWidth;
@@ -842,7 +860,18 @@ html, body, #app {
       width: $waiverWidth;
       margin-right: $dataSpace;
     }
+    .person__time {
+      width: $timeWidth;
+      text-align: right;
+      margin-right: $dataSpace;
 
+    }
+
+    .person__location {
+      width: $locationWidth;
+      text-align: right;
+      margin-right: $dataSpace;
+    }
     .person__checkedIn {
       margin-left: auto;
       width: $checkWidth;
