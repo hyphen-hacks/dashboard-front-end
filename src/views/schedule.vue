@@ -13,7 +13,7 @@
 
       </nav>
       <div @click="choose(item.id, item.data)" :key="item.id" v-for="item in schedule"
-           :class="{chosen:false}" class="person">
+           :class="{chosen:selectedItem.id === item.id}" class="person">
         <p class="person__name">{{item.data.title}}</p>
         <p class="person__time start">{{parseTime(item.data.startTime)}}</p>
         <p class="person__time">{{parseTime(item.data.endTime)}}</p>
