@@ -35,13 +35,17 @@
 
       </div>
       <br>
-      <form class="scheduleDetails" @submit.prevent="saveSchedule(selectedItem.id,selectedItem.data)">
+      <form class="scheduleDetails" @submit.prevent>
         <label for="scheduleTitle">Title</label>
         <input class="input" id="scheduleTitle" type="text" placeholder="Title" v-model="selectedItem.data.title">
-        <label for="scheduleStart">Start Time (ex. 2019-10-12 09:30) <span class="green">Valid</span></label>
+        <label for="scheduleStart">Start Time (ex. 2019-10-12 09:30) <span v-if="startTimeValid"
+                                                                           class="green">Valid</span><span
+            v-if="!startTimeValid" class="red">Invalid</span></label>
         <input class="input" id="scheduleStart" type="text" placeholder="Start Time (ex. 2019-10-12 09:30)"
                v-model="selectedItem.data.startTime">
-        <label for="scheduleEnd">End Time (ex. 2019-10-12 09:30) <span class="green">Valid</span></label>
+        <label for="scheduleEnd">End Time (ex. 2019-10-12 09:30) <span v-if="endTimeValid"
+                                                                       class="green">Valid</span><span
+            v-if="!endTimeValid" class="red">Invalid</span></label>
         <input class="input" id="scheduleEnd" type="text" placeholder="End Time (ex. 2019-10-12 09:30)"
                v-model="selectedItem.data.endTime">
         <div class="row">
@@ -54,9 +58,9 @@
         <label for="scheduleDesc">Description</label>
         <textarea class="input" id="scheduleDesc" placeholder="Description"
                   v-model="selectedItem.data.description"></textarea>
-        <button type="submit" class="btn" v-if="needToSave">
-          save
-        </button>
+        <button @click="saveSchedule(selectedItem.id,selectedItem.data)" class="btn" v-if="needToSave">save</button>
+        <br>
+        <button @click="deleteItem(selectedItem)" class="btn redBG">delete</button>
       </form>
 
     </div>
@@ -88,14 +92,39 @@
       }
     },
     computed: {
+      startTimeValid() {
+        if (this.selectedItem.data.startTime) {
+          return moment(this.selectedItem.data.startTime).isValid()
+        } else {
+          return true
+        }
+
+      },
+      endTimeValid() {
+        if (this.selectedItem.data.endTime) {
+          return moment(this.selectedItem.data.endTime).isValid()
+
+        } else {
+          return true
+        }
+
+      },
       needToSave() {
-        return JSON.stringify(this.selectedItem.data) !== JSON.stringify(this.scheduleJSON[this.selectedItem.id])
+        if (this.startTimeValid && this.endTimeValid) {
+          return JSON.stringify(this.selectedItem.data) !== JSON.stringify(this.scheduleJSON[this.selectedItem.id])
+        } else {
+          return false
+        }
+
       },
       saved() {
         if (JSON.stringify(this.selectedItem.data) === JSON.stringify(this.scheduleJSON[this.selectedItem.id])) {
           return 'saved'
         } else {
+
           return 'save'
+
+
         }
       }
     },
@@ -131,6 +160,12 @@
 
     },
     methods: {
+      deleteItem(item) {
+        this.$firebase.firestore().collection('schedule').doc(item.id).delete().then(e => {
+          console.log('deleted' + item)
+          this.selectedItem = false
+        })
+      },
       createNew() {
         const id = String.fromCharCode(65 + Math.floor(Math.random() * 26)) + Date.now()
         console.log('new', id)
