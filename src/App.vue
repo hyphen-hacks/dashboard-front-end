@@ -32,7 +32,7 @@
       <router-link to="/" :class="{'active': $route.name === 'Home'}" class="link">Home</router-link>
       <router-link to="/roster" :class="{'active': $route.name === 'Roster'}" class="link">Roster</router-link>
       <router-link to="/notifications" :class="{'active': $route.name === 'notifications'}" class="link">Notifications (WIP)</router-link>
-      <router-link to="/schedule" :class="{'active': $route.name === 'schedule'}" class="link">Schedule (WIP)</router-link>
+      <router-link to="/schedule" :class="{'active': $route.name === 'schedule'}" class="link">Schedule</router-link>
       <router-link to="/emails" :class="{'active': $route.name === 'Emails'}" class="link">Admin</router-link>
 
       <router-link v-if="settingsReady" to="/" :class="{'active': $route.name === 'Settings'}" class="link">Settings
