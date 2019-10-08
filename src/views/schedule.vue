@@ -12,16 +12,16 @@
         </div>
 
       </nav>
-      <div v-for="item in [1,2,3,4,5]"
+      <div @click="choose(item.id, item.data)" :key="item.id" v-for="item in schedule"
            :class="{chosen:false}" class="person">
-        <p class="person__name">Opening Ceremony</p>
-        <p class="person__time start">Sat, 10:00am</p>
-        <p class="person__time">Sat, 11:00am</p>
-        <p class="person__location">Gym</p>
+        <p class="person__name">{{item.data.title}}</p>
+        <p class="person__time start">{{parseTime(item.data.startTime)}}</p>
+        <p class="person__time">{{parseTime(item.data.endTime)}}</p>
+        <p class="person__location">{{item.data.location}}</p>
 
       </div>
     </div>
-    <div class="roster__info">
+    <div v-if="selectedItem" class="roster__info">
       <div class="info__nameRow">
         <div class="nameRow__nameContainer">
           <h1 class="nameRow__name">Opening Ceremony</h1>
@@ -33,27 +33,35 @@
 
       </div>
       <br>
-      <form class="scheduleDetails" @submit.prevent>
+      <form class="scheduleDetails" @submit.prevent="saveSchedule">
         <label for="scheduleTitle">Title</label>
-        <input class="input" id="scheduleTitle" type="text" placeholder="Title">
+        <input class="input" id="scheduleTitle" type="text" placeholder="Title" v-model="selectedItem.data.title">
         <label for="scheduleStart">Start Time (ex. 2019-10-12 09:30) <span class="green">Valid</span></label>
-        <input  class="input" id="scheduleStart" type="text" placeholder="Start Time (ex. 2019-10-12 09:30)">
+        <input class="input" id="scheduleStart" type="text" placeholder="Start Time (ex. 2019-10-12 09:30)"
+               v-model="selectedItem.data.startTime">
         <label for="scheduleEnd">End Time (ex. 2019-10-12 09:30) <span class="green">Valid</span></label>
-        <input class="input" id="scheduleEnd" type="text" placeholder="End Time (ex. 2019-10-12 09:30)">
+        <input class="input" id="scheduleEnd" type="text" placeholder="End Time (ex. 2019-10-12 09:30)"
+               v-model="selectedItem.data.endTime">
         <div class="row">
-          <label for="scheduleLocation">Title</label>
-          <input class="input" id="scheduleLocation" type="text" placeholder="Location">
-          <label for="scheduleType">Title</label>
-          <input class="input" id="scheduleType" type="text" placeholder="Type">
+          <label for="scheduleLocation">Location</label>
+          <input class="input" id="scheduleLocation" type="text" placeholder="Location"
+                 v-model="selectedItem.data.location">
+          <label for="scheduleType">Type</label>
+          <input class="input" id="scheduleType" type="text" placeholder="Type" v-model="selectedItem.data.type">
         </div>
         <label for="scheduleDesc">Description</label>
-        <textarea class="input" id="scheduleDesc" placeholder="Description"></textarea>
-        <button type="submit" class="btn">Save</button>
+        <textarea class="input" id="scheduleDesc" placeholder="Description"
+                  v-model="selectedItem.data.description"></textarea>
+        <button type="submit" class="btn"
+                :class="{grey: JSON.stringify(this.selectedItem.data) === JSON.stringify(this.scheduleJSON[this.selectedItem.id])}"
+                :disabled="JSON.stringify(this.selectedItem.data) === JSON.stringify(this.scheduleJSON[this.selectedItem.id])">
+          {{saved}}
+        </button>
       </form>
 
     </div>
-    <div v-if="!true" class="roster__info help">
-      <p class="helpText">Click on someone from the roster to get more information about them</p>
+    <div v-if="!selectedItem" class="roster__info help">
+      <p class="helpText">Click on an event to edit the details</p>
     </div>
   </main>
 </template>
@@ -72,18 +80,73 @@
     data() {
       return {
         loadingData: true,
+        schedule: [],
+        scheduleJSON: {},
+        selectedItem: false
 
+      }
+    },
+    computed: {
+
+      saved() {
+        if (JSON.stringify(this.selectedItem.data) === JSON.stringify(this.scheduleJSON[this.selectedItem.id])) {
+          return 'saved'
+        } else {
+          return 'save'
+        }
       }
     },
     mounted() {
       this.$firebase.firestore().collection('secrets').doc('apiKeyDashboard').get().then(doc => {
         this.$parent.apiKey = doc.data().key;
+
+      })
+      this.$firebase.firestore().collection('schedule').onSnapshot(snap => {
+        this.schedule = []
+        let schedule = []
+        snap.forEach(item => {
+          schedule.push({id: item.id, data: item.data()})
+          this.scheduleJSON[item.id] = item.data()
+
+        })
+
+        function compare(a, b) {
+          console.log(a,b)
+          let aStart = moment(a.data.startTime).unix()
+          let bStart = moment(b.data.startTime).unix()
+          console.log(aStart, a.data.startTime, bStart)
+
+          return aStart - bStart
+        }
+
+        this.schedule = schedule.sort(compare)
+
+
         this.loadingData = false
       })
 
 
     },
-    methods: {},
+    methods: {
+      saveSchedule() {
+        this.$firebase.firestore().collection('schedule').doc(this.selectedItem.id).set(this.selectedItem.data)
+      },
+      choose(id, data) {
+        this.selectedItem = {
+          id: id,
+          data: data
+        }
+        console.log('chosen', id)
+      },
+      parseTime: (time) => {
+        if (moment(time).isValid() && time) {
+          return moment(time).format('ddd, h:mma')
+        } else {
+          return null
+        }
+
+      }
+    },
 
 
   }
