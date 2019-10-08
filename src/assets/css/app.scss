@@ -609,7 +609,7 @@ html, body, #app {
     }
 
     .scheduleDetails {
-      height: 77vh;
+
       display: flex;
       flex-direction: column;
 
@@ -618,6 +618,8 @@ html, body, #app {
         margin-bottom: 5%;
         margin-top: 1%;
       }
+
+
 
       label {
         display: flex;
@@ -632,7 +634,7 @@ html, body, #app {
       }
 
       textarea {
-        height: 100%;
+        height: 10vh;
       }
     }
 
@@ -794,7 +796,6 @@ html, body, #app {
     align-items: flex-start;
     justify-content: flex-end;
     padding: 1% 3vw 1% 5vw;
-
 
 
     .filterRow {
