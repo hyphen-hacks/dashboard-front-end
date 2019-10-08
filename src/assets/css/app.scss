@@ -608,6 +608,29 @@ html, body, #app {
 
     }
 
+    .scheduleDetails {
+      height: 77vh;
+      display: flex;
+      flex-direction: column;
+      .input {
+        width: 100%;
+        margin-bottom: 5%;
+        margin-top: 1%;
+      }
+      label {
+        display: flex;
+        span {
+          margin-left: auto;
+        }
+      }
+      button {
+        margin-top: auto;
+      }
+      textarea {
+        height: 100%;
+      }
+    }
+
     .nameRow__name {
       font-size: $font-size--heading;
       font-weight: bold;
@@ -746,8 +769,8 @@ html, body, #app {
   $waiverWidth: 5vw;
   $checkWidth: 5vw;
   $dataSpace: 1%;
-  $timeWidth: 5vw;
-  $locationWidth: 8vw;
+  $timeWidth: 100px;
+  $locationWidth: 150px;
 
   .start {
     margin-left: auto;
@@ -860,6 +883,7 @@ html, body, #app {
       width: $waiverWidth;
       margin-right: $dataSpace;
     }
+
     .person__time {
       width: $timeWidth;
       text-align: right;
@@ -872,6 +896,7 @@ html, body, #app {
       text-align: right;
       margin-right: $dataSpace;
     }
+
     .person__checkedIn {
       margin-left: auto;
       width: $checkWidth;

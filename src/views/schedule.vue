@@ -35,19 +35,19 @@
       <br>
       <form class="scheduleDetails" @submit.prevent>
         <label for="scheduleTitle">Title</label>
-        <input id="scheduleTitle" type="text" placeholder="Title">
+        <input class="input" id="scheduleTitle" type="text" placeholder="Title">
         <label for="scheduleStart">Start Time (ex. 2019-10-12 09:30) <span class="green">Valid</span></label>
-        <input id="scheduleStart" type="text" placeholder="Start Time (ex. 2019-10-12 09:30)">
+        <input  class="input" id="scheduleStart" type="text" placeholder="Start Time (ex. 2019-10-12 09:30)">
         <label for="scheduleEnd">End Time (ex. 2019-10-12 09:30) <span class="green">Valid</span></label>
-        <input id="scheduleEnd" type="text" placeholder="End Time (ex. 2019-10-12 09:30)">
+        <input class="input" id="scheduleEnd" type="text" placeholder="End Time (ex. 2019-10-12 09:30)">
         <div class="row">
           <label for="scheduleLocation">Title</label>
-          <input id="scheduleLocation" type="text" placeholder="Location">
+          <input class="input" id="scheduleLocation" type="text" placeholder="Location">
           <label for="scheduleType">Title</label>
-          <input id="scheduleType" type="text" placeholder="Type">
+          <input class="input" id="scheduleType" type="text" placeholder="Type">
         </div>
         <label for="scheduleDesc">Description</label>
-        <textarea id="scheduleDesc" placeholder="Description"></textarea>
+        <textarea class="input" id="scheduleDesc" placeholder="Description"></textarea>
         <button type="submit" class="btn">Save</button>
       </form>
 

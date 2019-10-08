@@ -2,7 +2,7 @@
   <div id="app">
     <nav id="topNav">
       <img src="@/assets/logo.svg" class="brand__image" alt="">
-      <h1 class="brand">Hyphen-Hacks Dashboard <span>{{version}}</span></h1>
+      <h1 class="brand">Hyphen-Hacks Dashboard v<span>{{version}}</span></h1>
       <input @focus="inputFocused = true"
              @blur="inputFocused = false" id="search" @keypress="searching" v-model="search" v-if="user" type="text"
              :placeholder="placeholder" autofocus autocomplete="off"
@@ -115,6 +115,7 @@
     created() {
       if (typeof window !== 'undefined') {
         document.addEventListener('keyup', this.handleKeyPress)
+        document.title = `Hyphen-Hacks Admin Dashboard v${this.version}`
       }
     }
     ,
