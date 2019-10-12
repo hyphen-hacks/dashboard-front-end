@@ -3,6 +3,7 @@
     <nav id="topNav">
       <img src="@/assets/logo.svg" class="brand__image" alt="">
       <h1 class="brand">Hyphen-Hacks Dashboard v<span>{{version}}</span></h1>
+      <a class="frontDeskLink" href="https://frontdesk.hyphen-hacks.com">Front Desk</a>
       <input @focus="inputFocused = true"
              @blur="inputFocused = false" id="search" @keypress="searching" v-model="search" v-if="user" type="text"
              :placeholder="placeholder" autofocus autocomplete="off"
