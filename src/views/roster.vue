@@ -81,6 +81,8 @@
         <p v-if="unfilterdRoster[chosenPerson].profile.addresses.home" class="info__data">Address: <span
             class="info__data__value">{{unfilterdRoster[chosenPerson].profile.addresses.home.address_1}} {{unfilterdRoster[chosenPerson].profile.addresses.home.city}}</span>
         </p>
+        <p class="info__data">T-Shirt Size: <span class="info__data__value">{{unfilterdRoster[chosenPerson].answers[2].answer}}</span>
+        </p>
         <p class="info__data">EventID: <a class="info__data__value" target="_blank"
                                           :href="'https://waivers.hyphen-hacks.com/#/p/'+unfilterdRoster[chosenPerson].id">{{unfilterdRoster[chosenPerson].id}}</a>
         </p>
@@ -191,6 +193,7 @@
 <script>
   import moment from 'moment'
   import loader from '../components/loader'
+
   export default {
     name: 'Roster',
     components: {loader},
@@ -265,7 +268,6 @@
             }
 
 
-
           } else {
             paramA = 1
             paramB = 0
@@ -282,11 +284,11 @@
           arrayRoster = arrayRoster.filter(i => {
             return i.ticket_class_name === 'High school Student';
           })
-        } else  if (this.filterOption === 'mentors') {
+        } else if (this.filterOption === 'mentors') {
           arrayRoster = arrayRoster.filter(i => {
             return i.ticket_class_name === 'Mentor/Judge';
           })
-        } else  if (this.filterOption === 'volunteers') {
+        } else if (this.filterOption === 'volunteers') {
           arrayRoster = arrayRoster.filter(i => {
             return i.ticket_class_name === 'volunteer';
           })
