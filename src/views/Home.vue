@@ -378,7 +378,7 @@
               xAxes: [{
                 type: 'time',
                 time: {
-                  //unit: "day",
+                  unit: "day",
                   distribution: "linear",
                   bounds: 'data',
                   min: moment.unix(minValue).toDate()
