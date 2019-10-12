@@ -94,8 +94,6 @@
     width: 85vw;
     height: 100%;
     background: #1B2332;
-    margin-top: -2vh;
-    margin-left: -9vh;
     z-index: 99999;
     display: flex;
     flex-direction: column;
