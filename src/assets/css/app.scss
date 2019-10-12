@@ -929,3 +929,53 @@ html, body, #app {
   }
 
 }
+
+@mixin notificationCard {
+  padding: 10px;
+  .card--light {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.notifications {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  grid-template-rows: 1.5fr 0.8fr;
+
+  form {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+
+    height: 98%;
+    .input {
+      margin: 5px 0;
+      width: 100%;
+    }
+    textarea {
+      height: 30vh;
+    }
+    button {
+      margin-top: auto;
+    }
+  }
+
+  .notificationBoxContainer {
+    grid-column: 1/2;
+    grid-row: 1/2;
+    @include notificationCard
+  }
+
+  .notificationPresetsContainer {
+    grid-column: 2/3;
+    grid-row: 1/3;
+    @include notificationCard
+  }
+
+  .notificationPresetsCreatorContainer {
+    grid-column: 1/2;
+    grid-row: 2/3;
+    @include notificationCard
+  }
+}
