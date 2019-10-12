@@ -105,9 +105,11 @@
 
       },
       send() {
+
         fetch('https://api.hyphen-hacks.com/api/v3/pushnotification', {
           method: 'POST',
           headers: {
+            "Content-Type": "application/json",
             authorization: this.$parent.apiKey
           },
           body: JSON.stringify(this.notification)
