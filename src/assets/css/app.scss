@@ -91,6 +91,7 @@ $sideInfo: #354054;
   font-size: $font-size;
 
 }
+
 @mixin transition {
   transition-duration: 0.25s;
 }
@@ -485,6 +486,8 @@ html, body, #app {
   */
 
   overflow-y: scroll;
+
+
 
   .stats-row {
 
@@ -980,6 +983,7 @@ html, body, #app {
 
     .notificationPresets {
       overflow-y: scroll;
+
       .card {
         margin: 10px 0;
         display: flex;

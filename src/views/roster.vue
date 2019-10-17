@@ -209,17 +209,31 @@
 
           for (let key in roster) {
             if (roster.hasOwnProperty(key)) {
-              if (roster[key].answers[1].answer) {
-                if (roster[key].email.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].name.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].profile.cell_phone.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].answers[1].answer.toLowerCase().includes(this.$parent.search.toLowerCase())) {
-                  filteredRoster[key] = roster[key]
-                  arrayRoster.push(roster[key])
+              if (roster[key].answers) {
+
+                if (roster[key].answers[1].answer) {
+                  if (roster[key].email.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].name.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].profile.cell_phone.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].answers[1].answer.toLowerCase().includes(this.$parent.search.toLowerCase())) {
+                  //  console.log('added person')
+                    filteredRoster[key] = roster[key]
+                    arrayRoster.push(roster[key])
+                  }
+                } else {
+                  if (roster[key].email.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].name.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].profile.cell_phone.toLowerCase().includes(this.$parent.search.toLowerCase())) {
+                  //  console.log('added person')
+                    filteredRoster[key] = roster[key]
+                    arrayRoster.push(roster[key])
+                  }
                 }
               } else {
-                if (roster[key].email.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].name.toLowerCase().includes(this.$parent.search.toLowerCase()) || roster[key].profile.cell_phone.toLowerCase().includes(this.$parent.search.toLowerCase())) {
+
+                if (roster[key].name.toLowerCase().indexOf(this.$parent.search.toLowerCase()) > -1) {
+                //  console.log(roster[key].name.toLowerCase().indexOf(this.$parent.search.toLowerCase()) > -1)
+                 // console.log('added person')
                   filteredRoster[key] = roster[key]
                   arrayRoster.push(roster[key])
                 }
               }
+
 
             }
 

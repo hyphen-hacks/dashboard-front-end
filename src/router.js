@@ -8,6 +8,7 @@ import Developer from './views/developer.vue'
 import Emails from './views/emails'
 import AppControls from './views/appControls'
 import schedule from './views/schedule'
+import FinalAnalytics from './views/finalanalytics'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       name: "Emails",
       component: Emails
     },
+   {
+    path: '/finalanalytics',
+    name: "finalanalytics",
+    component: FinalAnalytics
+  },
     {
       path: '/login',
       name: "Login",

@@ -1,6 +1,6 @@
 {
   "name": "hyphen-hacks-dashboard",
-  "version": "1.17.1",
+  "version": "1.18.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -27,7 +27,8 @@
     "vue-router": "^3.0.3",
     "vuedraggable": "^2.23.0",
     "vuex": "^3.0.1",
-    "vuex-easy-firestore": "^1.34.1"
+    "vuex-easy-firestore": "^1.34.1",
+    "zipson": "^0.2.11"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.0",

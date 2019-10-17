@@ -32,6 +32,7 @@
     <nav v-if="user" id="sideNav">
       <router-link to="/" :class="{'active': $route.name === 'Home'}" class="link">Home</router-link>
       <router-link to="/roster" :class="{'active': $route.name === 'Roster'}" class="link">Roster</router-link>
+      <router-link to="/finalanalytics" :class="{'active': $route.name === 'finalanalytics'}" class="link">People Who Showed Up</router-link>
       <router-link to="/notifications" :class="{'active': $route.name === 'notifications'}" class="link">Notifications</router-link>
       <router-link to="/schedule" :class="{'active': $route.name === 'schedule'}" class="link">Schedule</router-link>
       <router-link to="/emails" :class="{'active': $route.name === 'Emails'}" class="link">Admin</router-link>
