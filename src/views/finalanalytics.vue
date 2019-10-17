@@ -140,10 +140,10 @@
               this.chartData.push(chartData)
             })
 
-
+            this.loadingData = false
           })
 
-          this.loadingData = false
+
 
         })
 
