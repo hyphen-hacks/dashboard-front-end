@@ -117,18 +117,32 @@
             value: calculateBest(DS.textStat.get({path: 'referrers'}))
           })
 
-          let chartData = {
-            title: 'Sign Ups',
-            type: 'scatter'
-          }
+          this.$firebase.firestore().collection('secrets').doc('dashboardChartsFlexible').get().then(doc => {
+            let charts = doc.data().data
+            //this.updatedTime = moment(DS.getMeta({path: 'timeStamp'})).fromNow()
+            //console.log(charts)
+            charts.forEach(i => {
+              let chartData = {
+                title: i.title,
+                type: i.type
+              }
+              if (i.type === 'scatter') {
+                const hold = DS.dateStat.toChart({path: i.path})
+                chartData.labels = hold.labels
+                chartData.chartData = hold.data
+                chartData.start = hold.start
+                chartData.end = hold.end
+              } else {
+                const hold = DS.textStat.toChart({path: i.path})
+                chartData.labels = hold.labels
+                chartData.chartData = hold.data
+              }
+              this.chartData.push(chartData)
+            })
 
-          const hold = DS.dateStat.toChart({path: 'attendeesSignedUp'})
-          chartData.labels = hold.labels
-          chartData.chartData = hold.data
-          chartData.start = hold.start
-          chartData.end = hold.end
 
-          this.chartData.push(chartData)
+          })
+
           this.loadingData = false
 
         })
